@@ -1,0 +1,11 @@
+{
+  "name": "crocodile",
+  "version": "1.0.0",
+  "description": "crocodile game by the sevilla team",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "sevilla",
+  "license": "ISC"
+}
