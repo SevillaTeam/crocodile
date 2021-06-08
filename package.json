@@ -1,0 +1,19 @@
+{
+  "name": "crocodile",
+  "version": "1.0.0",
+  "description": "crocodile game by the sevilla team",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/artbuzzon/crocodile.git"
+  },
+  "author": "sevilla",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/artbuzzon/crocodile/issues"
+  },
+  "homepage": "https://github.com/artbuzzon/crocodile#readme"
+}
