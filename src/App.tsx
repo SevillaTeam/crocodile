@@ -1,8 +1,12 @@
 import heading from "./app.module.css";
 import React from "react";
 
-const App = (num) => (
-    <h1 className={heading.heading}>Crocodile With React and TypeScript! {num}</h1>
+interface Prop {
+    num: number
+}
+
+const App = (prop: Prop) => (
+    <h1 className={heading.heading}>Crocodile With React and TypeScript! {prop.num}</h1>
 );
 
 export {App}
