@@ -1,6 +1,6 @@
 import { ApiClient } from './api-client';
 import { IApiClientResponse } from './interfaces';
-const apiBase = 'https://ya-praktikum.tech/api/v2';
+import { apiBase } from './constants';
 const api = new ApiClient(apiBase);
 
 export const getUserInfo = async (): Promise<IApiClientResponse> => {
@@ -30,5 +30,33 @@ export const signIn = async (
 export const logOut = async (): Promise<IApiClientResponse> => {
   return await api.post({
     endpoint: '/auth/logout',
+  });
+};
+
+export const changeUserProfile = async (
+  data: IApiClientResponse,
+): Promise<IApiClientResponse> => {
+  return await api.put({
+    endpoint: '/user/profile',
+    data,
+  });
+};
+
+export const chngUserAvatar = async (
+  data: IApiClientResponse,
+): Promise<IApiClientResponse> => {
+  const { formData } = data;
+  return await api.putFormData({
+    endpoint: '/user/profile/avatar',
+    formData,
+  });
+};
+
+export const changePasswordRequest = async (
+  data: IApiClientResponse,
+): Promise<IApiClientResponse> => {
+  return await api.put({
+    endpoint: '/user/password',
+    data,
   });
 };

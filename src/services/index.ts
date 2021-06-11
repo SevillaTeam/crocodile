@@ -1,1 +1,9 @@
-export { getUserInfo, signUp, logOut, signIn } from './api';
+export {
+  getUserInfo,
+  signUp,
+  logOut,
+  signIn,
+  chngUserAvatar,
+  changeUserProfile,
+  changePasswordRequest,
+} from './api';

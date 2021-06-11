@@ -1,0 +1,54 @@
+@import '../../styles/vars';
+
+.avatarCont {
+  display: flex;
+  margin: auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.avatar {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  cursor: pointer;
+  background-size: auto;
+  background-image: url('../../assets/profile-avatar.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #efefef;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 140px;
+    height: 140px;
+    position: absolute;
+    padding: 50px 32px 0 32px;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    background-color: transparent;
+    box-sizing: border-box;
+    transition: opacity 0.2s linear;
+    opacity: 0;
+  }
+
+  &:hover:after {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 14px;
+    text-align: center;
+    color: #fff;
+    background-color: rgba(0, 0, 0, 0.5);
+    content: 'Поменять аватар';
+    opacity: 1;
+    transition: opacity 0.2s linear;
+  }
+}
