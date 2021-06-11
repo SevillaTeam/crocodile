@@ -1,9 +1,8 @@
-// import { FormEvent } from 'react';
-
 export type OwnInputProps = {
-  onChange: (value: string) => void;
-  onBlur?: (value: string) => void;
+  onChange: ({ value, name }: IInputState) => void;
+  onBlur?: ({ value, name }: IInputState) => void;
   type?: 'text' | 'email' | 'password';
+  name: string;
   placeholder?: string;
   value?: string;
   classNames?: Array<string>;
@@ -15,4 +14,5 @@ export type OwnInputProps = {
 
 export interface IInputState {
   value: string;
+  name: string;
 }

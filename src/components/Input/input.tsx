@@ -8,21 +8,21 @@ type Props = OwnInputProps;
 export class Input extends PureComponent<Props, IInputState> {
   constructor(props: Props) {
     super(props);
-    this.state = { value: '' };
+    this.state = { value: '', name: '' };
   }
 
   handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { onChange } = this.props;
-    this.setState({ value: e.target.value }, () => {
-      onChange(this.state.value);
+    this.setState({ value: e.target.value, name: e.target.name }, () => {
+      onChange(this.state);
     });
   };
 
   handleBlur = (e: ChangeEvent<HTMLInputElement>): void => {
     const { onBlur } = this.props;
     if (onBlur) {
-      this.setState({ value: e.target.value }, () => {
-        onBlur(this.state.value);
+      this.setState({ value: e.target.value, name: e.target.name }, () => {
+        onBlur(this.state);
       });
     }
   };
