@@ -1,4 +1,4 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useState, useEffect } from 'react';
 import { OwnInputProps } from './';
 import cn from 'classnames';
 import s from './input.module.scss';
@@ -13,8 +13,14 @@ export const Input: FC<Props> = (props) => {
     type = 'text',
     placeholder,
     isRequired = false,
+    startValue = '',
   } = props;
-  const [inputValue, setInputValue] = useState({ value: '', name: '' });
+
+  const [inputValue, setInputValue] = useState({ value: startValue, name: '' });
+
+  useEffect(() => {
+    setInputValue((inputValue) => ({ ...inputValue, value: startValue }));
+  }, [startValue]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
     const { onChange } = props;

@@ -1,0 +1,49 @@
+@import '../../styles/vars';
+
+.container {
+  width: 300px;
+  padding: 40px;
+  border-radius: 50px;
+  z-index: 1000;
+}
+
+.form {
+  height: 240px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: auto;
+}
+
+.title {
+  font-size: Roboto;
+  font-size: 18px;
+  line-height: 26px;
+}
+
+.error {
+  font-size: Roboto;
+  color: $color-error;
+  height: 12px;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.label {
+  color: $color-link;
+  font-size: 12px;
+  line-height: 18px;
+  font-weight: 500;
+  text-decoration: underline;
+  padding: 0;
+  padding-top: 30px;
+  margin: 0;
+  width: 160px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.input {
+  display: none;
+}

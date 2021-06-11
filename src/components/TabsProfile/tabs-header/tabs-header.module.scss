@@ -1,0 +1,63 @@
+@import '../../../styles/vars';
+
+.tabsHeader {
+  display: flex;
+  flex-direction: initial;
+  position: relative;
+  margin-bottom: 25px;
+  font-weight: 500;
+  font-size: 14px;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #edeef4;
+    z-index: -1;
+  }
+}
+
+.item {
+  position: relative;
+  color: $color-primary-variant;
+  opacity: 0.3;
+  padding: 7px 10px;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+
+  // &:first-of-type {
+  //   padding-left: 0;
+  // }
+
+  // &:last-of-type {
+  //   padding-right: 0;
+  // }
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: $color-primary;
+    transition: 0.3s;
+  }
+
+  &_active {
+    opacity: 1;
+    color: $color-primary-light;
+    background-color: transparent;
+    border-color: transparent;
+
+    &:after {
+      width: 100%;
+      background: $color-primary-light;
+      z-index: 0;
+    }
+  }
+}
