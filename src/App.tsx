@@ -1,4 +1,4 @@
-import heading from "./app.module.css";
+import heading from "./app.module.scss";
 import React from "react";
 
 interface Prop {
