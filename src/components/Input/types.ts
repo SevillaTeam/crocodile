@@ -1,8 +1,9 @@
-import { InputHTMLAttributes } from 'react';
+import { InputHTMLAttributes, FormEvent } from 'react';
 
 export type OwnInputProps = {
-  onChange?: (e: Event) => void;
-  onFocus?: (e: Event) => void;
+  onChange?: (e: FormEvent<HTMLInputElement>) => void;
+  onFocus?: (e: FormEvent<HTMLInputElement>) => void;
+  onBlur?: (e: FormEvent<HTMLInputElement>) => void;
   type?: 'text' | 'email' | 'password';
   placeholder?: string;
   value?: string;

@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent, FormEvent } from 'react';
 import { OwnInputProps } from './';
 import cn from 'classnames';
 import s from './input.module.scss';
@@ -11,6 +11,8 @@ export class Input extends PureComponent<Props> {
       isError,
       helpMessage,
       placeholder,
+      onChange,
+      onBlur,
       id = 'inputId',
       ...props
     } = this.props;
@@ -26,6 +28,12 @@ export class Input extends PureComponent<Props> {
             id={id}
             required
             placeholder=''
+            onChange={(e: FormEvent<HTMLInputElement>) => {
+              onChange ? onChange(e) : '';
+            }}
+            onBlur={(e: FormEvent<HTMLInputElement>) => {
+              onBlur ? onBlur(e) : '';
+            }}
           />
           <span className={s.input__placeholder}>{placeholder}</span>
         </label>

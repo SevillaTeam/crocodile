@@ -43,12 +43,6 @@
       padding-bottom: 11px;
     }
 
-    &_error:focus {
-      background: rgba(228, 0, 70, 0.04) !important;
-      border-bottom: solid 2px #e40046 !important;
-      padding-bottom: 11px !important;
-    }
-
     &:focus {
       border-bottom: solid 2px #694ed6;
       background: rgba(105, 78, 214, 0.3);
@@ -76,9 +70,11 @@
   &__helpMessage {
     padding: 0;
     padding-left: 12px;
+    // padding-bottom: 6px;
     font-weight: 300;
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
+    // line-height: 16px;
     letter-spacing: 0.4px;
     &_error {
       color: #e40046;
