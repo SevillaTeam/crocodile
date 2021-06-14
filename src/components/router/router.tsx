@@ -11,6 +11,11 @@ export const Router = (): JSX.Element => {
         exact
         component={Pages.Home}
       />
+      <Route
+        path={['/game']}
+        exact
+        component={Pages.Game}
+      />
       <Route path='/page-not-found' render={() => <Pages.PageNotFound />} />
       <Route path='*'>
         <Redirect to='/page-not-found' />

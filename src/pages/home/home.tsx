@@ -10,6 +10,9 @@ export const Home = (): JSX.Element => {
       <Link className={s.homePage__link} to='/page-not-found'>
         Перейти на 404 страницу
       </Link>
+      <Link className={s.homePage__link} to='/game'>
+        Go to game page
+      </Link>
     </div>
   );
 };
