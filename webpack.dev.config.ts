@@ -4,6 +4,7 @@ import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import * as webpack from 'webpack';
 import 'webpack-dev-server';
 import ESLintPlugin from "eslint-webpack-plugin";
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
 const config: webpack.Configuration = {
     mode: "development",
@@ -34,7 +35,8 @@ const config: webpack.Configuration = {
         ],
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        plugins: [new TsconfigPathsPlugin()],
+        extensions: [".tsx", ".ts", ".js", ".scss"],
     },
     plugins: [
         new HtmlWebpackPlugin({
