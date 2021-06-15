@@ -6,8 +6,7 @@ import "./styles/_fonts"
 import "./styles/_global"
 
 ReactDOM.render(
-    <React.StrictMode>
-        <App num={123}/>
-    </React.StrictMode>,
-    document.getElementById("root")
-);
+  <React.StrictMode>
+    <App num={123} />
+  </React.StrictMode>,
+  document.getElementById('root'));

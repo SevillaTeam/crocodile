@@ -1,0 +1,42 @@
+.pageNotFound {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  width: 410px;
+  height: 200px;
+
+  &__title {
+    font-weight: 500;
+    font-size: 84px;
+    line-height: 84px;
+    text-align: center;
+    color: rgb(45, 45, 45);
+    margin: 0;
+    margin-bottom: 14px;
+  }
+
+  &__description {
+    display: flex;
+    max-width: 325px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    color: rgb(45, 45, 45);
+    padding: 0;
+    margin: 0 auto 30px auto;
+
+    &_500 {
+      width: 225px;
+    }
+  }
+
+  &__link {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 11px;
+    text-align: center;
+    color: rgb(86, 117, 241);
+    text-decoration: none;
+  }
+}

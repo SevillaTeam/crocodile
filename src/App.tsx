@@ -1,15 +1,17 @@
-import heading from "./app.module.scss";
-import React from "react";
-import {Leaderboard} from "./components/Leaderboard";
+import {BrowserRouter} from 'react-router-dom';
+import React from 'react';
+import {Router} from './components/router';
 
 interface Prop {
-    num: number
+    num: number;
 }
 
 const App = (prop: Prop) => (
-    <>
-        <Leaderboard/>
-    </>
-);
+    <BrowserRouter>
+        {/* надо обернуть в Layout когда он появится */}
+        <Router/>
+    </BrowserRouter>);
 
-export {App}
+
+export {App};
+

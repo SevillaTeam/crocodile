@@ -5,6 +5,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import TsconfigPathsPlugin from "tsconfig-paths-webpack-plugin";
 
 const config: webpack.Configuration = {
     mode: "production",
@@ -48,7 +49,8 @@ const config: webpack.Configuration = {
         ],
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js", ".scss"],
+        plugins: [new TsconfigPathsPlugin()],
+        extensions: [".tsx", ".ts", ".js"],
     },
     plugins: [
         new HtmlWebpackPlugin({
