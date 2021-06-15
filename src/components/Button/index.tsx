@@ -8,11 +8,11 @@ const Button: React.FC<ButtonProps> = ({
                                            size = 'standard',
                                            color = 'primary',
                                            disabled = false,
-                                           children
+                                           text
                                        }) => (
     <button disabled={disabled}
             className={`${s.button} ${s[`button__${type}`]} ${s[`button__${size}`]} ${s[`button__${color}`]} ${s[`button__${disabled ? 'disabled' : ''}`]}`}
-            onClick={onClick}>{children}</button>
+            onClick={onClick}>{text}</button>
 )
 
 export {Button}

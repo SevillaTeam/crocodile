@@ -1,28 +1,19 @@
-import heading from "./app.module.scss";
-import React from "react";
-import {Button} from "@/components/Button"
+import {BrowserRouter} from 'react-router-dom';
+import React from 'react';
+import {Router} from './components/router';
+
 
 interface Prop {
-    num: number
+    num: number;
 }
 
-const App = (prop: Prop) => {
+const App = (prop: Prop) => (
+    <BrowserRouter>
+        {/* надо обернуть в Layout когда он появится */}
+        <Router/>
+    </BrowserRouter>
+);
 
-    const onClick = () => {
-        alert('Hello!')
-    }
 
-    return (<>
-        <Button size="dense" onClick={onClick}>Standard large</Button>
-        <Button onClick={onClick}>Standard</Button>
-        <Button size="large" onClick={onClick}>Standard large</Button>
-        <Button type="outlined" onClick={onClick}>Outlined</Button>
-        <Button type="contained" onClick={onClick}>Contained</Button>
-        <Button disabled={true} onClick={onClick}>Disabled</Button>
-        <Button color="success" onClick={onClick}>Success</Button>
-        <Button color="error" type="contained" onClick={onClick}>Error</Button>
-        <h1 className={heading.heading}>Crocodile With React and TypeScript! {prop.num}</h1>
-    </>)
-};
+export {App};
 
-export {App}
