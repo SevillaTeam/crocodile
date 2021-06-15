@@ -1,1 +1,1 @@
-export { getUserInfo, signUp, logOut } from './api';
+export { getUserInfo, signUp, logOut, signIn } from './api';

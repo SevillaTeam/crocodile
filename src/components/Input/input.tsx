@@ -19,10 +19,10 @@ export class Input extends PureComponent<Props> {
 
     return (
       <div className={s.input}>
-        <label className={s.input__label}>
+        <label className={s.label}>
           <input
-            className={cn([s.input__htmlinput], {
-              [s.input__htmlinput_error]: isError,
+            className={cn([s.htmlinput], {
+              [s.htmlinput_error]: isError,
             })}
             {...props}
             id={id}
@@ -35,15 +35,15 @@ export class Input extends PureComponent<Props> {
               onBlur ? onBlur(e) : '';
             }}
           />
-          <span className={s.input__placeholder}>{placeholder}</span>
+          <span className={s.placeholder}>{placeholder}</span>
         </label>
-        <span
-          className={cn([s.input__helpMessage], {
-            [s.input__helpMessage_error]: isError,
+        <p
+          className={cn([s.helpMessage], {
+            [s.helpMessage_error]: isError,
           })}
         >
           {helpMessage}
-        </span>
+        </p>
       </div>
     );
   }

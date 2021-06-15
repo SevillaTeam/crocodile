@@ -1,13 +1,13 @@
 .input {
   width: 328px;
-  height: 72px;
+  height: 56px;
   box-sizing: border-box;
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: 0.15px;
 
-  &__label {
+  .label {
     position: relative;
     font-size: 14px;
     padding-top: 20px;
@@ -19,7 +19,7 @@
     letter-spacing: 0.15px;
   }
 
-  &__htmlinput {
+  .htmlinput {
     appearance: none;
     width: 328px;
     padding: 12px;
@@ -68,7 +68,7 @@
     }
   }
 
-  &__placeholder {
+  .placeholder {
     position: absolute;
     left: 12px;
     top: calc(50% + 12px);
@@ -77,17 +77,19 @@
     transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
   }
 
-  &__htmlinput:valid + &__placeholder,
-  &__htmlinput:focus + &__placeholder {
+  .htmlinput:valid + .placeholder,
+  .htmlinput:focus + .placeholder {
     top: 10px;
     font-size: 10px;
     color: #222;
   }
 
-  &__helpMessage {
+  .helpMessage {
     padding: 0;
+    margin: 0;
     padding-left: 12px;
     font-weight: 300;
+    line-height: 16px;
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     letter-spacing: 0.4px;

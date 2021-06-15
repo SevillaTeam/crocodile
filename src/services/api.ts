@@ -18,6 +18,15 @@ export const signUp = async (
   });
 };
 
+export const signIn = async (
+  data: IApiClientResponse,
+): Promise<IApiClientResponse> => {
+  return await api.post({
+    endpoint: '/auth/signin',
+    data,
+  });
+};
+
 export const logOut = async (): Promise<IApiClientResponse> => {
   return await api.post({
     endpoint: '/auth/logout',
