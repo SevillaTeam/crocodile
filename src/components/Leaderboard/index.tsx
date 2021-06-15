@@ -8,12 +8,12 @@ interface Lead {
     name: string
 }
 
+function sortLeaders(leads: Lead[]) {
+    return leads.sort((a, b) => a.points > b.points ? -1 : 1)
+}
+
 export const Leaderboard: React.FC = () => {
     const [leaders] = useState(sortLeaders(leadersMock))
-
-    function sortLeaders(leads: Lead[]) {
-        return leads.sort((a, b) => a.points > b.points ? -1 : 1)
-    }
 
     return (
         <div className={s.leaderboard}>
