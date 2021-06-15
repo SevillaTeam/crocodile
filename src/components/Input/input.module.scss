@@ -55,6 +55,17 @@
       padding-bottom: 11px;
       transition: background 0.3s ease;
     }
+    &:-webkit-autofill {
+      background: rgba(105, 78, 214, 0.04) !important;
+      background: transparent;
+    }
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #f9f8fd inset !important;
+      box-shadow: 0 0 0 30px #f9f8fd inset;
+    }
   }
 
   &__placeholder {
