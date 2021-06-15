@@ -30,6 +30,17 @@ const config: webpack.Configuration = {
                 },
             },
             {
+                test: /\.(png|jp(e*)g|svg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'images/[hash]-[name].[ext]',
+                        },
+                    },
+                ],
+            },
+            {
                 test: /\.s[ac]ss$/i,
                 use: [
                     'style-loader',
