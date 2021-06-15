@@ -57,10 +57,16 @@ export class ApiClient {
         method: 'POST',
         credentials: 'include',
         headers: this.headers,
-        body: JSON.stringify(data),
+        body: data ? JSON.stringify(data) : null,
         ...params,
       });
-      const json = await res.json();
+      let json = {};
+
+      try {
+        json = await res.json();
+      } catch (e) {
+        console.warn(`Error on api.post reading body: ${e}`);
+      }
 
       if (!res.ok) {
         return Promise.reject(json);

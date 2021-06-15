@@ -1,33 +1,23 @@
 import React, { FormEvent, Component } from 'react';
 import { Input } from '../Input';
 import isEmail from 'validator/lib/isEmail';
-import cn from 'classnames';
-import s from './signup-form.module.scss';
-import { getUserInfo, signUp, logOut } from '../../services';
+// import cn from 'classnames';
+import s from './login-form.module.scss';
+import { getUserInfo, signUp, signIn, logOut } from '../../services';
 import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-export class SignUpForm extends Component<IFormProps, IFormState> {
+export class LoginForm extends Component<IFormProps, IFormState> {
   constructor(props: IFormProps) {
     super(props);
 
     const errors: IErrors = {
-      email: '',
       login: '',
-      first_name: '',
-      second_name: '',
-      phone: '',
       password: '',
-      passwordConfirm: '',
     };
     const values: IValues = {
-      email: '',
       login: '',
-      first_name: '',
-      second_name: '',
-      phone: '',
       password: '',
-      passwordConfirm: '',
     };
 
     this.state = {
@@ -72,7 +62,9 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
     e.preventDefault();
     const data = this.state.values;
 
-    signUp(data)
+    // logOut().then((res) => {
+    // console.log(res);
+    signIn(data)
       .then((res) => {
         this.setState({ ...this.state, message: 'Успешно!' });
         console.log(res);
@@ -80,6 +72,7 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
       .catch((err) => {
         this.setState({ ...this.state, message: err.reason });
       });
+    // });
   };
 
   private onChange = (e: FormEvent<HTMLInputElement>): void => {
@@ -104,11 +97,6 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
 
     const { password } = this.state.values;
     switch (fieldName) {
-      case 'email':
-        fieldValidationErrors.email = isEmail(value)
-          ? ''
-          : 'Неверный формат Email';
-        break;
       case 'password':
         fieldValidationErrors.password =
           value.length >= 3 ? '' : 'Пароль должен быть больше 3 знаков';
@@ -133,18 +121,8 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
     const { errors, values, message } = this.state;
     return (
       <form className={s.form} onSubmit={this.handleSubmit}>
-        <h1 className={s.title}>Регистрация</h1>
+        <h1 className={s.title}>Вход</h1>
         <div>
-          <div className={s.group}>
-            <Input
-              name='email'
-              placeholder='Email'
-              value={this.state.values.email}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.email}
-              isError={!!this.state.errors.email.length}
-            />
-          </div>
           <div className={s.group}>
             <Input
               name='login'
@@ -153,38 +131,6 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
               onChange={this.onChange}
               helpMessage={this.state.errors.login}
               isError={!!this.state.errors.login.length}
-            />
-          </div>
-          <div className={s.group}>
-            <Input
-              name='first_name'
-              placeholder='Имя'
-              value={this.state.values.first_name}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.first_name}
-              isError={!!this.state.errors.first_name.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='second_name'
-              placeholder='Фамилия'
-              value={this.state.values.second_name}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.second_name}
-              isError={!!this.state.errors.second_name.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='phone'
-              placeholder='Телефон'
-              value={this.state.values.phone}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.phone}
-              isError={!!this.state.errors.phone.length}
             />
           </div>
 
@@ -199,17 +145,7 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
               isError={!!this.state.errors.password.length}
             />
           </div>
-          <div className={s.group}>
-            <Input
-              name='passwordConfirm'
-              placeholder='Пароль повторно'
-              type='password'
-              value={this.state.values.passwordConfirm}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.passwordConfirm}
-              isError={!!this.state.errors.passwordConfirm.length}
-            />
-          </div>
+
           {<p className={s.message}>{message}</p>}
 
           <button
@@ -217,7 +153,7 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
             className=''
             disabled={!this.validateForm(errors, values)}
           >
-            Зарегистрироваться
+            Войти
           </button>
         </div>
       </form>
