@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
+import React, {Component, ErrorInfo, ReactNode} from "react";
+import {Link} from "react-router-dom";
 
 interface Props {
     children: ReactNode;
@@ -15,7 +16,7 @@ class ErrorBoundary extends Component<Props, State> {
     };
 
     public static getDerivedStateFromError(_: Error): State {
-        return { hasError: true };
+        return {hasError: true};
     }
 
     public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
@@ -24,7 +25,7 @@ class ErrorBoundary extends Component<Props, State> {
 
     public render() {
         if (this.state.hasError) {
-            return <h1>Sorry.. there was an error</h1>;
+            return <h1>Sorry.. there was an error. <Link to="/">Go home</Link></h1>;
         }
 
         return this.props.children;
