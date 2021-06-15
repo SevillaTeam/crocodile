@@ -1,12 +1,17 @@
-import heading from "./app.module.scss";
-import React from "react";
+import {BrowserRouter} from 'react-router-dom';
+import React from 'react';
+import {Router} from './components/router';
 
 interface Prop {
-    num: number
+    num: number;
 }
 
 const App = (prop: Prop) => (
-    <h1 className={heading.heading}>Crocodile With React and TypeScript! {prop.num}</h1>
-);
+    <BrowserRouter>
+        {/* надо обернуть в Layout когда он появится */}
+        <Router/>
+    </BrowserRouter>);
 
-export {App}
+
+export {App};
+

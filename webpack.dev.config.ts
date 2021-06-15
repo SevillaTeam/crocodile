@@ -1,40 +1,64 @@
-import path from "path";
-import HtmlWebpackPlugin from "html-webpack-plugin";
+import path from 'path';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import ForkTsCheckerWebpackPlugin from 'fork-ts-checker-webpack-plugin';
 import * as webpack from 'webpack';
 import 'webpack-dev-server';
 import ESLintPlugin from "eslint-webpack-plugin";
+import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
+
 
 const config: webpack.Configuration = {
-    mode: "development",
+    mode: 'development',
     output: {
-        publicPath: "/",
+        publicPath: '/',
     },
-    entry: "./src/index.tsx",
+    entry: './src/index.tsx',
     module: {
         rules: [
             {
                 test: /\.(ts|js)x?$/i,
                 exclude: /node_modules/,
                 use: {
-                    loader: "babel-loader",
+                    loader: 'babel-loader',
                     options: {
                         presets: [
-                            "@babel/preset-env",
-                            "@babel/preset-react",
-                            "@babel/preset-typescript",
+                            '@babel/preset-env',
+                            '@babel/preset-react',
+                            '@babel/preset-typescript',
                         ],
                     },
                 },
             },
             {
-                test: /\.s[ac]ss$/i,
-                use: ["style-loader", "css-loader", "sass-loader"],
+                test: /\.(png|jp(e*)g|svg|gif)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'images/[hash]-[name].[ext]',
+                        },
+                    },
+                ],
             },
-        ],
+            {
+                test: /\.s[ac]ss$/i,
+                use: [
+                    'style-loader',
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            modules: {
+                                localIdentName: '[local]___[hash:base64:5]',
+                            },
+                        },
+                    },
+                    'sass-loader',
+                ],
+            }]
     },
     resolve: {
-        extensions: [".tsx", ".ts", ".js"],
+        plugins: [new TsconfigPathsPlugin()],
+        extensions: [".tsx", ".ts", ".js", ".scss"],
     },
     plugins: [
         new HtmlWebpackPlugin({
@@ -48,14 +72,14 @@ const config: webpack.Configuration = {
             extensions: ["js", "jsx", "ts", "tsx"],
         }),
     ],
-    devtool: "inline-source-map",
+    devtool: 'inline-source-map',
     // @ts-ignore
     devServer: {
-        contentBase: path.join(__dirname, "build"),
+        contentBase: path.join(__dirname, 'build'),
         historyApiFallback: true,
         port: 4000,
         open: true,
-        hot: true
+        hot: true,
     },
 };
 
