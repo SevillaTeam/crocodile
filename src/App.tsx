@@ -1,6 +1,6 @@
 import heading from "./app.module.scss";
 import React from "react";
-import {Button} from "@app-components/Button"
+import {Button} from "@/components/Button"
 
 interface Prop {
     num: number

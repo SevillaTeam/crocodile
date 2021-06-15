@@ -1,14 +1,6 @@
 import React from "react";
 import s from "./button.module.scss"
-
-interface ButtonProps {
-    size?: string,
-    type?: string,
-    color?: string,
-    disabled?: boolean,
-    onClick: () => void
-}
-
+import {ButtonProps} from "@components/Button/types";
 
 const Button: React.FC<ButtonProps> = ({
                                            onClick,
