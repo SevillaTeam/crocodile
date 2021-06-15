@@ -75,11 +75,6 @@
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "echo \\”[Husky] pre-commit\\”"
-    }
-  },
   "lint-staged": {
     "src/**/*.{js,ts,jsx,tsx}": "eslint --fix"
   }
