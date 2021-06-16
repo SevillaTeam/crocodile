@@ -1,6 +1,16 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "baseUrl": "src",
+    "paths": {
+      "@/*": ["*"],
+      "@app-components/*": ["app-components/*"],
+      "@components/*": ["components/*"],
+    },
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
@@ -13,6 +23,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "exclude": ["node_modules", "*.test.tsx"],
+  "exclude": ["node_modules"],
   "include": ["src"]
 }
