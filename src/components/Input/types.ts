@@ -3,6 +3,7 @@ export type OwnInputProps = {
   onBlur?: ({ value, name }: IInputState) => void;
   type?: 'text' | 'email' | 'password';
   name: string;
+  id?: string;
   placeholder?: string;
   value?: string;
   classNames?: Array<string>;
