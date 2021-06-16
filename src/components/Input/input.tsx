@@ -1,74 +1,60 @@
-import React, { PureComponent, ChangeEvent } from 'react';
-import { OwnInputProps, IInputState } from './';
+import React, { ChangeEvent, FC, useState } from 'react';
+import { OwnInputProps } from './';
 import cn from 'classnames';
 import s from './input.module.scss';
 
 type Props = OwnInputProps;
 
-export class Input extends PureComponent<Props, IInputState> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { value: '', name: '' };
-  }
+export const Input: FC<Props> = (props) => {
+  const { isError, helpMessage, name, placeholder, isRequired = false } = props;
+  const [inputValue, setInputValue] = useState({ value: '', name: '' });
 
-  handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { onChange } = this.props;
-    this.setState({ value: e.target.value, name: e.target.name }, () => {
-      onChange(this.state);
-    });
+  const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { onChange } = props;
+    setInputValue({ value: e.target.value, name: e.target.name });
+    onChange({ value: e.target.value, name: e.target.name });
   };
 
-  handleBlur = (e: ChangeEvent<HTMLInputElement>): void => {
-    const { onBlur } = this.props;
+  const handleBlur = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { onBlur } = props;
     if (onBlur) {
-      this.setState({ value: e.target.value, name: e.target.name }, () => {
-        onBlur(this.state);
-      });
+      setInputValue({ value: e.target.value, name: e.target.name });
+      onBlur({ value: e.target.value, name: e.target.name });
     }
   };
 
-  public render(): JSX.Element | React.ReactNode {
-    const {
-      isError,
-      helpMessage,
-      placeholder,
-      isRequired = false,
-      ...props
-    } = this.props;
-
-    return (
-      <div className={s.input}>
-        <label className={s.label}>
-          <input
-            className={cn([s.htmlinput], {
-              [s.htmlinput_error]: isError,
-            })}
-            {...props}
-            required={isRequired}
-            value={this.state.value}
-            onChange={this.handleChange}
-            onBlur={this.handleBlur}
-          />
-          {placeholder && (
-            <span
-              className={cn([s.placeholder], {
-                [s.placeholder_top]: this.state.value,
-              })}
-            >
-              {placeholder}
-            </span>
-          )}
-        </label>
-        {helpMessage && (
+  return (
+    <div className={s.input}>
+      <label className={s.label}>
+        <input
+          className={cn([s.htmlinput], {
+            [s.htmlinput_error]: isError,
+          })}
+          name={name}
+          required={isRequired}
+          value={inputValue.value}
+          onChange={handleChange}
+          onBlur={handleBlur}
+        />
+        {placeholder && (
           <span
-            className={cn([s.helpMessage], {
-              [s.helpMessage_error]: isError,
+            className={cn([s.placeholder], {
+              [s.placeholder_top]: inputValue.value,
             })}
           >
-            {helpMessage}
+            {placeholder}
           </span>
         )}
-      </div>
-    );
-  }
-}
+      </label>
+      {helpMessage && (
+        <span
+          className={cn([s.helpMessage], {
+            [s.helpMessage_error]: isError,
+          })}
+        >
+          {helpMessage}
+        </span>
+      )}
+    </div>
+  );
+};
