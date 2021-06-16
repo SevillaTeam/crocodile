@@ -1,43 +1,36 @@
-import React, { FormEvent, Component } from 'react';
-import { Input } from '../Input';
+import React, { FormEvent, FC, useState } from 'react';
+import { Input, IInputState } from '../Input';
+import { Button } from '../Button';
 import isEmail from 'validator/lib/isEmail';
 import cn from 'classnames';
 import s from './signup-form.module.scss';
-import { getUserInfo, signUp, logOut } from '../../services';
-import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
+import { signUp } from '../../services';
+import { IFormProps, IValues, IErrors } from './interfaces';
 import { Link } from 'react-router-dom';
 
-export class SignUpForm extends Component<IFormProps, IFormState> {
-  constructor(props: IFormProps) {
-    super(props);
+export const SignUpForm: FC<IFormProps> = (props) => {
+  const errors: IErrors = {
+    email: '',
+    login: '',
+    first_name: '',
+    second_name: '',
+    phone: '',
+    password: '',
+    passwordConfirm: '',
+  };
+  const values: IValues = {
+    email: '',
+    login: '',
+    first_name: '',
+    second_name: '',
+    phone: '',
+    password: '',
+    passwordConfirm: '',
+  };
 
-    const errors: IErrors = {
-      email: '',
-      login: '',
-      first_name: '',
-      second_name: '',
-      phone: '',
-      password: '',
-      passwordConfirm: '',
-    };
-    const values: IValues = {
-      email: '',
-      login: '',
-      first_name: '',
-      second_name: '',
-      phone: '',
-      password: '',
-      passwordConfirm: '',
-    };
+  const [formState, setFormState] = useState({ values, errors, message: '' });
 
-    this.state = {
-      errors,
-      values,
-      message: '',
-    };
-  }
-
-  private haveErrors(errors: IErrors) {
+  const haveErrors = (errors: IErrors): boolean => {
     let haveError = false;
     Object.keys(errors).map((key: string) => {
       if (errors[key].length > 0) {
@@ -45,9 +38,9 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
       }
     });
     return haveError;
-  }
+  };
 
-  private inputsHaveValues(values: IValues) {
+  const inputsHaveValues = (values: IValues) => {
     let hasValue = true;
     Object.keys(values).map((key: string) => {
       if (!values[key].length) {
@@ -56,53 +49,44 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
       }
     });
     return hasValue;
-  }
+  };
 
-  private validateForm(errors: IErrors, values: IValues): boolean {
-    if (this.haveErrors(errors)) {
+  const validateForm = (errors: IErrors, values: IValues): boolean => {
+    if (haveErrors(errors)) {
       return false;
-    } else if (!this.inputsHaveValues(values)) {
+    } else if (!inputsHaveValues(values)) {
       return false;
     }
 
     return true;
-  }
+  };
 
-  private handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const data = this.state.values;
+    const data = formState.values;
 
     signUp(data)
       .then((res) => {
-        this.setState({ ...this.state, message: 'Успешно!' });
-        console.log(res);
+        setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
       })
       .catch((err) => {
-        this.setState({ ...this.state, message: err.reason });
+        setFormState((formState) => ({ ...formState, message: err.reason }));
       });
   };
 
-  private onChange = (e: FormEvent<HTMLInputElement>): void => {
-    e.preventDefault();
-    const name = (e.target as HTMLInputElement).name;
-    const value = (e.target as HTMLInputElement).value;
-
-    this.setState(
-      {
-        ...this.state,
-        values: { ...this.state.values, [name]: value },
-      },
-      () => {
-        this.validateField(name, value);
-      },
-    );
+  const onChange = ({ value, name }: IInputState): void => {
+    setFormState((formState) => ({
+      ...formState,
+      values: { ...formState.values, [name]: value },
+    }));
+    validateField(name, value);
   };
 
-  private validateField(fieldName: string, value: string): boolean {
-    const { errors, values } = this.state;
-    const fieldValidationErrors = this.state.errors;
+  const validateField = (fieldName: string, value: string): boolean => {
+    const fieldValidationErrors: IErrors = { ...formState.errors };
 
-    const { password } = this.state.values;
+    const { values } = formState;
+    const { password } = formState.values;
     switch (fieldName) {
       case 'email':
         fieldValidationErrors.email = isEmail(value)
@@ -123,104 +107,104 @@ export class SignUpForm extends Component<IFormProps, IFormState> {
         break;
     }
 
-    this.setState({ errors: fieldValidationErrors }, () =>
-      this.validateForm(errors, values),
-    );
+    setFormState((formState) => ({
+      ...formState,
+      errors: fieldValidationErrors,
+    }));
+
+    validateForm(fieldValidationErrors, values);
+
     return true;
-  }
+  };
 
-  public render(): JSX.Element | React.ReactNode {
-    const { errors, values, message } = this.state;
-    return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <h1 className={s.title}>Регистрация</h1>
-        <div>
-          <div className={s.group}>
-            <Input
-              name='email'
-              placeholder='Email'
-              value={this.state.values.email}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.email}
-              isError={!!this.state.errors.email.length}
-            />
-          </div>
-          <div className={s.group}>
-            <Input
-              name='login'
-              placeholder='Login'
-              value={this.state.values.login}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.login}
-              isError={!!this.state.errors.login.length}
-            />
-          </div>
-          <div className={s.group}>
-            <Input
-              name='first_name'
-              placeholder='Имя'
-              value={this.state.values.first_name}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.first_name}
-              isError={!!this.state.errors.first_name.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='second_name'
-              placeholder='Фамилия'
-              value={this.state.values.second_name}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.second_name}
-              isError={!!this.state.errors.second_name.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='phone'
-              placeholder='Телефон'
-              value={this.state.values.phone}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.phone}
-              isError={!!this.state.errors.phone.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='password'
-              placeholder='Пароль'
-              type='password'
-              value={this.state.values.password}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.password}
-              isError={!!this.state.errors.password.length}
-            />
-          </div>
-          <div className={s.group}>
-            <Input
-              name='passwordConfirm'
-              placeholder='Пароль повторно'
-              type='password'
-              value={this.state.values.passwordConfirm}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.passwordConfirm}
-              isError={!!this.state.errors.passwordConfirm.length}
-            />
-          </div>
-          {<p className={s.message}>{message}</p>}
-
-          <button
-            type='submit'
-            className=''
-            disabled={!this.validateForm(errors, values)}
-          >
-            Зарегистрироваться
-          </button>
+  return (
+    <form className={s.form} onSubmit={handleSubmit}>
+      <h1 className={s.title}>Регистрация</h1>
+      <div>
+        <div className={s.group}>
+          <Input
+            name='email'
+            placeholder='Email'
+            onChange={onChange}
+            helpMessage={formState.errors.email}
+            isError={!!formState.errors.email.length}
+          />
         </div>
-      </form>
-    );
-  }
-}
+        <div className={s.group}>
+          <Input
+            name='login'
+            placeholder='Login'
+            onChange={onChange}
+            helpMessage={formState.errors.login}
+            isError={!!formState.errors.login.length}
+          />
+        </div>
+        <div className={s.group}>
+          <Input
+            name='first_name'
+            placeholder='Имя'
+            onChange={onChange}
+            helpMessage={formState.errors.first_name}
+            isError={!!formState.errors.first_name.length}
+          />
+        </div>
+
+        <div className={s.group}>
+          <Input
+            name='second_name'
+            placeholder='Фамилия'
+            onChange={onChange}
+            helpMessage={formState.errors.second_name}
+            isError={!!formState.errors.second_name.length}
+          />
+        </div>
+
+        <div className={s.group}>
+          <Input
+            name='phone'
+            placeholder='Телефон'
+            onChange={onChange}
+            helpMessage={formState.errors.phone}
+            isError={!!formState.errors.phone.length}
+          />
+        </div>
+
+        <div className={s.group}>
+          <Input
+            name='password'
+            placeholder='Пароль'
+            type='password'
+            onChange={onChange}
+            helpMessage={formState.errors.password}
+            isError={!!formState.errors.password.length}
+          />
+        </div>
+        <div className={s.group}>
+          <Input
+            name='passwordConfirm'
+            placeholder='Пароль повторно'
+            type='password'
+            onChange={onChange}
+            helpMessage={formState.errors.passwordConfirm}
+            isError={!!formState.errors.passwordConfirm.length}
+          />
+        </div>
+        {formState.message && <p className={s.message}>{formState.message}</p>}
+        <div className={s.buttons}>
+          <Button
+            type='submit'
+            disabled={!validateForm(formState.errors, formState.values)}
+            text='Зарегистрироваться'
+          />
+
+          <Link
+            to='/authorization'
+            className={cn([s.link], [s.link_standard], [s.link_primary])}
+          >
+            Войти
+          </Link>
+        </div>
+      </div>
+    </form>
+  );
+};
