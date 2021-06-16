@@ -1,22 +1,30 @@
 import React, { PureComponent, ChangeEvent } from 'react';
-import { OwnInputProps } from './';
+import { OwnInputProps, IInputState } from './';
 import cn from 'classnames';
 import s from './input.module.scss';
 
 type Props = OwnInputProps;
 
-export class Input extends PureComponent<Props> {
+export class Input extends PureComponent<Props, IInputState> {
   constructor(props: Props) {
     super(props);
     this.state = { value: '' };
   }
 
-  //   onChange = (e: React.ChangeEvent<HTMLInputElement>)=> {
-  //     const newValue = e.target.value;
-  //  }
-
   handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    this.setState({ value: e.target.value });
+    const { onChange } = this.props;
+    this.setState({ value: e.target.value }, () => {
+      onChange(this.state.value);
+    });
+  };
+
+  handleBlur = (e: ChangeEvent<HTMLInputElement>): void => {
+    const { onBlur } = this.props;
+    if (onBlur) {
+      this.setState({ value: e.target.value }, () => {
+        onBlur(this.state.value);
+      });
+    }
   };
 
   public render(): JSX.Element | React.ReactNode {
@@ -24,10 +32,7 @@ export class Input extends PureComponent<Props> {
       isError,
       helpMessage,
       placeholder,
-      onChange,
-      onBlur,
-      id = 'inputId',
-      required,
+      isRequired = false,
       ...props
     } = this.props;
 
@@ -39,26 +44,30 @@ export class Input extends PureComponent<Props> {
               [s.htmlinput_error]: isError,
             })}
             {...props}
-            id={id}
-            placeholder='123'
+            required={isRequired}
             value={this.state.value}
             onChange={this.handleChange}
-            // onChange={(e: FormEvent<HTMLInputElement>) => {
-            //   onChange ? onChange(e) : '';
-            // }}
-            // onBlur={(e: FormEvent<HTMLInputElement>) => {
-            //   onBlur ? onBlur(e) : '';
-            // }}
+            onBlur={this.handleBlur}
           />
-          <span className={s.placeholder}>{placeholder}</span>
+          {placeholder && (
+            <span
+              className={cn([s.placeholder], {
+                [s.placeholder_top]: this.state.value,
+              })}
+            >
+              {placeholder}
+            </span>
+          )}
         </label>
-        <p
-          className={cn([s.helpMessage], {
-            [s.helpMessage_error]: isError,
-          })}
-        >
-          {helpMessage}
-        </p>
+        {helpMessage && (
+          <span
+            className={cn([s.helpMessage], {
+              [s.helpMessage_error]: isError,
+            })}
+          >
+            {helpMessage}
+          </span>
+        )}
       </div>
     );
   }

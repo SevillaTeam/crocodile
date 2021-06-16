@@ -1,2 +1,2 @@
 export { Input } from './input';
-export type { OwnInputProps } from './types';
+export type { OwnInputProps, IInputState } from './types';
