@@ -17,4 +17,3 @@ const App = (prop: Prop) => (
 
 
 export {App};
-
