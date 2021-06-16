@@ -1,7 +1,5 @@
 import React, { FormEvent, Component } from 'react';
-import { Input } from '../Input';
-import isEmail from 'validator/lib/isEmail';
-// import cn from 'classnames';
+import { Input, IInputState } from '../Input';
 import s from './login-form.module.scss';
 import { getUserInfo, signUp, signIn, logOut } from '../../services';
 import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
