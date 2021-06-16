@@ -1,31 +1,24 @@
-import React, { FormEvent, Component } from 'react';
+import React, { FormEvent, FC, useState } from 'react';
 import { Input, IInputState } from '../Input';
 import s from './login-form.module.scss';
-import { getUserInfo, signUp, signIn, logOut } from '../../services';
-import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
-// import { Link } from 'react-router-dom';
+import cn from 'classnames';
+import { signIn } from '../../services';
+import { IFormProps, IValues, IErrors } from './interfaces';
+import { Link } from 'react-router-dom';
 
-export class LoginForm extends Component<IFormProps, IFormState> {
-  constructor(props: IFormProps) {
-    super(props);
+export const LoginForm: FC<IFormProps> = (props) => {
+  const errors: IErrors = {
+    login: '',
+    password: '',
+  };
+  const values: IValues = {
+    login: '',
+    password: '',
+  };
 
-    const errors: IErrors = {
-      login: '',
-      password: '',
-    };
-    const values: IValues = {
-      login: '',
-      password: '',
-    };
+  const [formState, setFormState] = useState({ values, errors, message: '' });
 
-    this.state = {
-      errors,
-      values,
-      message: '',
-    };
-  }
-
-  private haveErrors(errors: IErrors) {
+  const haveErrors = (errors: IErrors): boolean => {
     let haveError = false;
     Object.keys(errors).map((key: string) => {
       if (errors[key].length > 0) {
@@ -33,9 +26,9 @@ export class LoginForm extends Component<IFormProps, IFormState> {
       }
     });
     return haveError;
-  }
+  };
 
-  private inputsHaveValues(values: IValues) {
+  const inputsHaveValues = (values: IValues) => {
     let hasValue = true;
     Object.keys(values).map((key: string) => {
       if (!values[key].length) {
@@ -44,117 +37,106 @@ export class LoginForm extends Component<IFormProps, IFormState> {
       }
     });
     return hasValue;
-  }
+  };
 
-  private validateForm(errors: IErrors, values: IValues): boolean {
-    if (this.haveErrors(errors)) {
+  const validateForm = (errors: IErrors, values: IValues): boolean => {
+    if (haveErrors(errors)) {
       return false;
-    } else if (!this.inputsHaveValues(values)) {
+    } else if (!inputsHaveValues(values)) {
       return false;
     }
 
     return true;
-  }
+  };
 
-  private handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    const data = this.state.values;
-
-    // logOut().then((res) => {
-    // console.log(res);
+    const data = formState.values;
     signIn(data)
-      .then((res) => {
-        this.setState({ ...this.state, message: 'Успешно!' });
-        console.log(res);
+      .then(() => {
+        setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
       })
       .catch((err) => {
-        this.setState({ ...this.state, message: err.reason });
+        setFormState((formState) => ({ ...formState, message: err.reason }));
       });
-    // });
   };
 
-  private onChange = (e: FormEvent<HTMLInputElement>): void => {
-    e.preventDefault();
-    const name = (e.target as HTMLInputElement).name;
-    const value = (e.target as HTMLInputElement).value;
-
-    this.setState(
-      {
-        ...this.state,
-        values: { ...this.state.values, [name]: value },
-      },
-      () => {
-        this.validateField(name, value);
-      },
-    );
+  const onChange = ({ value, name }: IInputState): void => {
+    setFormState((formState) => ({
+      ...formState,
+      values: { ...formState.values, [name]: value },
+    }));
+    validateField(name, value);
   };
 
-  private validateField(fieldName: string, value: string): boolean {
-    const { errors, values } = this.state;
-    const fieldValidationErrors = this.state.errors;
+  const validateField = (fieldName: string, value: string): boolean => {
+    const fieldValidationErrors: IErrors = { ...formState.errors };
+    const { values } = formState;
 
-    const { password } = this.state.values;
     switch (fieldName) {
       case 'password':
         fieldValidationErrors.password =
           value.length >= 3 ? '' : 'Пароль должен быть больше 3 знаков';
         break;
-      case 'passwordConfirm':
-        fieldValidationErrors.passwordConfirm =
-          password === value ? '' : 'Пароли не совпадают';
-        break;
+
       default:
         fieldValidationErrors[fieldName] =
           value.length >= 3 ? '' : 'Значение должно быть больше 3 знаков';
         break;
     }
 
-    this.setState({ errors: fieldValidationErrors }, () =>
-      this.validateForm(errors, values),
-    );
+    setFormState((formState) => ({
+      ...formState,
+      errors: fieldValidationErrors,
+    }));
+
+    validateForm(fieldValidationErrors, values);
+
     return true;
-  }
+  };
 
-  public render(): JSX.Element | React.ReactNode {
-    const { errors, values, message } = this.state;
-    return (
-      <form className={s.form} onSubmit={this.handleSubmit}>
-        <h1 className={s.title}>Вход</h1>
-        <div>
-          <div className={s.group}>
-            <Input
-              name='login'
-              placeholder='Login'
-              value={this.state.values.login}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.login}
-              isError={!!this.state.errors.login.length}
-            />
-          </div>
-
-          <div className={s.group}>
-            <Input
-              name='password'
-              placeholder='Пароль'
-              type='password'
-              value={this.state.values.password}
-              onChange={this.onChange}
-              helpMessage={this.state.errors.password}
-              isError={!!this.state.errors.password.length}
-            />
-          </div>
-
-          {<p className={s.message}>{message}</p>}
-
-          <button
-            type='submit'
-            className=''
-            disabled={!this.validateForm(errors, values)}
-          >
-            Войти
-          </button>
+  return (
+    <form className={s.form} onSubmit={handleSubmit}>
+      <h1 className={s.title}>Вход</h1>
+      <div>
+        <div className={s.group}>
+          <Input
+            name='login'
+            placeholder='Login'
+            onChange={onChange}
+            helpMessage={formState.errors.login}
+            isError={!!formState.errors.login.length}
+          />
         </div>
-      </form>
-    );
-  }
-}
+
+        <div className={s.group}>
+          <Input
+            name='password'
+            placeholder='Пароль'
+            type='password'
+            onChange={onChange}
+            helpMessage={formState.errors.password}
+            isError={!!formState.errors.password.length}
+          />
+        </div>
+
+        {<p className={s.message}>{formState.message}</p>}
+
+        <div className={s.buttons}>
+          <Button
+            type='submit'
+            disabled={!validateForm(formState.errors, formState.values)}
+            text='Войти'
+          />
+
+          <Link
+            to='/registration'
+            className={cn([s.link], [s.link_standard], [s.link_primary])}
+          >
+            Зарегистрироваться
+          </Link>
+        </div>
+      </div>
+    </form>
+  );
+};
