@@ -120,7 +120,7 @@ export const LoginForm: FC<IFormProps> = (props) => {
           />
         </div>
 
-        {<p className={s.message}>{formState.message}</p>}
+        {formState.message && <p className={s.message}>{formState.message}</p>}
 
         <div className={s.buttons}>
           <Button
