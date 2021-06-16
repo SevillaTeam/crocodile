@@ -1,0 +1,14 @@
+@import "/src/styles/vars";
+
+.leaderboard {
+  width: 60%;
+  height: 80%;
+  position: absolute;
+  border-radius: 16px;
+  top: 50%;
+  left: 50%;
+  overflow: auto;
+  padding: 36px 48px;
+  background-color: $color-primary;
+  transform: translate(-50%, -50%);
+}

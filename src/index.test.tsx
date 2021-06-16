@@ -5,7 +5,7 @@ import {App} from "./App";
 
 describe('App', function () {
     it('should display a number', function () {
-        let container = document.createElement('div');
+        const container = document.createElement('div');
         document.body.appendChild(container);
         act(() => {
             ReactDOM.render(<App num={42} />, container);
