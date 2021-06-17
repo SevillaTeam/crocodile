@@ -6,7 +6,14 @@ import s from './input.module.scss';
 type Props = OwnInputProps;
 
 export const Input: FC<Props> = (props) => {
-  const { isError, helpMessage, name, placeholder, isRequired = false } = props;
+  const {
+    isError,
+    helpMessage,
+    name,
+    type,
+    placeholder,
+    isRequired = false,
+  } = props;
   const [inputValue, setInputValue] = useState({ value: '', name: '' });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -31,6 +38,7 @@ export const Input: FC<Props> = (props) => {
             [s.htmlinput_error]: isError,
           })}
           name={name}
+          type={type}
           required={isRequired}
           value={inputValue.value}
           onChange={handleChange}
