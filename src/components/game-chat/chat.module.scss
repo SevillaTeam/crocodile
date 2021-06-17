@@ -1,0 +1,54 @@
+.chat {
+  max-width: 600px;
+  max-height: 450px;
+  border: 1px solid gainsboro;
+  border-top: none;
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+.chatMessages {
+  height: 350px;
+  overflow: auto;
+  padding-bottom: 12px;
+}
+
+.chatMessage {
+  padding: 12px;
+  width: fit-content;
+  border-radius: 12px;
+  background: lightblue;
+
+  &:not(:last-child) {
+    margin-bottom: 12px;
+  }
+}
+
+.messageInfo {
+  display: flex;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.messageSender {
+  margin-right: 6px;
+}
+
+.messageContent {
+  font-weight: 700;
+}
+
+.chatActions {
+  padding-top: 12px;
+  border-top: 1px dashed blue;
+}
+
+.chatForm {
+  display: flex;
+  justify-content: space-between;
+}
+
+.chatInput {
+  flex-grow: 1;
+  height: 28px;
+}
