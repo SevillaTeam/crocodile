@@ -1,5 +1,6 @@
 import React, { FormEvent, FC, useState } from 'react';
 import { Input, IInputState } from '../Input';
+import { Button } from '../Button';
 import s from './login-form.module.scss';
 import cn from 'classnames';
 import { signIn } from '../../services';
