@@ -4,20 +4,22 @@ import { ButtonProps } from '@components/Button/types';
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
-  type = 'text',
+  type,
+  styleType = 'text',
   size = 'standard',
   color = 'primary',
   disabled = false,
-  children,
+  text,
 }) => (
   <button
+    type={type}
     disabled={disabled}
-    className={`${s.button} ${s[`button__${type}`]} ${s[`button__${size}`]} ${
-      s[`button__${color}`]
-    } ${s[`button__${disabled ? 'disabled' : ''}`]}`}
-    onClick={onClick}
+    className={`${s.button} ${s[`button__${styleType}`]} ${
+      s[`button__${size}`]
+    } ${s[`button__${color}`]} ${s[`button__${disabled ? 'disabled' : ''}`]}`}
+    onClick={() => onClick}
   >
-    {children}
+    {text}
   </button>
 );
 
