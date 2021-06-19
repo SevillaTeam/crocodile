@@ -1,0 +1,85 @@
+.input {
+  width: 328px;
+  height: 72px;
+  box-sizing: border-box;
+  font-family: Roboto;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 0.15px;
+
+  .label {
+    position: relative;
+    font-size: 14px;
+    padding-top: 20px;
+    margin-bottom: 2px;
+    box-sizing: border-box;
+    font-family: Roboto;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.15px;
+  }
+
+  .htmlinput {
+    appearance: none;
+    width: 328px;
+    padding: 12px;
+    padding-top: 19px;
+    border: none;
+    border-bottom: solid 1px #694ed6;
+    border-radius: 4px 4px 0px 0px;
+    background: rgba(105, 78, 214, 0.04);
+    outline: none;
+    box-sizing: border-box;
+    color: rgba(0, 0, 0, 0.87);
+    font-family: inherit;
+    font-weight: 500;
+    font-size: inherit;
+    line-height: inherit;
+    letter-spacing: inherit;
+
+    &_error {
+      background: rgba(228, 0, 70, 0.04);
+      border-bottom: solid 2px #e40046;
+      padding-bottom: 11px;
+    }
+
+    &:focus {
+      border-bottom: solid 2px #694ed6;
+      background: rgba(105, 78, 214, 0.3);
+      padding-bottom: 11px;
+      transition: background 0.3s ease;
+    }
+  }
+
+  .placeholder {
+    position: absolute;
+    left: 12px;
+    top: calc(50% + 12px);
+    transform: translateY(-50%);
+    color: #aaa;
+    transition: top 0.3s ease, font-size 0.3s ease, color 0.3s ease;
+    &_top {
+      top: 10px;
+      font-size: 10px;
+      color: #222;
+    }
+  }
+
+  .htmlinput:focus + .placeholder {
+    top: 10px;
+    font-size: 10px;
+    color: #222;
+  }
+
+  .helpMessage {
+    padding: 0;
+    padding-left: 12px;
+    font-weight: 300;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    letter-spacing: 0.4px;
+    &_error {
+      color: #e40046;
+    }
+  }
+}
