@@ -17,6 +17,5 @@ export interface IValidFields {
 export interface IFormState {
   values: IValues;
   errors: IErrors;
-  message?: string;
-  submitSuccess?: boolean;
+  message: string;
 }

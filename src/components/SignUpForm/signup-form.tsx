@@ -1,12 +1,12 @@
-import React, { FormEvent, FC, useState } from 'react';
+import React, { FormEvent, FC, useState, useCallback } from 'react';
 import { Input, IInputState } from '../Input';
 import { Button } from '../Button';
-import isEmail from 'validator/lib/isEmail';
 import cn from 'classnames';
 import s from './signup-form.module.scss';
 import { signUp } from '../../services';
-import { IFormProps, IValues, IErrors } from './interfaces';
+import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
 import { Link } from 'react-router-dom';
+import { validateField, validateForm } from '../../utlis/form-validator';
 
 export const SignUpForm: FC<IFormProps> = (props) => {
   const errors: IErrors = {
@@ -28,40 +28,23 @@ export const SignUpForm: FC<IFormProps> = (props) => {
     passwordConfirm: '',
   };
 
-  const [formState, setFormState] = useState({ values, errors, message: '' });
+  const [formState, setFormState] = useState<IFormState>({
+    values,
+    errors,
+    message: '',
+  });
 
-  const haveErrors = (errors: IErrors): boolean => {
-    let haveError = false;
-    Object.keys(errors).map((key: string) => {
-      if (errors[key].length > 0) {
-        haveError = true;
-      }
-    });
-    return haveError;
-  };
+  const memoHandleSubmit = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      handleSubmit(e, formState);
+    },
+    [formState]
+  );
 
-  const inputsHaveValues = (values: IValues) => {
-    let hasValue = true;
-    Object.keys(values).map((key: string) => {
-      if (!values[key].length) {
-        hasValue = false;
-        return hasValue;
-      }
-    });
-    return hasValue;
-  };
-
-  const validateForm = (errors: IErrors, values: IValues): boolean => {
-    if (haveErrors(errors)) {
-      return false;
-    } else if (!inputsHaveValues(values)) {
-      return false;
-    }
-
-    return true;
-  };
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = (
+    e: FormEvent<HTMLFormElement>,
+    formState: IFormState
+  ): void => {
     e.preventDefault();
     const data = formState.values;
 
@@ -74,58 +57,34 @@ export const SignUpForm: FC<IFormProps> = (props) => {
       });
   };
 
-  const onChange = ({ value, name }: IInputState): void => {
+  const memoOnChange = useCallback(
+    ({ value, name }: IInputState) => {
+      onChange({ value, name }, formState, setFormState);
+    },
+    [formState]
+  );
+
+  const onChange = (
+    { value, name }: IInputState,
+    formState: IFormState,
+    setFormState: React.Dispatch<React.SetStateAction<IFormState>>
+  ): void => {
     setFormState((formState) => ({
       ...formState,
       values: { ...formState.values, [name]: value },
     }));
-    validateField(name, value);
-  };
-
-  const validateField = (fieldName: string, value: string): boolean => {
-    const fieldValidationErrors: IErrors = { ...formState.errors };
-
-    const { values } = formState;
-    const { password } = formState.values;
-    switch (fieldName) {
-      case 'email':
-        fieldValidationErrors.email = isEmail(value)
-          ? ''
-          : 'Неверный формат Email';
-        break;
-      case 'password':
-        fieldValidationErrors.password =
-          value.length >= 3 ? '' : 'Пароль должен быть больше 3 знаков';
-        break;
-      case 'passwordConfirm':
-        fieldValidationErrors.passwordConfirm =
-          password === value ? '' : 'Пароли не совпадают';
-        break;
-      default:
-        fieldValidationErrors[fieldName] =
-          value.length >= 3 ? '' : 'Значение должно быть больше 3 знаков';
-        break;
-    }
-
-    setFormState((formState) => ({
-      ...formState,
-      errors: fieldValidationErrors,
-    }));
-
-    validateForm(fieldValidationErrors, values);
-
-    return true;
+    validateField(name, value, formState, setFormState);
   };
 
   return (
-    <form className={s.form} onSubmit={handleSubmit}>
+    <form className={s.form} onSubmit={memoHandleSubmit}>
       <h1 className={s.title}>Регистрация</h1>
       <div>
         <div className={s.group}>
           <Input
             name='email'
             placeholder='Email'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.email}
             isError={!!formState.errors.email.length}
           />
@@ -134,7 +93,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
           <Input
             name='login'
             placeholder='Login'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.login}
             isError={!!formState.errors.login.length}
           />
@@ -143,7 +102,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
           <Input
             name='first_name'
             placeholder='Имя'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.first_name}
             isError={!!formState.errors.first_name.length}
           />
@@ -153,7 +112,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
           <Input
             name='second_name'
             placeholder='Фамилия'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.second_name}
             isError={!!formState.errors.second_name.length}
           />
@@ -163,7 +122,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
           <Input
             name='phone'
             placeholder='Телефон'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.phone}
             isError={!!formState.errors.phone.length}
           />
@@ -174,7 +133,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
             name='password'
             placeholder='Пароль'
             type='password'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.password}
             isError={!!formState.errors.password.length}
           />
@@ -184,7 +143,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
             name='passwordConfirm'
             placeholder='Пароль повторно'
             type='password'
-            onChange={onChange}
+            onChange={memoOnChange}
             helpMessage={formState.errors.passwordConfirm}
             isError={!!formState.errors.passwordConfirm.length}
           />
