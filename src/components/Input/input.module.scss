@@ -1,6 +1,6 @@
 .input {
   width: 328px;
-  height: 72px;
+  height: 56px;
   box-sizing: border-box;
   font-family: Roboto;
   font-size: 16px;
@@ -43,11 +43,28 @@
       padding-bottom: 11px;
     }
 
+    &_error:focus {
+      background: rgba(228, 0, 70, 0.04) !important;
+      border-bottom: solid 2px #e40046 !important;
+      padding-bottom: 11px !important;
+    }
+
     &:focus {
       border-bottom: solid 2px #694ed6;
       background: rgba(105, 78, 214, 0.3);
       padding-bottom: 11px;
       transition: background 0.3s ease;
+    }
+    &:-webkit-autofill {
+      background: rgba(105, 78, 214, 0.04) !important;
+      background: transparent;
+    }
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover,
+    &:-webkit-autofill:focus,
+    &:-webkit-autofill:active {
+      -webkit-box-shadow: 0 0 0 30px #f9f8fd inset !important;
+      box-shadow: 0 0 0 30px #f9f8fd inset;
     }
   }
 
@@ -73,8 +90,10 @@
 
   .helpMessage {
     padding: 0;
+    margin: 0;
     padding-left: 12px;
     font-weight: 300;
+    line-height: 16px;
     color: rgba(0, 0, 0, 0.6);
     font-size: 12px;
     letter-spacing: 0.4px;
