@@ -1,0 +1,9 @@
+/public/**
+dist
+.
+!.eslintrc.js
+webpack.dev.config.ts
+webpack.prod.config.ts
+*.spec.ts
+server.ts
+
