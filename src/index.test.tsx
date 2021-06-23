@@ -8,7 +8,7 @@ describe('App', function () {
     const container = document.createElement('div');
     document.body.appendChild(container);
     act(() => {
-      ReactDOM.render(<App num={42} />, container);
+      ReactDOM.render(<App />, container);
     });
     const header = container.querySelector('h1');
     // @ts-ignore
