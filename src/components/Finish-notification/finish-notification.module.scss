@@ -1,0 +1,20 @@
+.notification {
+  width: 100%;
+  display: flex;
+}
+
+.container {
+  width: 300px;
+  margin: auto;
+  background-color: aquamarine;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+}
+
+.text {
+  text-align: center;
+  padding-bottom: 30px;
+}

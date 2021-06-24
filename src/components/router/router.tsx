@@ -10,6 +10,7 @@ export const Router = (): JSX.Element => {
       <Route path={'/authorization'} exact component={Pages.Login} />
       <Route path={'/registration'} exact component={Pages.Registration} />
       <Route path={'/game'} exact component={Pages.Game} />
+      <Route path={'/game-ending'} exact component={Pages.GameEnding} />
       <Route path='/page-not-found' render={() => <Pages.PageNotFound />} />
       <Route path='*'>
         <Redirect to='/page-not-found' />

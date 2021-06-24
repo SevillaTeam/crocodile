@@ -3,3 +3,4 @@ export { Home } from './home';
 export { Game } from './game';
 export { Registration } from './registration';
 export { Login } from './login';
+export { GameEnding } from './game-ending';
