@@ -1,6 +1,7 @@
 import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 import { Router } from './components/router';
+import { Layout } from './components/Layout';
 import ErrorBoundary from '@app-components/ErrorBoundary';
 
 interface Prop {
@@ -9,9 +10,10 @@ interface Prop {
 
 const App = (prop: Prop) => (
   <BrowserRouter>
-    {/* надо обернуть в Layout когда он появится */}
     <ErrorBoundary>
-      <Router />
+      <Layout>
+        <Router />
+      </Layout>
     </ErrorBoundary>
   </BrowserRouter>
 );
