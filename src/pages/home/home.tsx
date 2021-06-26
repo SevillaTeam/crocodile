@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import s from './home.module.scss';
+import {WaitingForUsers} from "@components/WaitingForUsers/waiting-for-users";
 
 export const Home = (): JSX.Element => {
   return (
@@ -13,6 +14,7 @@ export const Home = (): JSX.Element => {
       <Link className={s.homePage__link} to='/game'>
         Go to game page
       </Link>
+        <WaitingForUsers visible/>
     </div>
   );
 };
