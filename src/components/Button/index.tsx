@@ -10,13 +10,14 @@ const Button: React.FC<ButtonProps> = ({
   color = 'primary',
   disabled = false,
   text,
+  className
 }) => (
   <button
     type={type}
     disabled={disabled}
     className={`${s.button} ${s[`button__${styleType}`]} ${
       s[`button__${size}`]
-    } ${s[`button__${color}`]} ${s[`button__${disabled ? 'disabled' : ''}`]}`}
+    } ${s[`button__${color}`]} ${s[`button__${disabled ? 'disabled' : ''}`]} ${className}`}
     onClick={onClick}
   >
     {text}

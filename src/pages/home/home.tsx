@@ -32,6 +32,9 @@ export const Home = (): JSX.Element => {
             <Link className={s.homePage__link} to='/game'>
                 Go to game page
             </Link>
+            <Link className={s.homePage__link} to='/forum'>
+                Go to forum page
+            </Link>
             <Button text="Show modal" onClick={showModal}/>
             <Modal onClose={closeModal} isModalOpen={homeState.isModalOpen}>
                 easy breezy

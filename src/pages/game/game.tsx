@@ -1,6 +1,6 @@
 import React from 'react';
-import { GameCanvas } from '../../components/game-canvas';
-import { GameChat } from '../../components/game-chat';
+import { GameCanvas } from '../../components/GameCanvas';
+import { GameChat } from '../../components/GameChat';
 import styles from './game.module.scss';
 
 const PLAYER_STATUSES = {

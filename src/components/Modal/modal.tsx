@@ -13,7 +13,7 @@ export const Modal: FC<IModalState> = (props) => {
     } else {
         return (
             <div>
-                <div className={s.modal}>
+                <div className={`${s.modal} ${props.className}`}>
                     <div>{props.children}</div>
                 </div>
                 <div className={s.modalWrapper} onClick={onClose}></div>
