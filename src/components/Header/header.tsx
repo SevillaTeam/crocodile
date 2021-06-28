@@ -13,7 +13,7 @@ export const Header: FC<Props> = (props) => {
   return (
     <div className={s.header}>
       <div className={s.container}>
-        <ul className={cn(s.leftSide, s.leftSide)}>
+        <ul className={s.leftSide}>
           <li className={cn(s.nav__link, s.nav__link_btnType)}>
             <Link to='/' className={s.nav__linkText}>
               Главная
