@@ -97,6 +97,7 @@ export const LoginForm: FC<IFormProps> = (props) => {
             type='submit'
             disabled={!validateForm(formState.errors, formState.values)}
             text='Войти'
+            onClick={() => {console.log('fix me')}}
           />
 
           <Link

@@ -1,4 +1,4 @@
-import React, { FormEvent, MouseEventHandler } from 'react';
+import React, {  MouseEventHandler } from 'react';
 
 export interface ButtonProps {
   size?: string;
@@ -10,5 +10,5 @@ export interface ButtonProps {
   className?: string;
   as?: 'link';
   href?: string;
-  onClick?: (e: MouseEventHandler<HTMLButtonElement>) => void;
+  onClick?: () => void;
 }
