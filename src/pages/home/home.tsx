@@ -4,6 +4,7 @@ import s from './home.module.scss';
 import {Modal} from "@components/Modal";
 import {Button} from "@components/Button";
 import {IHomeState} from "@/pages/home/interfaces";
+import { User } from '@/components/User';
 
 
 export const Home = (): JSX.Element => {
@@ -29,6 +30,7 @@ export const Home = (): JSX.Element => {
             <Link className={s.homePage__link} to='/page-not-found'>
                 Перейти на 404 страницу
             </Link>
+            <User className={s.homePage__user} name="Иннокентий Тестович" avatar="" rating={50} />
             <Link className={s.homePage__link} to='/game'>
                 Go to game page
             </Link>
