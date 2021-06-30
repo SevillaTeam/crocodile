@@ -3,3 +3,5 @@ export { Home } from './home';
 export { Game } from './game';
 export { Registration } from './registration';
 export { Login } from './login';
+export { HeaderTest } from './header-test';
+export { GameEnding } from './game-ending';

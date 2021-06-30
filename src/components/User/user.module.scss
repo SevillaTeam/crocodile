@@ -1,0 +1,55 @@
+.miniUser {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miniUserAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.miniUserName {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.user {
+  background: white;
+  border-radius: 26px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.userAvatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  margin-bottom: 24px;
+}
+
+.userName {
+  font-weight: 700;
+  margin-bottom: 32px;
+}
+
+.userRating {
+  position: relative;
+  font-weight: 700;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &::before {
+    content: '';
+    background: #8AE47A;
+    border-radius: 20px;
+    width: 100%;
+    height: 6px;
+    position: absolute;
+    top: -12px;
+  }
+}

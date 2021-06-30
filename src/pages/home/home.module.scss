@@ -2,8 +2,13 @@
   display: flex;
   flex-direction: column;
   margin: auto;
-  width: 410px;
-  height: 200px;
+
+  &__user {
+    width: 240px;
+    margin: 0 auto;
+    margin-top: 12px;
+    margin-bottom: 12px;
+  }
 
   &__title {
     font-weight: 500;
