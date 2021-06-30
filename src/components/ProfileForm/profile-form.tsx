@@ -63,14 +63,14 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
     const combinedData = { ...userDataState, ...data };
 
     changeUserProfile(combinedData)
-      .then((res) => {
+      .then((res: IApiClientResponse) => {
         setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
         setUserDataState((userDataState) => ({
           ...userDataState,
           ...res,
         }));
       })
-      .catch((err) => {
+      .catch((err: { reason: string }) => {
         setFormState((formState) => ({ ...formState, message: err.reason }));
       });
   };

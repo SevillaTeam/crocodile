@@ -5,4 +5,3 @@ export { Registration } from './registration';
 export { Login } from './login';
 export { HeaderTest } from './header-test';
 export { GameEnding } from './game-ending';
-export { ProfilePage } from './profile';

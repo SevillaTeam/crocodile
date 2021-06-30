@@ -11,9 +11,10 @@
 }
 
 .main {
-  height: 100vh;
+  height: calc(100vh - 72px);
   display: flex;
   position: relative;
+  margin-top: 72px;
 
   ::-webkit-scrollbar {
     display: none;

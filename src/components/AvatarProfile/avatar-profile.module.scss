@@ -3,8 +3,8 @@
 .avatarCont {
   display: flex;
   margin: auto;
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   overflow: hidden;
   z-index: 0;
@@ -14,8 +14,8 @@
   position: relative;
   display: flex;
   margin: 0 auto;
-  width: 130px;
-  height: 130px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   cursor: pointer;
   background-size: auto;
@@ -27,8 +27,8 @@
   &:after {
     content: '';
     display: block;
-    width: 130px;
-    height: 130px;
+    width: 140px;
+    height: 140px;
     position: absolute;
     padding: 50px 32px 0 32px;
     top: 0;

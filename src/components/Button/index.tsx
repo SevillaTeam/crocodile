@@ -1,6 +1,7 @@
 import React from 'react';
 import s from './button.module.scss';
 import { ButtonProps } from '@components/Button/types';
+import cn from 'classnames';
 
 const Button: React.FC<ButtonProps> = ({
   onClick,
@@ -10,13 +11,17 @@ const Button: React.FC<ButtonProps> = ({
   color = 'primary',
   disabled = false,
   text,
+  styleObj,
 }) => (
   <button
     type={type}
     disabled={disabled}
-    className={`${s.button} ${s[`button__${styleType}`]} ${
-      s[`button__${size}`]
-    } ${s[`button__${color}`]} ${s[`button__${disabled ? 'disabled' : ''}`]}`}
+    className={cn(
+      `${s.button} ${s[`button__${styleType}`]} ${s[`button__${size}`]} ${
+        s[`button__${color}`]
+      } ${s[`button__${disabled ? 'disabled' : ''}`]}`,
+      styleObj,
+    )}
     onClick={onClick}
   >
     {text}
