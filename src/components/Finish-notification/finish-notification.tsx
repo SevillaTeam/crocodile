@@ -6,9 +6,7 @@ import s from './finish-notification.module.scss';
 
 type Props = FinishNotificationProps;
 
-export const FinishNotification: FC<Props> = (props) => {
-  const {} = props;
-
+export const FinishNotification: FC<Props> = () => {
   return (
     <div className={s.notification}>
       <div className={s.container}>
