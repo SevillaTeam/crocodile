@@ -1,9 +1,12 @@
 .container {
-  min-height: 370px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   margin: auto;
+  background-color: #fff;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  padding: 40px 40px 40px 40px;
 
   .title {
     margin: 0;
