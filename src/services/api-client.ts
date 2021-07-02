@@ -1,10 +1,11 @@
 import { IApiClientResponse, IRequestParams } from './interfaces';
 
-class ApiException {
+class ApiException extends Error {
   message: string;
   name: string;
 
   constructor(message: string) {
+    super();
     this.message = message;
     this.name = 'ApiException';
   }
@@ -146,7 +147,7 @@ export class ApiClient {
     params,
   }: IRequestParams): Promise<IApiClientResponse> => {
     try {
-      const res = await fetch(`${this._apiBase}${endpoint}/`, {
+      const res = await fetch(`${this._apiBase}${endpoint}78/`, {
         method: 'PUT',
         credentials: 'include',
         body: formData as FormData,
