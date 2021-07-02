@@ -1,0 +1,18 @@
+.container {
+  width: 250px;
+  height: 150px;
+  padding: 20px;
+  margin: auto;
+  border: solid 1px rgb(135, 135, 135);
+  display: flex;
+  flex-direction: column;
+}
+
+.text {
+  text-align: center;
+}
+
+.buttons {
+  display: flex;
+  margin: auto;
+}
