@@ -5,3 +5,5 @@ export { Registration } from './registration';
 export { Login } from './login';
 export { Forum } from './forum';
 export { ForumTopic } from './forum-topic';
+export { HeaderTest } from './header-test';
+export { GameEnding } from './game-ending';

@@ -1,17 +1,18 @@
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import React from 'react';
 
-import {Router} from '@/components/router';
+import { Layout } from './components/Layout';
+import { Router } from '@components/router';
 import ErrorBoundary from '@components/ErrorBoundary';
 
 const App = () => (
-    <BrowserRouter>
-        {/* надо обернуть в Layout когда он появится */}
-        <ErrorBoundary>
-            <Router/>
-        </ErrorBoundary>
-    </BrowserRouter>
+  <BrowserRouter>
+    <ErrorBoundary>
+      <Layout>
+        <Router />
+      </Layout>
+    </ErrorBoundary>
+  </BrowserRouter>
 );
 
-
-export {App};
+export { App };

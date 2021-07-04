@@ -6,15 +6,11 @@ import React, { useState } from 'react';
 import s from './forum.module.scss';
 
 export const Forum = (): JSX.Element => {
-  const [modalState, setModalState] = useState({
-    open: false
-  })
+  const [modalOpen, setModalOpen] = useState(false)
 
 
   const toggleModal = () => {
-      setModalState({
-        open: !modalState.open
-      });
+      setModalOpen(!modalOpen);
   }
 
   const changeThemeText = () => {
@@ -33,7 +29,7 @@ export const Forum = (): JSX.Element => {
           topicId={1}
         />
       </div>
-      <Modal className={s.forumModal} onClose={toggleModal} isModalOpen={modalState.open}>
+      <Modal className={s.forumModal} onClose={toggleModal} isModalOpen={modalOpen}>
         <Input className={s.modalInput} onChange={changeThemeText} name="Создать тему" />
         <Button className={s.modalButton} text="Создать" />
       </Modal>
