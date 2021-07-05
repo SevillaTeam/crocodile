@@ -1,6 +1,10 @@
 import { IApiClientResponse } from '../../services/interfaces';
+import { IResponseUserState } from '../Profile/redux-sagas/interfaces';
 
 export interface IProfileFormProps {
+  userData: IResponseUserState;
+  getUserData: () => void;
+  changeUserData: (data: IResponseUserState) => void;
   userDataState: IApiClientResponse;
   setUserDataState: React.Dispatch<React.SetStateAction<IApiClientResponse>>;
 }

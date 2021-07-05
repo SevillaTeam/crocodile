@@ -1,5 +1,6 @@
 import React, { FC, useState, useEffect, useCallback } from 'react';
 import s from './profile.module.scss';
+import { connector } from './container';
 import { getUserInfo } from '../../services';
 import { IProfileProps } from './interfaces';
 import { AvatartProfile } from '@components/AvatarProfile';
@@ -11,7 +12,14 @@ import { ProfileForm } from '../ProfileForm';
 import { TabsProfile } from '../TabsProfile';
 import { ChngPwdForm } from '../ChngPwdForm';
 
-export const Profile: FC<IProfileProps> = () => {
+const Profile: FC<IProfileProps> = (props) => {
+  const {
+    userData,
+    getUserData,
+    changeUserAvatar,
+    userAvatar,
+    changeUserData,
+  } = props;
   const [modalState, setModalState] = useState<IModalState>({
     isModalOpen: false,
   });
@@ -44,6 +52,7 @@ export const Profile: FC<IProfileProps> = () => {
   }, [modalState]);
 
   useEffect(() => {
+    getUserData();
     getUserInfo()
       .then((res: IApiClientResponse) => {
         setUserDataState((userDataState) => ({
@@ -62,6 +71,9 @@ export const Profile: FC<IProfileProps> = () => {
       active: true,
       content: (
         <ProfileForm
+          userData={userData}
+          getUserData={getUserData}
+          changeUserData={changeUserData}
           userDataState={userDataState}
           setUserDataState={setUserDataState}
         />
@@ -77,20 +89,15 @@ export const Profile: FC<IProfileProps> = () => {
   return (
     <div className={s.container}>
       <div className={s.wrapper}>
-        <AvatartProfile
-          userDataState={userDataState}
-          setUserDataState={setUserDataState}
-          onClick={showModal}
-        />
+        <AvatartProfile userAvatar={userAvatar} onClick={showModal} />
 
         <TabsProfile activeTab={0} tabList={tabList} />
       </div>
       <Modal onClose={memoCloseModal} isModalOpen={modalState.isModalOpen}>
-        <AvatarChanger
-          userDataState={userDataState}
-          setUserDataState={setUserDataState}
-        />
+        <AvatarChanger changeUserAvatar={changeUserAvatar} />
       </Modal>
     </div>
   );
 };
+
+export default connector(Profile);

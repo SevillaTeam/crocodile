@@ -6,9 +6,7 @@ import './styles/_reset.scss';
 import './styles/_fonts.scss';
 import './styles/_global.scss';
 
-import { configureStore } from './store';
-
-const store = configureStore({});
+import { store } from './store';
 
 ReactDOM.render(
   <React.StrictMode>
