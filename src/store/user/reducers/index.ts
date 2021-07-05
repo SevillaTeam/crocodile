@@ -1,1 +1,2 @@
-export { testUserAction_1_Reducer } from './testUserAction_1_Reducer';
+export { changeUserIdReducer } from './changeUserIdReducer';
+export { getUserDataFailure, getUserDataSuccess } from './getUserDataReducer';
