@@ -31,7 +31,7 @@ export const Input: FC<Props> = (props) => {
   };
 
   return (
-    <div className={s.input}>
+    <div className={`${s.input} ${props.className}`}>
       <label className={s.label}>
         <input
           className={cn([s.htmlinput], {
