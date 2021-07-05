@@ -1,14 +1,14 @@
-import { IAction } from '../interfaces';
-import { IUserState } from '../interfaces';
+import { IAction } from '../../../../store/interfaces';
+import { IResponseUserState } from '../interfaces';
 
-const initialState: IUserState = {
-  id: 0,
+const initState: IResponseUserState = {
+  id: undefined,
 };
 
-export const testUserAction_1_Reducer = (
-  state: IUserState = initialState,
-  action: IAction<IUserState>,
-): IUserState => {
+export const changeUserIdReducer = (
+  state: IResponseUserState = initState,
+  action: IAction<IResponseUserState>,
+): IResponseUserState => {
   const { payload } = action;
 
   if (payload) {

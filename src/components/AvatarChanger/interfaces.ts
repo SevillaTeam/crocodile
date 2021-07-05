@@ -1,10 +1,9 @@
 import { IApiClientResponse } from '../../services/interfaces';
 
 export interface IAvatarChangerProps {
-  userDataState: IApiClientResponse;
-  setUserDataState: React.Dispatch<React.SetStateAction<IApiClientResponse>>;
   action?: string;
   onClick?: (isModalOpen: boolean) => void;
+  changeUserAvatar: (data: IApiClientResponse) => void;
 }
 
 export interface IValues {

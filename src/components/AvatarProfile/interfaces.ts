@@ -1,8 +1,7 @@
-import { IApiClientResponse } from '../../services/interfaces';
+import { IUserAvatarState } from '../Profile/redux-sagas/interfaces';
 
 export interface IAvatarProfileProps {
-  userDataState: IApiClientResponse;
-  setUserDataState: React.Dispatch<React.SetStateAction<IApiClientResponse>>;
+  userAvatar: IUserAvatarState;
   action?: string;
   onClick: (isModalOpen: boolean) => void;
 }

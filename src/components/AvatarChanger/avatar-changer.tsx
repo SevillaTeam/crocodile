@@ -1,12 +1,10 @@
 import React, { FormEvent, FC, useState, useCallback, useRef } from 'react';
 import { Button } from '../Button';
 import s from './avatar-changer.module.scss';
-import { chngUserAvatar } from '../../services';
 import { IAvatarChangerProps, IValues, IFormState } from './interfaces';
-import { IApiClientResponse } from '../../services/interfaces';
 
 export const AvatarChanger: FC<IAvatarChangerProps> = (props) => {
-  const { userDataState, setUserDataState } = props;
+  const { changeUserAvatar } = props;
   const fileInput = useRef<HTMLInputElement>(null);
 
   const values: IValues = {
@@ -33,27 +31,7 @@ export const AvatarChanger: FC<IAvatarChangerProps> = (props) => {
     const freeSpacesName = fileNameOrig?.replace(/\s/g, '');
     formData.append('avatar', file, freeSpacesName);
 
-    chngUserAvatar({ formData })
-      .then((res: IApiClientResponse) => {
-        if (res.avatar) {
-          setUserDataState((userDataState) => ({
-            ...userDataState,
-            avatar: res.avatar as string,
-          }));
-        }
-
-        if (fileNameOrig) {
-          setFormState((formState) => ({
-            ...formState,
-            values: { fileName: fileNameOrig },
-            message: 'Успешно!',
-          }));
-        }
-      })
-      .catch((err: { reason: string }) => {
-        console.log(err);
-        setFormState((formState) => ({ ...formState, message: err.reason }));
-      });
+    changeUserAvatar({ formData });
   };
 
   const memoOnChange = useCallback(
