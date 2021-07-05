@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import { testUserAction_1_Reducer } from '../user/reducers';
+import userReducer from '../user/reducer';
 
 export const createRootReducer = () =>
   combineReducers({
-    user: testUserAction_1_Reducer,
+    user: userReducer,
   });

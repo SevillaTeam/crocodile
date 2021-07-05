@@ -7,7 +7,7 @@ import * as selectors from '../../store/user/selectors';
 
 interface ISelection {
   state: IApplicationState;
-  userId: number;
+  userId?: number;
 }
 
 const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
@@ -19,6 +19,7 @@ const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
 
 const mapDispatchToProps = {
   changeUserId: actions.changeUserId,
+  getUserData: actions.getUserDataStart,
 };
 
 export const connector = connect(mapStateToProps, mapDispatchToProps);
