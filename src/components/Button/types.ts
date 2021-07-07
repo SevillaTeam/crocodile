@@ -1,5 +1,3 @@
-import React, { MouseEventHandler } from 'react';
-
 export interface ButtonProps {
   size?: string;
   type?: 'button' | 'submit' | 'reset';
