@@ -1,5 +1,3 @@
-import React, {  MouseEventHandler } from 'react';
-
 export interface ButtonProps {
   size?: string;
   type?: 'button' | 'submit' | 'reset';
@@ -10,5 +8,10 @@ export interface ButtonProps {
   className?: string;
   as?: 'link';
   href?: string;
+  styleObj?: IBtnStyles;
   onClick?: () => void;
+}
+
+export interface IBtnStyles {
+  [key: string]: string;
 }

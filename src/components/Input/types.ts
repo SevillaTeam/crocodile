@@ -11,6 +11,7 @@ export type OwnInputProps = {
   isError?: boolean;
   isRequired?: boolean;
   [propName: string]: unknown;
+  startValue?: string;
 };
 
 export interface IInputState {

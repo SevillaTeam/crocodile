@@ -8,7 +8,7 @@
 }
 
 .chatMessages {
-  height: 350px;
+  height: calc(100vh - 602px);
   overflow: auto;
   padding-bottom: 12px;
 }

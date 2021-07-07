@@ -1,5 +1,5 @@
 export interface IModalState {
-    isModalOpen: boolean,
-    onClose: (isOpened: boolean) => void
-    className?: string
+  isModalOpen: boolean;
+  onClose: () => void;
+  className?: string;
 }
