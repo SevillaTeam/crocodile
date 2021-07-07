@@ -1,0 +1,25 @@
+@import '../../styles/vars';
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  height: auto;
+  padding: 40px;
+  margin: auto;
+}
+
+.title {
+  margin-bottom: 28px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #1e1e1e;
+}
+
+.wrapper {
+  display: flex;
+}
