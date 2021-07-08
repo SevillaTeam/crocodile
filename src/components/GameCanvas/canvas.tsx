@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import styles from './canvas.module.scss';
-import { gameEngine } from '../../services/game-engine'
+import { gameEngine } from '@/services/game-engine'
 
 interface IBroadcastPayload {
   prevX: string,
@@ -14,7 +14,7 @@ interface IBroadcastPayload {
 
 type OwnProps = {
   active: boolean,
-  imageData: IBroadcastPayload,
+  incomingImageData: IBroadcastPayload,
   onBroadcast: (data: string) => void
 };
 
@@ -24,12 +24,12 @@ const clearCanvas = () => {
   gameEngine.clearCanvas()
 }
 
-export const GameCanvas: Props = ({ active, onBroadcast, imageData })  => {
+export const GameCanvas: Props = ({ active, onBroadcast, incomingImageData })  => {
   const canvasRef = React.useRef(null)
 
   React.useEffect(() => {
-    gameEngine.drawBroadcast(imageData)
-  }, [imageData])
+    gameEngine.drawIncomingImage(incomingImageData)
+  }, [incomingImageData])
 
   React.useEffect(() => {
     if (!active) {

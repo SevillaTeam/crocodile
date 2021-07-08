@@ -37,16 +37,13 @@ app.use(express.json())
 
 const server = http.createServer(app);
 
-// starting index
-app.locals.index = 100000000000;
-
-function disconnected(client: IClient) {
+const disconnected = (client: IClient) => {
     delete clients[client.id];
     for (const roomId in channels) {
         const channel = channels[roomId];
         if (channel[client.id]) {
-            for (const peerId in channel) {
-                // channel[peerId].emit('remove-peer', { peer: client.user, roomId });
+            for (const peerId in channels[roomId]) {
+                clients[peerId].emit('remove-peer', { peer: client.user, roomId });
             }
             delete channel[client.id];
         }
@@ -56,8 +53,8 @@ function disconnected(client: IClient) {
     }
 }
 
-
-function auth(req: express.Request, res: express.Response, next: NextFunction) {
+// по токену определяем, какой пользователь стучится
+const auth = (req: express.Request, res: express.Response, next: NextFunction) => {
     let token;
     if (req.headers.authorization) {
         token = req.headers.authorization.split(' ')[1];
@@ -77,13 +74,6 @@ function auth(req: express.Request, res: express.Response, next: NextFunction) {
     });
 }
 
-// app.get('/', (req, res) => {
-// app.locals.index++;
-// const id = app.locals.index.toString(36);
-// res.redirect(`/${id}`);
-// });
-
-
 app.post('/access', (req, res) => {
     if (!req.body.username) {
         return res.sendStatus(403);
@@ -101,15 +91,15 @@ app.get('/connect', auth, (req, res) => {
     if (req.headers.accept !== 'text/event-stream') {
         return res.sendStatus(404);
     }
-    // write the event stream headers
     res.setHeader('Cache-Control', 'no-cache');
+    // устанавливаем заголовок text/event-stream
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Connection', 'keep-alive');
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.flushHeaders();
 
 
-    // setup a client
+    // создаем клиента
     const client: IClient = {
         id: req.user.id,
         user: req.user,
@@ -131,26 +121,29 @@ app.get('/connect', auth, (req, res) => {
 
 app.post('/:roomId/join', auth, (req, res) => {
     const roomId = req.params.roomId;
+    //  если такой клиент уже подключен
     if (channels[roomId] && channels[roomId][req.user.id]) {
         return res.sendStatus(200);
     }
+
     if (!channels[roomId]) {
         channels[roomId] = {};
     }
+    // проходимся по всем клиентам в комнате - определяем для кого создавать предложение (для всех кроме того, кто подключается)
     for (const peerId in channels[roomId]) {
         if (clients[peerId] && clients[req.user.id]) {
             clients[peerId].emit('add-peer', { peer: req.user, roomId, offer: false });
             clients[req.user.id].emit('add-peer', { peer: clients[peerId].user, roomId, offer: true });
         }
     }
+    // подключен
     channels[roomId][req.user.id] = true;
     return res.sendStatus (200);
 });
 
+// передаем сигналы между пирами
 app.post('/relay/:peerId/:event', auth, (req, res) => {
-    console.log('relay')
     const peerId = req.params.peerId;
-    console.log('data', req.body)
     if (clients[peerId]) {
         clients[peerId].emit(req.params.event, { peer: req.user, data: req.body });
     }
@@ -159,7 +152,7 @@ app.post('/relay/:peerId/:event', auth, (req, res) => {
 
 
 server.listen(process.env.PORT || 8081, () => {
-    // @ts-ignore
+   // @ts-ignore
     console.log(`Started server on port ${server.address().port}`);
 });
 

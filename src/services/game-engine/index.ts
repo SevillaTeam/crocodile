@@ -6,7 +6,7 @@ interface IBroadcastPayload {
   prevY: string,
   currX: string,
   currY: string,
-  force?: string,
+  thickness?: string,
   color: string
 }
 
@@ -77,15 +77,15 @@ class GameEngine {
     this.canvas.removeEventListener("mouseout", this.onMouseOut);
   }
 
-  drawBroadcast(imageData: IBroadcastPayload) {
+  drawIncomingImage(broadcastPayload: IBroadcastPayload) {
     if (!this.ctx) {
       return
     }
 
     this.ctx.beginPath();
-    this.ctx.moveTo(Number(imageData.prevX), Number(imageData.prevY));
-    this.ctx.lineTo(Number(imageData.currX), Number(imageData.currY));
-    this.ctx.strokeStyle = this.color;
+    this.ctx.moveTo(Number(broadcastPayload.prevX), Number(broadcastPayload.prevY));
+    this.ctx.lineTo(Number(broadcastPayload.currX), Number(broadcastPayload.currY));
+    this.ctx.strokeStyle = broadcastPayload.color;
     this.ctx.lineWidth = this.thickness;
     this.ctx.stroke();
     this.ctx.closePath();
