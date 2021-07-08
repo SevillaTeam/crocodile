@@ -33,6 +33,7 @@ export const logOut = async (): Promise<IApiClientResponse> => {
   });
 };
 
+
 export const changeUserProfile = async (
   data: IApiClientResponse,
 ): Promise<IApiClientResponse> => {
@@ -60,3 +61,48 @@ export const changePasswordRequest = async (
     data,
   });
 };
+
+/*
+    GAME API
+ */
+
+//TODO adapt the Api class
+
+const baseUrl = 'http://localhost:8081'
+
+export const relay = (peerId: string, event: string, token: string, data: RTCSessionDescriptionInit | RTCIceCandidate) => {
+  return fetch(baseUrl + `/relay/${peerId}/${event}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+}
+
+export const getToken = async (username: string): Promise<string> => {
+  const res = await fetch(baseUrl + '/access', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: username
+    })
+  });
+  const token = await res.json();
+  return token;
+}
+
+
+export const joinRoom = (roomId: string, token: string) => {
+  return fetch(baseUrl + `/${roomId}/join`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+}
+

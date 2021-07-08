@@ -5,6 +5,7 @@
       "@/*": ["*"],
       "@app-components/*": ["app-components/*"],
       "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

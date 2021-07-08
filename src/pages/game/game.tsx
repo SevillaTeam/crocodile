@@ -1,8 +1,9 @@
 import React, {useEffect} from 'react';
-import {GameCanvas} from '@components/game-canvas';
-import {GameChat} from '@components/game-chat';
 import styles from './game.module.scss';
 import {fetchEventSource} from '@microsoft/fetch-event-source'
+import {GameChat} from "@components/GameChat";
+import {GameCanvas} from "@components/GameCanvas";
+import {getToken, joinRoom, relay} from "@/services/api";
 
 const PLAYER_STATUSES = {
     'drawer': 0,
@@ -10,52 +11,43 @@ const PLAYER_STATUSES = {
 }
 const initPlayerStatus = PLAYER_STATUSES.drawer
 
+const RTC_CONFIG = {
+    iceServers: [{
+        urls: [
+            'stun:stun.l.google.com:19302',
+            'stun:global.stun.twilio.com:3478'
+        ]
+    }]
+};
+
 interface IPayload {
     data: string
-}
-
-interface IBroadcastPayload {
-    prevX: string,
-    prevY: string,
-    currX: string,
-    currY: string,
-    force?: string,
-    color: string
 }
 
 interface IContext {
     username: string,
     roomId: number,
-    token: string | null,
-    peers?: {[key: string]: RTCPeerConnection}
+    token: string,
+    peers?: { [key: string]: RTCPeerConnection }
     channels?: {
         [key: string]: RTCDataChannel
     }
-    eventSource: Promise<void> | null
 }
 
-const context: IContext = {
+const ctx: IContext = {
     username: 'user' + parseInt(String(Math.random() * 100000)),
     roomId: 1,
-    token: null,
+    token: '',
     peers: {},
     channels: {},
-    eventSource: null
 };
 
-// let imageData: IBroadcastPayload = {
-//     prevX: '',
-//     prevY: '',
-//     currX: '',
-//     currY: '',
-//     color: ''
-// }
 
 const baseUrl = 'http://localhost:8081'
 
 export const Game = (): JSX.Element => {
     const [playerStatus, setPlayerStatus] = React.useState(initPlayerStatus)
-    const [imageData, setImageData] = React.useState({
+    const [incomingImageData, setImageData] = React.useState({
         prevX: '',
         prevY: '',
         currX: '',
@@ -67,38 +59,13 @@ export const Game = (): JSX.Element => {
         setPlayerStatus(status)
     }
 
-    async function getToken() {
-        const res = await fetch(baseUrl + '/access', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                username: context.username
-            })
-        });
-        const token = await res.json();
-        context.token = token;
-    }
-
-    async function join() {
-        return fetch(baseUrl + `/${context.roomId}/join`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${context.token}`
-            }
-        });
-    }
-
-    async function connect() {
-        await getToken();
-        context.eventSource = fetchEventSource(baseUrl + `/connect?token=${context.token}`, {
+    const connect = async () => {
+        ctx.token = await getToken(ctx.username);
+        await fetchEventSource(baseUrl + `/connect?token=${ctx.token}`, {
             onmessage(e) {
-                console.log(e.event)
                 switch (e.event) {
                     case 'connected':
-                        join();
+                        joinRoom(ctx.roomId.toString(), ctx.token);
                         break;
                     case 'add-peer':
                         addPeer(e);
@@ -117,123 +84,105 @@ export const Game = (): JSX.Element => {
         });
     }
 
-    const rtcConfig = {
-        iceServers: [{
-            urls: [
-                'stun:stun.l.google.com:19302',
-                'stun:global.stun.twilio.com:3478'
-            ]
-        }]
-    };
+    const addPeer = async ({data}: IPayload) => {
+        const message = JSON.parse(data);
 
-    function addPeer(data: IPayload) {
-        const message = JSON.parse(data.data);
-
-        // @ts-ignore
-        if (context.peers[message.peer.id]) {
+        if (ctx.peers && ctx.peers[message.peer.id]) {
             return;
         }
 
-        // setup peer connection
-        const peer = new RTCPeerConnection(rtcConfig);
-        // @ts-ignore
-        context.peers[message.peer.id] = peer;
-        // handle ice candidate
-        peer.onicecandidate = function (event) {
-            console.log('onicecandidate')
+        const peer = new RTCPeerConnection(RTC_CONFIG);
+
+        if (ctx.peers) {
+            // сохраянем подключение для клиента
+            ctx.peers[message.peer.id] = peer;
+        }
+
+        peer.onicecandidate = (event) => {
             if (event.candidate) {
-                relay(message.peer.id, 'ice-candidate', event.candidate);
+                relay(message.peer.id, 'ice-candidate', ctx.token, event.candidate);
             }
         };
 
-        // generate offer if required (on join, this peer will create an offer
-        // to every other peer in the network, thus forming a mesh)
+        // смотрим, нужно ли создавать предложение
         if (message.offer) {
-            // create the data channel, map peer updates
             const channel = peer.createDataChannel('updates');
-            channel.onmessage = function (event) {
+            channel.onmessage = (event) => {
                 onPeerData(message.peer.id, event.data);
             };
-            // @ts-ignore
-            context.channels[message.peer.id] = channel;
+
+            if (ctx.channels) {
+                ctx.channels[message.peer.id] = channel;
+            }
             createOffer(message.peer.id, peer);
         } else {
-            peer.ondatachannel = function (event) {
-                // @ts-ignore
-                context.channels[message.peer.id] = event.channel;
-                event.channel.onmessage = function (evt) {
+            peer.ondatachannel = (event) => {
+                if (ctx.channels) {
+                    ctx.channels[message.peer.id] = event.channel;
+                }
+                event.channel.onmessage = (evt) => {
                     onPeerData(message.peer.id, evt.data);
                 };
             };
         }
     }
 
-    function broadcast(data: string) {
-        for (const peerId in context.channels) {
-            context.channels[peerId].send(data);
+    const broadcast = (data: string) => {
+        for (const peerId in ctx.channels) {
+            ctx.channels[peerId].send(data);
         }
     }
 
-    async function relay(peerId: string, event: string, data: RTCSessionDescriptionInit | RTCIceCandidate) {
-        await fetch(baseUrl + `/relay/${peerId}/${event}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${context.token}`
-            },
-            body: JSON.stringify(data)
-        });
-    }
 
-    async function createOffer(peerId: string, peer: RTCPeerConnection) {
+    const createOffer = async (peerId: string, peer: RTCPeerConnection) => {
         const offer = await peer.createOffer();
         await peer.setLocalDescription(offer);
-        await relay(peerId, 'session-description', offer);
+        await relay(peerId, 'session-description', ctx.token, offer);
     }
 
-    async function sessionDescription(data: IPayload) {
-        if (!context.peers) {
+    const sessionDescription = async (data: IPayload) => {
+        if (!ctx.peers) {
             return
         }
 
         const message = JSON.parse(data.data);
-        const peer = context.peers[message.peer.id];
+        const peer = ctx.peers[message.peer.id];
 
         const remoteDescription = new RTCSessionDescription(message.data);
         await peer.setRemoteDescription(remoteDescription);
         if (remoteDescription.type === 'offer') {
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
-            await relay(message.peer.id, 'session-description', answer);
+            await relay(message.peer.id, 'session-description', ctx.token, answer);
         }
     }
 
-    function iceCandidate(data: IPayload) {
-        if (!context.peers) {
+    const iceCandidate = (data: IPayload) => {
+        if (!ctx.peers) {
             return
         }
 
         const message = JSON.parse(data.data);
-        const peer = context.peers[message.peer.id];
+        const peer = ctx.peers[message.peer.id];
         peer.addIceCandidate(new RTCIceCandidate(message.data));
     }
 
-    function removePeer(data: IPayload) {
+    const removePeer = (data: IPayload) => {
 
-        if (!context.peers) {
+        if (!ctx.peers) {
             return
         }
 
         const message = JSON.parse(data.data);
-        if (context.peers[message.peer.id]) {
-            context.peers[message.peer.id].close();
+        if (ctx.peers[message.peer.id]) {
+            ctx.peers[message.peer.id].close();
         }
 
-        delete context.peers[message.peer.id];
+        delete ctx.peers[message.peer.id];
     }
 
-    function onPeerData(id: string, data: string) {
-       setImageData(JSON.parse(data));
+    const onPeerData = async (id: string, data: string) => {
+        setImageData(JSON.parse(data));
     }
 
 
@@ -244,7 +193,8 @@ export const Game = (): JSX.Element => {
     return (
         <main className={styles.gameTest}>
             <div className={styles.game}>
-                <GameCanvas imageData={imageData} onBroadcast={broadcast} active={playerStatus === PLAYER_STATUSES.drawer}/>
+                <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}
+                            active={playerStatus === PLAYER_STATUSES.drawer}/>
                 <GameChat active={playerStatus === PLAYER_STATUSES.guesser}/>
             </div>
             <button
