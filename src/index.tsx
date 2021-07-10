@@ -7,6 +7,9 @@ import './styles/_fonts.scss';
 import './styles/_global.scss';
 
 import { configureStore } from './store';
+import registerServiceWorker from './serviceWorkerRegistration'
+
+registerServiceWorker()
 
 const store = configureStore({});
 
