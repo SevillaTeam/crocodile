@@ -1,0 +1,9 @@
+@import '../../styles/vars';
+
+.gamePlayers {
+  border-radius: $border-radius;
+  height: 100%;
+  padding: $padding;
+  box-shadow: $box-shadow-1dp;
+  background-color: white;
+}

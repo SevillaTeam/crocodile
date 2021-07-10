@@ -4,12 +4,20 @@ import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {GameChat} from "@components/GameChat";
 import {GameCanvas} from "@components/GameCanvas";
 import {getToken, joinRoom, relay} from "@/services/api";
+import {ChatInput} from "@components/ChatInput";
+import {GamePlayers} from "@components/GamePlayers";
 
-const PLAYER_STATUSES = {
-    'drawer': 0,
-    'guesser': 1
-}
-const initPlayerStatus = PLAYER_STATUSES.drawer
+// const PLAYER_STATUSES = {
+//     'drawer': 0,
+//     'guesser': 1
+// }
+// const initPlayerStatus = PLAYER_STATUSES.drawer
+
+// const [playerStatus, setPlayerStatus] = React.useState(initPlayerStatus)
+// const changePlayerStatus = () => {
+//     const status = playerStatus === PLAYER_STATUSES.drawer ? PLAYER_STATUSES.guesser : PLAYER_STATUSES.drawer
+//     setPlayerStatus(status)
+// }
 
 const RTC_CONFIG = {
     iceServers: [{
@@ -42,11 +50,10 @@ const ctx: IContext = {
     channels: {},
 };
 
-
 const baseUrl = 'http://localhost:8081'
 
 export const Game = (): JSX.Element => {
-    const [playerStatus, setPlayerStatus] = React.useState(initPlayerStatus)
+
     const [incomingImageData, setImageData] = React.useState({
         prevX: '',
         prevY: '',
@@ -54,10 +61,6 @@ export const Game = (): JSX.Element => {
         currY: '',
         color: ''
     })
-    const changePlayerStatus = () => {
-        const status = playerStatus === PLAYER_STATUSES.drawer ? PLAYER_STATUSES.guesser : PLAYER_STATUSES.drawer
-        setPlayerStatus(status)
-    }
 
     const connect = async () => {
         ctx.token = await getToken(ctx.username);
@@ -133,7 +136,6 @@ export const Game = (): JSX.Element => {
         }
     }
 
-
     const createOffer = async (peerId: string, peer: RTCPeerConnection) => {
         const offer = await peer.createOffer();
         await peer.setLocalDescription(offer);
@@ -185,20 +187,18 @@ export const Game = (): JSX.Element => {
         setImageData(JSON.parse(data));
     }
 
-
     useEffect(() => {
         connect()
     })
 
     return (
-        <main className={styles.gameTest}>
+        <main className={styles.gameWrapper}>
             <div className={styles.game}>
-                <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}
-                            active={playerStatus === PLAYER_STATUSES.drawer}/>
-                <GameChat active={playerStatus === PLAYER_STATUSES.guesser}/>
+                <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}/>
+                <GameChat />
             </div>
-            <button
-                onClick={changePlayerStatus}>{playerStatus === PLAYER_STATUSES.drawer ? 'Хочу угадывать' : 'Хочу рисовать'}</button>
+                <GamePlayers />
+                <ChatInput />
         </main>
     );
 };
