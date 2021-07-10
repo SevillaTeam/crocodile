@@ -1,23 +1,19 @@
 .chat {
-  max-width: 600px;
-  max-height: 450px;
-  border: 1px solid gainsboro;
-  border-top: none;
+  position: absolute;
   padding: 12px;
-  box-sizing: border-box;
+  bottom: 0;
 }
 
 .chatMessages {
-  height: calc(100vh - 602px);
   overflow: auto;
   padding-bottom: 12px;
 }
 
 .chatMessage {
+  display: flex;
   padding: 12px;
   width: fit-content;
   border-radius: 12px;
-  background: lightblue;
 
   &:not(:last-child) {
     margin-bottom: 12px;
@@ -32,23 +28,4 @@
 
 .messageSender {
   margin-right: 6px;
-}
-
-.messageContent {
-  font-weight: 700;
-}
-
-.chatActions {
-  padding-top: 12px;
-  border-top: 1px dashed blue;
-}
-
-.chatForm {
-  display: flex;
-  justify-content: space-between;
-}
-
-.chatInput {
-  flex-grow: 1;
-  height: 28px;
 }

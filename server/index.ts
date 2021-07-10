@@ -43,7 +43,7 @@ const disconnected = (client: IClient) => {
         const channel = channels[roomId];
         if (channel[client.id]) {
             for (const peerId in channels[roomId]) {
-                clients[peerId].emit('remove-peer', { peer: client.user, roomId });
+                // clients[peerId].emit('remove-peer', { peer: client.user, roomId });
             }
             delete channel[client.id];
         }
@@ -129,7 +129,7 @@ app.post('/:roomId/join', auth, (req, res) => {
     if (!channels[roomId]) {
         channels[roomId] = {};
     }
-    // проходимся по всем клиентам в комнате - определяем для кого создавать предложение (для всех кроме того, кто подключается)
+    // проходимся по всем пирам в комнате - определяем для кого создавать предложение
     for (const peerId in channels[roomId]) {
         if (clients[peerId] && clients[req.user.id]) {
             clients[peerId].emit('add-peer', { peer: req.user, roomId, offer: false });
