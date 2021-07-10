@@ -8,7 +8,6 @@ import s from './forum.module.scss';
 export const Forum = (): JSX.Element => {
   const [modalOpen, setModalOpen] = useState(false)
 
-
   const toggleModal = () => {
       setModalOpen(!modalOpen);
   }

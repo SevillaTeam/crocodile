@@ -4,8 +4,8 @@ import * as Pages from '../../pages';
 
 export const Home = (): JSX.Element => {
   return (
-    <div className={s.homePage}>
-      <Pages.Login />
-    </div>
+      <div className={s.homePage}>
+          <Pages.Login />
+      </div>
   );
 };
