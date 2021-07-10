@@ -3,9 +3,10 @@ import styles from './game.module.scss';
 import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {GameChat} from "@components/GameChat";
 import {GameCanvas} from "@components/GameCanvas";
-import {getToken, joinRoom, relay} from "@/services/api";
+import {createUser, joinRoom, relayLocalDescriptions} from "@/services/api";
 import {ChatInput} from "@components/ChatInput";
 import {GamePlayers} from "@components/GamePlayers";
+import {IContext, IPayload} from "../../../server/interfaces";
 
 // const PLAYER_STATUSES = {
 //     'drawer': 0,
@@ -28,24 +29,10 @@ const RTC_CONFIG = {
     }]
 };
 
-interface IPayload {
-    data: string
-}
-
-interface IContext {
-    username: string,
-    roomId: number,
-    token: string,
-    peers?: { [key: string]: RTCPeerConnection }
-    channels?: {
-        [key: string]: RTCDataChannel
-    }
-}
-
 const ctx: IContext = {
     username: 'user' + parseInt(String(Math.random() * 100000)),
-    roomId: 1,
-    token: '',
+    roomId: '1',
+    userId: '',
     peers: {},
     channels: {},
 };
@@ -63,12 +50,12 @@ export const Game = (): JSX.Element => {
     })
 
     const connect = async () => {
-        ctx.token = await getToken(ctx.username);
-        await fetchEventSource(baseUrl + `/connect?token=${ctx.token}`, {
+        ctx.userId = await createUser(ctx.username);
+        await fetchEventSource(baseUrl + `/connect?user_id=${ctx.userId}`, {
             onmessage(e) {
                 switch (e.event) {
                     case 'connected':
-                        joinRoom(ctx.roomId.toString(), ctx.token);
+                        joinRoom(ctx.roomId, ctx.userId);
                         break;
                     case 'add-peer':
                         addPeer(e);
@@ -103,7 +90,7 @@ export const Game = (): JSX.Element => {
 
         peer.onicecandidate = (event) => {
             if (event.candidate) {
-                relay(message.peer.id, 'ice-candidate', ctx.token, event.candidate);
+                relayLocalDescriptions(message.peer.id, 'ice-candidate', ctx.userId, event.candidate);
             }
         };
 
@@ -139,7 +126,7 @@ export const Game = (): JSX.Element => {
     const createOffer = async (peerId: string, peer: RTCPeerConnection) => {
         const offer = await peer.createOffer();
         await peer.setLocalDescription(offer);
-        await relay(peerId, 'session-description', ctx.token, offer);
+        await relayLocalDescriptions(peerId, 'session-description', ctx.userId, offer);
     }
 
     const sessionDescription = async (data: IPayload) => {
@@ -149,13 +136,12 @@ export const Game = (): JSX.Element => {
 
         const message = JSON.parse(data.data);
         const peer = ctx.peers[message.peer.id];
-
         const remoteDescription = new RTCSessionDescription(message.data);
         await peer.setRemoteDescription(remoteDescription);
         if (remoteDescription.type === 'offer') {
             const answer = await peer.createAnswer();
             await peer.setLocalDescription(answer);
-            await relay(message.peer.id, 'session-description', ctx.token, answer);
+            await relayLocalDescriptions(message.peer.id, 'session-description', ctx.userId, answer);
         }
     }
 

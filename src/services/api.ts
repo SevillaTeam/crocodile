@@ -67,22 +67,20 @@ export const changePasswordRequest = async (
  */
 
 //TODO adapt the Api class
-
 const baseUrl = 'http://localhost:8081'
 
-export const relay = (peerId: string, event: string, token: string, data: RTCSessionDescriptionInit | RTCIceCandidate) => {
-  return fetch(baseUrl + `/relay/${peerId}/${event}`, {
+export const relayLocalDescriptions = (peerId: string, event: string, userId: string, data: RTCSessionDescriptionInit | RTCIceCandidate) => {
+  return fetch(baseUrl + `/relay/${peerId}/${event}?user_id=${userId}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(data)
   });
 }
 
-export const getToken = async (username: string): Promise<string> => {
-  const res = await fetch(baseUrl + '/access', {
+export const createUser = async (username: string): Promise<string> => {
+  const res = await fetch(baseUrl + '/create', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -91,18 +89,14 @@ export const getToken = async (username: string): Promise<string> => {
       username: username
     })
   });
-  const token = await res.json();
-  return token;
+  const userId = await res.json();
+  return userId;
 }
 
 
-export const joinRoom = (roomId: string, token: string) => {
-  return fetch(baseUrl + `/${roomId}/join`, {
+export const joinRoom = (roomId: string, userId: string) => {
+  return fetch(baseUrl + `/${roomId}/join?user_id=${userId}`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
   });
 }
 

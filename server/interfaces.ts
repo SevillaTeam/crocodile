@@ -1,5 +1,5 @@
 export interface IClient {
-    id: number,
+    id: string,
     user: IUser,
     peerId?: string,
     emit: (event: string, data: IData) => void
@@ -12,6 +12,10 @@ export interface IClients {
 export interface IUser {
     id: string,
     username: string
+}
+
+export interface IUsers {
+    [key: string] : IUser
 }
 
 interface IData {
@@ -28,4 +32,18 @@ export interface IChannel {
 
 export interface IChannels {
     [key: string]: IChannel
+}
+
+export interface IPayload {
+    data: string
+}
+
+export interface IContext {
+    username: string,
+    roomId: string,
+    userId: string,
+    peers?: { [key: string]: RTCPeerConnection }
+    channels?: {
+        [key: string]: RTCDataChannel
+    }
 }

@@ -1,18 +1,17 @@
-import express, { NextFunction} from 'express';
+import express, { Request, Response, NextFunction} from 'express';
 import http from 'http';
 import cors from 'cors';
-import path from 'path';
-import jwt from "jsonwebtoken"
 import {v4 as uuidv4} from "uuid"
-import {IClients, IChannels, IClient, IUser} from "./interfaces";
+import {IClients, IChannels, IClient, IUsers, IUser} from "./interfaces";
 
+const users: IUsers = {id: {id: '', username: ''}}
 
 const channels: IChannels = {
     '1': {}
 };
 const clients: IClients = {
     'id': {
-        id: 0,
+        id: '',
         user: {
             id: '',
             username: '',
@@ -23,7 +22,6 @@ const clients: IClients = {
         },
     }
 };
-const jwtToken = '48753614e534c72bb014d54065a4cbe01345135156f7f677b8fe48d9468ccf4d3d7565b27c2357799a6dd1e80e9eab38c50d395811c64b218f6ee9d57656c83b'
 
 const app = express();
 
@@ -53,41 +51,26 @@ const disconnected = (client: IClient) => {
     }
 }
 
-// по токену определяем, какой пользователь стучится
-const auth = (req: express.Request, res: express.Response, next: NextFunction) => {
-    let token;
-    if (req.headers.authorization) {
-        token = req.headers.authorization.split(' ')[1];
-    } else if (req.query.token) {
-        token = req.query.token;
-    }
-    if (typeof token !== 'string') {
+const getUser = (req: Request, res: Response, next: NextFunction) => {
+    if (!req.query.user_id) {
         return res.sendStatus(401);
     }
-
-    jwt.verify(token, jwtToken, (err, user) => {
-        if (err) {
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    });
+    const userId = req.query.user_id as string
+    req.user = users[userId]
+    next()
 }
 
-app.post('/access', (req, res) => {
-    if (!req.body.username) {
-        return res.sendStatus(403);
-    }
-    const user = {
+app.post('/create', (req, res) => {
+    const user: IUser = {
         id: uuidv4(),
         username: req.body.username
     };
+    users[user.id] = user;
 
-    const token = jwt.sign(user, jwtToken, { expiresIn: '3600s' });
-    return res.json(token);
+    return res.json(user.id);
 });
 
-app.get('/connect', auth, (req, res) => {
+app.get('/connect', getUser, (req, res) => {
     if (req.headers.accept !== 'text/event-stream') {
         return res.sendStatus(404);
     }
@@ -95,9 +78,7 @@ app.get('/connect', auth, (req, res) => {
     // устанавливаем заголовок text/event-stream
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Connection', 'keep-alive');
-    res.setHeader("Access-Control-Allow-Origin", "*");
     res.flushHeaders();
-
 
     // создаем клиента
     const client: IClient = {
@@ -119,7 +100,7 @@ app.get('/connect', auth, (req, res) => {
 });
 
 
-app.post('/:roomId/join', auth, (req, res) => {
+app.post('/:roomId/join', getUser, (req, res) => {
     const roomId = req.params.roomId;
     //  если такой клиент уже подключен
     if (channels[roomId] && channels[roomId][req.user.id]) {
@@ -141,9 +122,10 @@ app.post('/:roomId/join', auth, (req, res) => {
     return res.sendStatus (200);
 });
 
-// передаем сигналы между пирами
-app.post('/relay/:peerId/:event', auth, (req, res) => {
+// передаем предложения и ответы между пирами
+app.post('/relay/:peerId/:event', getUser, (req, res) => {
     const peerId = req.params.peerId;
+
     if (clients[peerId]) {
         clients[peerId].emit(req.params.event, { peer: req.user, data: req.body });
     }
