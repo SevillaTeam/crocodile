@@ -1,5 +1,9 @@
-export interface IFormProps {
+import { ISignInState } from './redux-sagas/interfaces'
+
+export interface ISignInFormProps {
   action?: string;
+  signIn: (data: ISignInState) => void;
+  signInReason: string;
 }
 
 export interface IValues {

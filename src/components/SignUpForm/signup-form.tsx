@@ -3,12 +3,21 @@ import { Input, IInputState } from '../Input';
 import { Button } from '../Button';
 import cn from 'classnames';
 import s from './signup-form.module.scss';
-import { signUp } from '../../services';
-import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
+import { connector } from './container';
+import { ISignUpFormProps, IValues, IErrors, IFormState } from './interfaces';
 import { Link } from 'react-router-dom';
 import { validateField, validateForm } from '../../utlis/form-validator';
 
-export const SignUpForm: FC<IFormProps> = (props) => {
+// [ ] - registration form to sagas
+// [ ] - handle auth logic in redux
+// [ ] - maybe refactor?
+
+const SignUpFormComponent: FC<ISignUpFormProps> = (props) => {
+  const {
+    signUp,
+    signUpReason
+  } = props
+
   const errors: IErrors = {
     email: '',
     login: '',
@@ -49,12 +58,6 @@ export const SignUpForm: FC<IFormProps> = (props) => {
     const data = formState.values;
 
     signUp(data)
-      .then((res) => {
-        setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
-      })
-      .catch((err) => {
-        setFormState((formState) => ({ ...formState, message: err.reason }));
-      });
   };
 
   const memoOnChange = useCallback(
@@ -71,8 +74,9 @@ export const SignUpForm: FC<IFormProps> = (props) => {
   ): void => {
     setFormState((formState) => ({
       ...formState,
-      values: { ...formState.values, [name]: value },
+      values: { ...formState.values, [name]: value }
     }));
+    // @ts-ignore
     validateField(name, value, formState, setFormState);
   };
 
@@ -148,7 +152,7 @@ export const SignUpForm: FC<IFormProps> = (props) => {
             isError={!!formState.errors.passwordConfirm.length}
           />
         </div>
-        {formState.message && <p className={s.message}>{formState.message}</p>}
+        {signUpReason && <p className={s.message}>{signUpReason}</p>}
         <div className={s.buttons}>
           <Button
             type='submit'
@@ -168,3 +172,5 @@ export const SignUpForm: FC<IFormProps> = (props) => {
     </form>
   );
 };
+
+export const SignUpForm = connector(SignUpFormComponent)

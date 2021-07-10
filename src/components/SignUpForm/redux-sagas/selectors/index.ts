@@ -1,0 +1,1 @@
+export { signUpMessageSelector } from './signUpMessageSelector';
