@@ -11,19 +11,16 @@
 
 .chatMessage {
   display: flex;
-  padding: 12px;
+  align-items: center;
+  padding: 0 12px 0 12px;
   width: fit-content;
   border-radius: 12px;
-
-  &:not(:last-child) {
-    margin-bottom: 12px;
-  }
 }
 
 .messageInfo {
   display: flex;
   font-size: 14px;
-  margin-bottom: 8px;
+  font-weight: bold;
 }
 
 .messageSender {

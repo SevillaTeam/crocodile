@@ -1,21 +1,23 @@
-import React, { FC } from 'react';
-import { FinishNotificationProps } from './';
+import React, {FC} from 'react';
 import styles from "./chat-input.module.scss";
 import {Button} from "@components/Button";
 import {IInputState, Input} from "@components/Input";
 
-type Props = FinishNotificationProps;
+interface Props {
+  sendMessage: (message: string) => void
+}
 
-export const ChatInput: FC<Props> = () => {
+export const ChatInput: FC<Props> = ({sendMessage}) => {
 
   const submitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    // TODO
+    sendMessage(messageValue)
+    setMessageValue('')
   }
 
   const [messageValue, setMessageValue] = React.useState('')
 
-  const changeMessageValue = ({ value, name }: IInputState) => {
+  const changeMessageValue = ({ value }: IInputState) => {
     setMessageValue(value)
   }
 
@@ -24,7 +26,7 @@ export const ChatInput: FC<Props> = () => {
         <form className={styles.chatForm} onSubmit={submitMessage}>
           <Input
               name="Ответ"
-              value={messageValue}
+              startValue={messageValue}
               onChange={changeMessageValue}
               className={styles.chatInput}
               type="text"

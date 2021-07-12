@@ -100,3 +100,14 @@ export const joinRoom = (roomId: string, userId: string) => {
   });
 }
 
+export const postChatMessage = (message: {content: string, username: string}) => {
+  console.log(message)
+  return fetch(baseUrl + '/message', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(message)
+  });
+}
+

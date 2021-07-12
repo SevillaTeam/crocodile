@@ -3,7 +3,7 @@ import styles from './game.module.scss';
 import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {GameChat} from "@components/GameChat";
 import {GameCanvas} from "@components/GameCanvas";
-import {createUser, joinRoom, relayLocalDescriptions} from "@/services/api";
+import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/services/api";
 import {ChatInput} from "@components/ChatInput";
 import {GamePlayers} from "@components/GamePlayers";
 import {IContext, IPayload} from "../../../server/interfaces";
@@ -36,7 +36,6 @@ const ctx: IContext = {
     peers: {},
     channels: {},
 };
-
 const baseUrl = 'http://localhost:8081'
 
 export const Game = (): JSX.Element => {
@@ -48,6 +47,8 @@ export const Game = (): JSX.Element => {
         currY: '',
         color: ''
     })
+
+    const [chatMessages, setChatMessages] = React.useState([{content: '', username: ''}])
 
     const connect = async () => {
         ctx.userId = await createUser(ctx.username);
@@ -68,6 +69,9 @@ export const Game = (): JSX.Element => {
                         break;
                     case 'ice-candidate':
                         iceCandidate(e)
+                        break;
+                    case 'on-chat-message':
+                        updateChatMessages(e)
                         break;
                 }
             }
@@ -173,18 +177,27 @@ export const Game = (): JSX.Element => {
         setImageData(JSON.parse(data));
     }
 
+    const updateChatMessages = ({data}: IPayload) => {
+        setChatMessages((prevState) => {
+          return [...prevState, JSON.parse(data)]
+        })
+    }
+
+    const sendChatMessage = (message: string) => {
+            postChatMessage({username: ctx.username, content: message})
+    }
     useEffect(() => {
         connect()
-    })
+    }, [])
 
     return (
         <main className={styles.gameWrapper}>
             <div className={styles.game}>
                 <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}/>
-                <GameChat />
+                <GameChat messages={chatMessages} />
             </div>
                 <GamePlayers />
-                <ChatInput />
+                <ChatInput sendMessage={sendChatMessage}/>
         </main>
     );
 };

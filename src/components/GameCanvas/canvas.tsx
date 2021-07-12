@@ -11,7 +11,6 @@ interface IBroadcastPayload {
   color: string
 }
 
-
 type OwnProps = {
   incomingImageData: IBroadcastPayload,
   onBroadcast: (data: string) => void
@@ -28,7 +27,6 @@ export const GameCanvas: Props = ({ onBroadcast, incomingImageData })  => {
 
   React.useEffect(() => {
 
-
     const canvas = canvasRef.current
 
     if (canvas) {
@@ -38,7 +36,7 @@ export const GameCanvas: Props = ({ onBroadcast, incomingImageData })  => {
 
   return (
     <div className={styles.canvasScreen}>
-      <canvas ref={canvasRef} width="900px" height="600px" className={styles.canvas}></canvas>
+      <canvas ref={canvasRef} height="480px" width="610px" className={styles.canvas}></canvas>
     </div>
   )
 }
