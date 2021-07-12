@@ -6,7 +6,9 @@ import {IClients, IChannels, IClient, IUsers, IUser} from "./interfaces";
 
 const users: IUsers = {id: {id: '', username: ''}}
 
-const channels: IChannels = {
+const chatMessages = [{username: '', content: ''}]
+
+const channels: IChannels = { //TODO add dynamic rooms
     '1': {}
 };
 const clients: IClients = {
@@ -57,6 +59,11 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
     }
     const userId = req.query.user_id as string
     req.user = users[userId]
+
+    if (!req.user) {
+        res.sendStatus(401)
+    }
+
     next()
 }
 
@@ -79,6 +86,7 @@ app.get('/connect', getUser, (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Connection', 'keep-alive');
     res.flushHeaders();
+
 
     // создаем клиента
     const client: IClient = {
@@ -131,6 +139,13 @@ app.post('/relay/:peerId/:event', getUser, (req, res) => {
     }
     return res.sendStatus(200);
 });
+
+app.post('/message', ((req, res) => {
+    for (const peerId in channels['1']) { //TODO add dynamic rooms
+        clients[peerId].emit('on-chat-message', req.body)
+    }
+    return res.sendStatus(200);
+}))
 
 
 server.listen(process.env.PORT || 8081, () => {

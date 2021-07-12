@@ -2,6 +2,10 @@
   position: relative;
 }
 
+.canvas {
+  aspect-ratio: auto 610 / 480
+}
+
 .clear {
   position: absolute;
   right: 0;
