@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { IApplicationState } from '@/store/interfaces';
 
-import * as actions from '../../store/user/actions';
-import * as selectors from '../../store/user/selectors';
+import * as actions from './redux-saga/actions';
+import * as selectors from './redux-saga/selectors';
 
 interface ISelection {
   state: IApplicationState;
-  userId: number;
+  userId?: number;
 }
 
 const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
@@ -19,6 +19,7 @@ const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
 
 const mapDispatchToProps = {
   changeUserId: actions.changeUserId,
+  getUserData: actions.getUserDataStart,
 };
 
 export const connector = connect(mapStateToProps, mapDispatchToProps);
