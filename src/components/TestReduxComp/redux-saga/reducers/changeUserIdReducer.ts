@@ -22,13 +22,9 @@ export const changeUserIdReducer = (
 
       return newState;
     } else {
-      return {
-        ...state,
-      };
+      return state;
     }
   }
 
-  return {
-    ...state,
-  };
+  return state;
 };
