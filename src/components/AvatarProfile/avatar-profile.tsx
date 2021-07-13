@@ -4,21 +4,21 @@ import s from './avatar-profile.module.scss';
 import { IAvatarProfileProps } from './interfaces';
 
 export const AvatartProfile: FC<IAvatarProfileProps> = (props) => {
-  const { onClick, userDataState } = props;
+  const { onClick, userAvatar } = props;
 
   return (
     <div className={s.avatarCont}>
-      {userDataState.avatar && (
+      {userAvatar && (
         <div
           className={s.avatar}
           style={{
-            backgroundImage: `url(${urlApiResources}${userDataState.avatar})`,
+            backgroundImage: `url(${urlApiResources}${userAvatar})`,
             backgroundSize: 'cover',
           }}
           onClick={() => onClick(true)}
         />
       )}
-      {!userDataState.avatar && (
+      {!userAvatar && (
         <div className={s.avatar} onClick={() => onClick(true)} />
       )}
     </div>

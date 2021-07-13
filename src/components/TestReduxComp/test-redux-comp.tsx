@@ -5,10 +5,18 @@ import s from './test-redux-comp.module.scss';
 import { ITestReduxCompProps } from './interfaces';
 
 const TestReduxComp: FC<ITestReduxCompProps> = (props) => {
-  const { userId, changeUserId, state } = props;
+  const { userId, changeUserId, getUserData } = props;
 
   const handleClick = () => {
-    changeUserId({ id: userId + 1 });
+    if (userId === undefined) {
+      changeUserId({ id: 0 });
+    } else {
+      changeUserId({ id: userId + 1 });
+    }
+  };
+
+  const handleClickGetUserData = () => {
+    getUserData();
   };
 
   return (
@@ -23,6 +31,15 @@ const TestReduxComp: FC<ITestReduxCompProps> = (props) => {
           styleType='contained'
           size='dense'
           onClick={handleClick}
+        />
+      </div>
+      <div className={s.buttons}>
+        <Button
+          text='GetUserDataAsync'
+          type='button'
+          styleType='contained'
+          size='dense'
+          onClick={handleClickGetUserData}
         />
       </div>
     </div>

@@ -1,7 +1,9 @@
 import { combineReducers } from 'redux';
-import { testUserAction_1_Reducer } from '../user/reducers';
+import userReducer from '../../components/Profile/redux-sagas/reducer';
+import userTestReducer from '../../components/TestReduxComp/redux-saga/reducer';
 
 export const createRootReducer = () =>
   combineReducers({
-    user: testUserAction_1_Reducer,
+    user: userReducer,
+    userTest: userTestReducer,
   });
