@@ -6,7 +6,7 @@ export const validateField = (
   fieldName: string,
   value: string,
   formState: IFormState,
-  setFormState: React.Dispatch<React.SetStateAction<IFormState>>
+  setFormState: React.Dispatch<React.SetStateAction<IFormState>>,
 ): boolean => {
   const fieldValidationErrors: IErrors = { ...formState.errors };
   const { values } = formState;
@@ -65,9 +65,11 @@ export const haveErrors = (errors: IErrors): boolean => {
 export const inputsHaveValues = (values: IValues) => {
   let hasValue = true;
   Object.keys(values).map((key: string) => {
-    if (!values[key].length) {
-      hasValue = false;
-      return hasValue;
+    if (values[key] !== null) {
+      if (!values[key].length) {
+        hasValue = false;
+        return hasValue;
+      }
     }
   });
   return hasValue;
