@@ -57,6 +57,7 @@ export class ApiClient {
       const res = await fetch(`${this._apiBase}${endpoint}/`, {
         method: 'POST',
         headers: this.headers,
+        credentials: 'include',
         body: data ? JSON.stringify(data) : null,
         ...params,
       });

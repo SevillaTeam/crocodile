@@ -3,22 +3,10 @@ import styles from './game.module.scss';
 import {fetchEventSource} from '@microsoft/fetch-event-source'
 import {GameChat} from "@components/GameChat";
 import {GameCanvas} from "@components/GameCanvas";
-import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/services/api";
+import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/services/game-api";
 import {ChatInput} from "@components/ChatInput";
 import {GamePlayers} from "@components/GamePlayers";
 import {IContext, IPayload} from "../../../server/interfaces";
-
-// const PLAYER_STATUSES = {
-//     'drawer': 0,
-//     'guesser': 1
-// }
-// const initPlayerStatus = PLAYER_STATUSES.drawer
-
-// const [playerStatus, setPlayerStatus] = React.useState(initPlayerStatus)
-// const changePlayerStatus = () => {
-//     const status = playerStatus === PLAYER_STATUSES.drawer ? PLAYER_STATUSES.guesser : PLAYER_STATUSES.drawer
-//     setPlayerStatus(status)
-// }
 
 const RTC_CONFIG = {
     iceServers: [{
