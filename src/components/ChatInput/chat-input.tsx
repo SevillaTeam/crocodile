@@ -1,4 +1,4 @@
-import React, {FC} from 'react';
+import React, {FC, useCallback} from 'react';
 import styles from "./chat-input.module.scss";
 import {Button} from "@components/Button";
 import {IInputState, Input} from "@components/Input";
@@ -9,17 +9,17 @@ interface Props {
 
 export const ChatInput: FC<Props> = ({sendMessage}) => {
 
-  const submitMessage = (e: React.FormEvent<HTMLFormElement>) => {
+  const [messageValue, setMessageValue] = React.useState('')
+
+  const submitMessage = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     sendMessage(messageValue)
     setMessageValue('')
-  }
+  }, [sendMessage, messageValue])
 
-  const [messageValue, setMessageValue] = React.useState('')
-
-  const changeMessageValue = ({ value }: IInputState) => {
+  const changeMessageValue = useCallback(({ value }: IInputState) => {
     setMessageValue(value)
-  }
+  }, [setMessageValue])
 
   return (
       <div className={styles.chatActions}>
