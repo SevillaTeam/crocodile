@@ -1,4 +1,5 @@
-import { IResponseUserState } from '../components/Profile/redux-sagas/interfaces';
+import {RouterState} from "connected-react-router";
+import { IResponseUserState } from '@components/Profile/redux-sagas/interfaces';
 
 export interface IApplicationState {
   readonly user: IResponseUserState;
@@ -8,4 +9,9 @@ export interface IApplicationState {
 export interface IAction<T> {
   type: string;
   payload: T;
+}
+
+export interface State {
+  user?: undefined;
+  userTest?: undefined;
 }

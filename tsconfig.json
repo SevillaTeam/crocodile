@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "downlevelIteration": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "node",
@@ -19,6 +20,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "exclude": ["node_modules"],
-  "include": ["src"]
+//  "exclude": ["node_modules"],
+//  "include": ["src", "webpack"]
 }
