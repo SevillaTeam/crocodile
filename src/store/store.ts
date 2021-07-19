@@ -9,12 +9,17 @@ const sagaMiddleware = createSagaMiddleware();
 const middlewares = [sagaMiddleware];
 const initialState = {};
 
-const store = createStore(
-  createRootReducer(),
-  initialState,
-  composeWithDevTools(applyMiddleware(...middlewares)),
-);
+const configureStore = (initialState = {}) => {
+  const store = createStore(
+    createRootReducer(),
+    initialState,
+    composeWithDevTools(applyMiddleware(...middlewares)),
+  );
 
-sagaMiddleware.run(rootSaga);
+  sagaMiddleware.run(rootSaga);
 
-export { store };
+  return store;
+};
+const store = configureStore(initialState);
+
+export { store, configureStore };
