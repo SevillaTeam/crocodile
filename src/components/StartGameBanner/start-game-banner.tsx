@@ -1,4 +1,4 @@
-import React, {FC, useState} from "react";
+import React, {FC, useCallback, useState} from "react";
 import {Button} from "@components/Button";
 import s from './start-game-banner.module.scss'
 import {Modal} from "@components/Modal";
@@ -8,14 +8,14 @@ export const StartGameBanner: FC = () => {
     const [isOpen, setIsOpen] = useState(false)
     const [playerRole, setPlayerRole] = useState('')
 
-    const toggleModal = () => {
+    const toggleModal = useCallback(() => {
         setIsOpen(!isOpen)
-    }
+    }, [isOpen])
 
-    const setRole = (role: string) => {
+    const setRole = useCallback((role: string) => {
         setPlayerRole(role)
         setIsOpen(false)
-    }
+    }, [])
 
     return (
         <div>
