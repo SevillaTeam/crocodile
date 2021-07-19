@@ -1,5 +1,15 @@
 type Res = 'move' | 'down' | 'up' | 'out'
 
+
+interface IBroadcastPayload {
+  prevX: string,
+  prevY: string,
+  currX: string,
+  currY: string,
+  thickness?: string,
+  color: string
+}
+
 class GameEngine {
   canvas!: HTMLCanvasElement
   ctx!: CanvasRenderingContext2D | null
@@ -10,14 +20,18 @@ class GameEngine {
   private prevY = 0
   private currY = 0
   private dotFlag = false
+  private onBroadcast = (data: string) => {
+    //adf
+  }
 
   private color = 'black'
   private thickness = 5
 
-  public init (canvas: HTMLCanvasElement) {
+  public init (canvas: HTMLCanvasElement, onBroadcast: (data: string) => void) {
     this.canvas = canvas
     this.ctx = canvas.getContext("2d");
-  
+    this.onBroadcast = onBroadcast
+
     this.addCanvasListeners()
   }
 
@@ -36,7 +50,7 @@ class GameEngine {
   private onMouseMove = (e: MouseEvent) => {
     this.findXY('move', e)
   }
-  
+
   private onMouseDown = (e: MouseEvent) => {
     this.findXY('down', e)
   }
@@ -63,18 +77,32 @@ class GameEngine {
     this.canvas.removeEventListener("mouseout", this.onMouseOut);
   }
 
-  private draw () {
+  drawIncomingImage(broadcastPayload: IBroadcastPayload) {
     if (!this.ctx) {
       return
     }
 
     this.ctx.beginPath();
-    this.ctx.moveTo(this.prevX, this.prevY);
-    this.ctx.lineTo(this.currX, this.currY);
-    this.ctx.strokeStyle = this.color;
+    this.ctx.moveTo(Number(broadcastPayload.prevX), Number(broadcastPayload.prevY));
+    this.ctx.lineTo(Number(broadcastPayload.currX), Number(broadcastPayload.currY));
+    this.ctx.strokeStyle = broadcastPayload.color;
     this.ctx.lineWidth = this.thickness;
     this.ctx.stroke();
     this.ctx.closePath();
+  }
+
+  private draw () {
+    if (!this.ctx) {
+      return
+    }
+
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.prevX, this.prevY);
+      this.ctx.lineTo(this.currX, this.currY);
+      this.ctx.strokeStyle = this.color;
+      this.ctx.lineWidth = this.thickness;
+      this.ctx.stroke();
+      this.ctx.closePath();
   }
 
   private findXY (res: Res, e: MouseEvent) {
@@ -104,6 +132,13 @@ class GameEngine {
             this.currX = e.clientX - this.canvas.getBoundingClientRect().left;
             this.currY = e.clientY - this.canvas.getBoundingClientRect().top;
             this.draw();
+            this.onBroadcast(JSON.stringify({
+                prevX: this.prevX,
+                prevY: this.prevY,
+                currX: this.currX,
+                currY: this.currY,
+                color: this.color
+            }))
         }
     }
   }

@@ -18,4 +18,7 @@ export interface IRequestParams {
   params?: Record<string, unknown>;
   data?: unknown;
   formData?: FormData;
+  headers?: {
+    [propName: string]: string;
+  }
 }
