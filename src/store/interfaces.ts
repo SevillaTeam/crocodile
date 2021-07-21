@@ -1,5 +1,7 @@
-import {RouterState} from "connected-react-router";
 import { IResponseUserState } from '@components/Profile/redux-sagas/interfaces';
+import {RouterState} from "connected-react-router";
+import {SagaMiddleware} from "redux-saga";
+import { Store } from 'redux';
 
 export interface IApplicationState {
   readonly user: IResponseUserState;
@@ -11,7 +13,13 @@ export interface IAction<T> {
   payload: T;
 }
 
+export type AppStore = Store & {
+  runSaga: SagaMiddleware['run'];
+  close: () => void;
+};
+
 export interface State {
-  user?: undefined;
-  userTest?: undefined;
+  user?: IResponseUserState;
+  userTest?: IResponseUserState;
+  readonly router: RouterState;
 }

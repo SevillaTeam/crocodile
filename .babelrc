@@ -6,10 +6,6 @@
   ],
   "plugins": [
     [
-      "babel-plugin-react-css-modules",
-      { "generateScopedName": "[local]___[hash:base64:5]" }
-    ],
-    [
       "@babel/plugin-transform-runtime",
       {
         "regenerator": true

@@ -1,14 +1,18 @@
-import {createStore, applyMiddleware} from 'redux';
+import {createStore, compose, applyMiddleware} from 'redux';
 import createSagaMiddleware from 'redux-saga';
-import {composeWithDevTools} from 'redux-devtools-extension';
-import {createRootReducer} from './reducers/rootReducer';
+import {createRootReducer} from '@/store/reducers';
 import {createBrowserHistory, createMemoryHistory} from 'history';
-import {State} from "./interfaces";
+import {AppStore, State} from "./interfaces";
 import rootSaga from './root-saga';
+import {routerMiddleware} from "connected-react-router";
 
-const sagaMiddleware = createSagaMiddleware();
+function getComposeEnhancers() {
+    if (process.env.NODE_ENV !== 'production' && !isServer) {
+        return window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+    }
 
-const middlewares = [sagaMiddleware];
+    return compose;
+}
 
 export const isServer = !(
     typeof window !== 'undefined' &&
@@ -21,13 +25,20 @@ export function configureStore(initialState: State, url = '/') {
         ? createMemoryHistory({initialEntries: [url]})
         : createBrowserHistory();
 
-    const store = createStore(
-        createRootReducer(),
-        initialState,
-        composeWithDevTools(applyMiddleware(...middlewares)),
-    );
+    const sagaMiddleware = createSagaMiddleware();
+    const composeEnhancers = getComposeEnhancers();
+    const middlewares = [routerMiddleware(history), sagaMiddleware];
 
-    sagaMiddleware.run(rootSaga);
+    const store = createStore(
+        createRootReducer(history),
+        // @ts-ignore
+        initialState,
+        composeEnhancers(applyMiddleware(...middlewares)),
+    ) as AppStore;
+
+    if (!isServer) {
+        sagaMiddleware.run(rootSaga);
+    }
 
     return {store, history};
 }

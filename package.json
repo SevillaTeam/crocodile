@@ -11,7 +11,8 @@
     "start:webpack": "webpack --mode=development --watch",
     "start:server": "nodemon index.js --watch dist/server.js",
     "start": "NODE_ENV=development npm-run-all --print-label --parallel start:webpack start:server",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "clean": "rm -v ./dist/*"
   },
   "repository": {
     "type": "git",
