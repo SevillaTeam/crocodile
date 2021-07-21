@@ -5,7 +5,7 @@ import {router} from './router'
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:4000'];
+const allowedOrigins = ['http://localhost:9001'];
 
 const options: cors.CorsOptions = {
     origin: allowedOrigins

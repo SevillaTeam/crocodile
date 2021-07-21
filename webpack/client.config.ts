@@ -1,9 +1,7 @@
 import path from 'path';
 import webpack, { Configuration, WebpackPluginInstance as Plugin, Entry } from 'webpack';
 import { TsconfigPathsPlugin } from 'tsconfig-paths-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-// import CompressionPlugin from 'compression-webpack-plugin';
 import ExtractCssChunks from 'extract-css-chunks-webpack-plugin';
 import { IS_DEV, DIST_DIR, SRC_DIR } from './env';
 
@@ -41,7 +39,6 @@ const config: Configuration = {
         //     cleanAfterEveryBuildPatterns: ['main.js', 'main.css']
         // }),
         new ExtractCssChunks(),
-        new MiniCssExtractPlugin({ filename: '[name].css' }),
         // Plugin для HMR
         new webpack.HotModuleReplacementPlugin(),
         // !IS_DEV && new CompressionPlugin(),

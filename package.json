@@ -5,12 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "start:game-server": "webpack serve --config webpack.dev.config.ts",
     "build": "webpack --config webpack.prod.config.ts",
+    "start:game-server": "ts-node-dev server/index.ts",
     "start:prod": "npm run build && node src/server.ts",
     "start:webpack": "webpack --mode=development --watch",
     "start:server": "nodemon index.js --watch dist/server.js",
-    "start": "NODE_ENV=development npm-run-all --print-label --parallel start:webpack start:server",
+    "start": "NODE_ENV=development npm-run-all --print-label --parallel start:webpack start:server start:game-server",
     "prepare": "husky install",
     "clean": "rm -v ./dist/*"
   },
