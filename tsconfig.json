@@ -4,7 +4,8 @@
     "paths": {
       "@/*": ["*"],
       "@app-components/*": ["app-components/*"],
-      "@components/*": ["components/*"]
+      "@components/*": ["components/*"],
+      "@pages/*": ["pages/*"],
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -18,7 +19,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react"
+    "jsx": "react",
+    "typeRoots": ["./@types",  "./node_modules/@types"]
   },
 //  "exclude": ["node_modules"],
 //  "include": ["src", "webpack"]

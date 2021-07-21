@@ -1,9 +1,19 @@
-.gameTest {
-  display: flex;
-  align-items: center;
+@import '../../styles/mixins';
+@import '../../styles/vars';
+.gameWrapper {
+  @include placeAbsoluteCenter;
+  display: grid;
+  grid-template-columns: 610px 250px;
+  grid-template-rows: 480px 1fr;
+  grid-gap: 20px;
 }
 
 .game {
+  background-color: white;
+  overflow: hidden;
+  border-radius: $border-radius;
+  box-shadow: $box-shadow-1dp;
   display: flex;
+  position: relative;
   flex-direction: column;
 }
