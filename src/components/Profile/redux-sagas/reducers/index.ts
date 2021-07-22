@@ -8,3 +8,5 @@ export {
   changeUserDataFailure,
   changeUserDataSuccess,
 } from './changeUserDataReducer';
+
+export { changeUserGameRoleReducer } from './changeUserGameRoleReducer';
