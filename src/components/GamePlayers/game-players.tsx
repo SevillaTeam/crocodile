@@ -17,6 +17,8 @@ export const GamePlayers: FC = () => {
     });
   };
 
+  const takeGuessersResult = takeGuessers();
+
   return (
     <div className={s.gamePlayers}>
       <p className={s.roles}>Художник</p>
@@ -29,8 +31,8 @@ export const GamePlayers: FC = () => {
       )}
       <div className={s.line} />
       <p className={s.roles}>Отгадывают</p>
-      {takeGuessers().length > 0 ? (
-        takeGuessers().map((item, index) => (
+      {takeGuessersResult.length > 0 ? (
+        takeGuessersResult.map((item, index) => (
           <GamePlayer key={index} playerName={item.playerName} />
         ))
       ) : (
