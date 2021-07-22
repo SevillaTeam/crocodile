@@ -8,3 +8,4 @@ export { ForumTopic } from './forum-topic';
 export { HeaderTest } from './header-test';
 export { GameEnding } from './game-ending';
 export { TestRedux } from './test-redux';
+export { TestPage } from './test-page';

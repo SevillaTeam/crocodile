@@ -1,0 +1,56 @@
+@import '../../styles/vars';
+
+.container {
+  width: 340px;
+  padding: 30px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: Roboto;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: left;
+  padding-top: 10px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.wordsCont {
+  margin: 0 auto;
+}
+
+.word {
+  background-color: transparent;
+  font-size: 16px;
+  line-height: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $color-primary-hover;
+  }
+
+  &_selected {
+    background-color: $color-primary-selected !important;
+  }
+}
+
+.error {
+  font-size: Roboto;
+  color: $color-error;
+  height: 12px;
+  font-size: 12px;
+  line-height: 24px;
+}
+
+.buttons {
+  padding-top: 30px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
