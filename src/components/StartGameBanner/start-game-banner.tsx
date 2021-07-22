@@ -1,42 +1,62 @@
-import React, {FC, useCallback, useState} from "react";
-import {Button} from "@components/Button";
-import s from './start-game-banner.module.scss'
-import {Modal} from "@components/Modal";
+import React, { FC, useCallback, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Button } from '@components/Button';
+import s from './start-game-banner.module.scss';
+import { Modal } from '@components/Modal';
+import { PLAYER_ROLE } from '../../services/game-engine/constants';
+import * as t from '@components/Profile/redux-sagas/actionTypes';
 
 export const StartGameBanner: FC = () => {
+  const dispatch = useDispatch();
 
-    const [isOpen, setIsOpen] = useState(false)
-    const [playerRole, setPlayerRole] = useState('')
+  const [isOpen, setIsOpen] = useState(false);
 
-    const toggleModal = useCallback(() => {
-        setIsOpen(!isOpen)
-    }, [isOpen])
+  const toggleModal = useCallback(() => {
+    setIsOpen(!isOpen);
+  }, [isOpen]);
 
-    const setRole = useCallback((role: string) => {
-        setPlayerRole(role)
-        setIsOpen(false)
-    }, [])
+  const setRole = useCallback((role: string) => {
+    dispatch({ type: t.CHANGE_USER_GAME_ROLE, payload: { gameRole: role } });
+    setIsOpen(false);
+  }, []);
 
-    return (
-        <div>
-        <div className={s.banner}>
-            <span className={s.header}>Онлайн игра</span>
-            <span className={s.text}>Один рисует, остальные отгадывают в режиме реального времени.</span>
-            <Button className={s.btn} styleType="contained" text={"Играть"} onClick={toggleModal}/>
+  return (
+    <div>
+      <div className={s.banner}>
+        <span className={s.header}>Онлайн игра</span>
+        <span className={s.text}>
+          Один рисует, остальные отгадывают в режиме реального времени.
+        </span>
+        <Button
+          className={s.btn}
+          styleType='contained'
+          text={'Играть'}
+          onClick={toggleModal}
+        />
+      </div>
+      <Modal isModalOpen={isOpen} onClose={toggleModal}>
+        <div className={s.modalContainer}>
+          <span className={s.header}>В какой роли хотите играть?</span>
+          <div className={s.buttonsContainer}>
+            <Button
+              className={s.btn}
+              styleType='contained'
+              text={'Рисовать'}
+              onClick={() => {
+                setRole(PLAYER_ROLE.artist);
+              }}
+            />
+            <Button
+              className={s.btn}
+              styleType='contained'
+              text={'Отгадывать'}
+              onClick={() => {
+                setRole(PLAYER_ROLE.guesser);
+              }}
+            />
+          </div>
         </div>
-            <Modal isModalOpen={isOpen} onClose={toggleModal} >
-                <div className={s.modalContainer}>
-                    <span className={s.header}>В какой роли хотите играть?</span>
-                    <div className={s.buttonsContainer}>
-                    <Button className={s.btn} styleType="contained" text={"Рисовать"} onClick={() => {
-                        setRole('draw')
-                    }}/>
-                    <Button className={s.btn} styleType="contained" text={"Отгадывать"} onClick={() => {
-                        setRole('guess')
-                    }}/>
-                    </div>
-                </div>
-            </Modal>
-        </div>
-    )
-}
+      </Modal>
+    </div>
+  );
+};
