@@ -28,12 +28,12 @@ export const LoginForm: FC<IFormProps> = (props) => {
     (e: FormEvent<HTMLFormElement>) => {
       handleSubmit(e, formState);
     },
-    [formState]
+    [formState],
   );
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
-    formState: IFormState
+    formState: IFormState,
   ): void => {
     e.preventDefault();
     const data = formState.values;
@@ -50,13 +50,13 @@ export const LoginForm: FC<IFormProps> = (props) => {
     ({ value, name }: IInputState) => {
       onChange({ value, name }, formState, setFormState);
     },
-    [formState]
+    [formState],
   );
 
   const onChange = (
     { value, name }: IInputState,
     formState: IFormState,
-    setFormState: React.Dispatch<React.SetStateAction<IFormState>>
+    setFormState: React.Dispatch<React.SetStateAction<IFormState>>,
   ): void => {
     setFormState((formState) => ({
       ...formState,
@@ -97,7 +97,6 @@ export const LoginForm: FC<IFormProps> = (props) => {
             type='submit'
             disabled={!validateForm(formState.errors, formState.values)}
             text='Войти'
-            onClick={() => {console.log('fix me')}}
           />
 
           <Link
