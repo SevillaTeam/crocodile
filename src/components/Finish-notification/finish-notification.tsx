@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { FinishNotificationProps } from './';
 import { Button } from '../Button';
-import cn from 'classnames';
 import s from './finish-notification.module.scss';
 
 type Props = FinishNotificationProps;

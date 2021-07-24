@@ -2,13 +2,11 @@ import React, { FormEvent, FC, useState, useCallback, useEffect } from 'react';
 import { Input, IInputState } from '../Input';
 import { Button } from '../Button';
 import s from './profile-form.module.scss';
-import { getUserInfo, changeUserProfile } from '../../services';
 import { IProfileFormProps, IValues, IErrors, IFormState } from './interfaces';
 import { validateField, validateForm } from '../../utlis/form-validator';
-import { IApiClientResponse } from '../../services/interfaces';
 
 export const ProfileForm: FC<IProfileFormProps> = (props) => {
-  const { userDataState, setUserDataState } = props;
+  const { changeUserData, userData } = props;
 
   const errors: IErrors = {
     display_name: '',
@@ -24,55 +22,35 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
   const [formState, setFormState] = useState<IFormState>({
     values,
     errors,
-    message: '',
+    message: userData.message || '',
   });
 
   useEffect(() => {
-    getUserInfo()
-      .then((res: IApiClientResponse) => {
-        const { display_name, login, email } = res;
-
-        memoOnChange({ name: 'display_name', value: display_name as string });
-        memoOnChange({ name: 'login', value: login as string });
-        memoOnChange({ name: 'email', value: email as string });
-
-        setUserDataState((userDataState) => ({
-          ...userDataState,
-          ...res,
-        }));
-      })
-      .catch((err: { reason: string }) => {
-        console.log(err);
-      });
-  }, []);
+    const { display_name, login, email } = userData;
+    memoOnChange({ name: 'display_name', value: display_name as string });
+    memoOnChange({ name: 'login', value: login as string });
+    memoOnChange({ name: 'email', value: email as string });
+    setFormState((formState) => ({
+      ...formState,
+      message: userData.message || '',
+    }));
+  }, [userData]);
 
   const memoHandleSubmit = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
-      handleSubmit(e, formState, userDataState);
+      handleSubmit(e, formState);
     },
-    [formState, userDataState],
+    [formState],
   );
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
     formState: IFormState,
-    userDataState: IApiClientResponse,
   ): void => {
     e.preventDefault();
     const data = formState.values;
-    const combinedData = { ...userDataState, ...data };
-
-    changeUserProfile(combinedData)
-      .then((res: IApiClientResponse) => {
-        setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
-        setUserDataState((userDataState) => ({
-          ...userDataState,
-          ...res,
-        }));
-      })
-      .catch((err: { reason: string }) => {
-        setFormState((formState) => ({ ...formState, message: err.reason }));
-      });
+    const combinedData = { ...userData, ...data };
+    changeUserData(combinedData);
   };
 
   const memoOnChange = useCallback(
@@ -90,6 +68,7 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
     setFormState((formState) => ({
       ...formState,
       values: { ...formState.values, [name]: value },
+      message: '',
     }));
     validateField(name, value, formState, setFormState);
   };
@@ -101,7 +80,7 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
           <Input
             name='display_name'
             placeholder='Отображаемое имя'
-            startValue={userDataState.display_name}
+            startValue={userData.display_name}
             type='text'
             onChange={memoOnChange}
             helpMessage={formState.errors.display_name}
@@ -112,7 +91,7 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
           <Input
             name='login'
             placeholder='Логин'
-            startValue={userDataState.login}
+            startValue={userData.login}
             type='text'
             onChange={memoOnChange}
             helpMessage={formState.errors.login}
@@ -123,7 +102,7 @@ export const ProfileForm: FC<IProfileFormProps> = (props) => {
           <Input
             name='email'
             placeholder='Email'
-            startValue={userDataState.email}
+            startValue={userData.email}
             type='email'
             onChange={memoOnChange}
             helpMessage={formState.errors.email}

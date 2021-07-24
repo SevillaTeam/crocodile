@@ -1,0 +1,29 @@
+@import '../../styles/vars';
+
+.gamePlayer {
+  display: flex;
+  height: 64px;
+  justify-content: flex-start;
+  padding: 12px;
+  background-color: white;
+  .avatar {
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background-image: url('../../assets/icons/useravatar.svg');
+  }
+  .name {
+    padding-left: 14px;
+    padding-top: 9px;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    color: #000000;
+  }
+}
+
+.gamePlayer:nth-of-type(2n) {
+  padding-top: 0px;
+  height: 52px;
+}

@@ -154,7 +154,6 @@ export const SignUpForm: FC<IFormProps> = (props) => {
             type='submit'
             disabled={!validateForm(formState.errors, formState.values)}
             text='Зарегистрироваться'
-            onClick={() => {console.log('fix me')}}
           />
 
           <Link

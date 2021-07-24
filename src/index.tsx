@@ -6,12 +6,10 @@ import './styles/_reset.scss';
 import './styles/_fonts.scss';
 import './styles/_global.scss';
 
-import { configureStore } from './store';
+import { store } from './store';
 import registerServiceWorker from './serviceWorkerRegistration'
 
 process.env.MODE === 'production' && registerServiceWorker()
-
-const store = configureStore({});
 
 ReactDOM.render(
   <React.StrictMode>
