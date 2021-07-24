@@ -6,6 +6,9 @@ import 'webpack-dev-server';
 import ESLintPlugin from 'eslint-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 const config: webpack.Configuration = {
   mode: 'development',
   output: {
@@ -61,6 +64,21 @@ const config: webpack.Configuration = {
     extensions: ['.tsx', '.ts', '.js', '.scss'],
   },
   plugins: [
+    new webpack.EnvironmentPlugin({
+      MODE: 'development'
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/favicon.ico", to: "" },
+        { from: "./src/manifest.json", to: "" },
+        { from: "./src/logo192.png", to: "" },
+        { from: "./src/logo512.png", to: "" },
+      ],
+    }),
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: "./src/src-sw",
+      swDest: "sw.js",
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),

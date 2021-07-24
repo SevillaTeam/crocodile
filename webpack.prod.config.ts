@@ -7,6 +7,9 @@ import { CleanWebpackPlugin } from 'clean-webpack-plugin';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
 
+const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
 const config: webpack.Configuration = {
   mode: 'production',
   entry: './src/index.tsx',
@@ -53,6 +56,21 @@ const config: webpack.Configuration = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   plugins: [
+    new webpack.EnvironmentPlugin({
+      MODE: 'production'
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: "./src/favicon.ico", to: "" },
+        { from: "./src/manifest.json", to: "" },
+        { from: "./src/logo192.png", to: "" },
+        { from: "./src/logo512.png", to: "" },
+      ],
+    }),
+    new WorkboxWebpackPlugin.InjectManifest({
+      swSrc: "./src/src-sw",
+      swDest: "sw.js",
+    }),
     new HtmlWebpackPlugin({
       template: 'src/index.html',
     }),
