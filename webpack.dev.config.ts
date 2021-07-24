@@ -64,6 +64,9 @@ const config: webpack.Configuration = {
     extensions: ['.tsx', '.ts', '.js', '.scss'],
   },
   plugins: [
+    new webpack.EnvironmentPlugin({
+      MODE: 'development'
+    }),
     new CopyPlugin({
       patterns: [
         { from: "./src/favicon.ico", to: "" },

@@ -9,7 +9,7 @@ import './styles/_global.scss';
 import { configureStore } from './store';
 import registerServiceWorker from './serviceWorkerRegistration'
 
-registerServiceWorker()
+process.env.MODE === 'production' && registerServiceWorker()
 
 const store = configureStore({});
 
