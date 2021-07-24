@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build": "webpack --config webpack.prod.config.ts",
+    "build:prod:game-server": "tsc server/index.ts",
+    "build:ssr": "tsc src/server.ts",
+    "build:prod": "NODE_ENV=production webpack --mode=production",
     "start:game-server": "ts-node-dev server/index.ts",
     "start:prod": "npm run build && node src/server.ts",
     "start:webpack": "webpack --mode=development --watch",

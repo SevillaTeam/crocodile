@@ -1,5 +1,5 @@
 import React from 'react';
-import {renderToString} from 'react-dom/server';
+import {renderToStaticMarkup} from 'react-dom/server';
 import {Request, Response} from 'express';
 import {Provider as ReduxProvider} from 'react-redux';
 import {StaticRouter} from 'react-router-dom';
@@ -23,7 +23,7 @@ export default (req: Request, res: Response) => {
         </React.StrictMode>
     );
 
-    const reactHtml = renderToString(jsx);
+    const reactHtml = renderToStaticMarkup(jsx);
     const reduxState = store.getState();
 
     if (context.url) {
