@@ -1,7 +1,7 @@
 const leadersMock = [
-  {name: 'foo', points: 34},
-  {name: 'bar', points: 65},
-  {name: 'baz', points: 23},
+  { name: 'User1', points: 34 },
+  { name: 'User2', points: 65 },
+  { name: 'User3', points: 23 },
 ];
 
-export {leadersMock};
+export { leadersMock };

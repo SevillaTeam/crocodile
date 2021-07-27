@@ -1,5 +1,10 @@
 import { ApiClient } from './api-client';
-import { IApiClientResponse } from './interfaces';
+import {
+  IApiClientResponse,
+  IRequestLiderboardAddUser,
+  IRequestLiderboardAll,
+  IResponseLiderboard,
+} from './interfaces';
 import { apiBase } from './constants';
 const api = new ApiClient(apiBase);
 
@@ -57,6 +62,24 @@ export const changePasswordRequest = async (
 ): Promise<IApiClientResponse> => {
   return await api.put({
     endpoint: '/user/password',
+    data,
+  });
+};
+
+export const addToLeaderboard = async (
+  data: IRequestLiderboardAddUser,
+): Promise<IApiClientResponse | IResponseLiderboard> => {
+  return await api.post({
+    endpoint: '/leaderboard',
+    data,
+  });
+};
+
+export const getAllLeaderboard = async (
+  data: IRequestLiderboardAll,
+): Promise<IApiClientResponse | IResponseLiderboard> => {
+  return await api.post({
+    endpoint: '/leaderboard/all',
     data,
   });
 };
