@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { HeaderProps } from './';
 import { Button } from '../Button';
 import { Link } from 'react-router-dom';
@@ -21,33 +21,33 @@ export const Header: FC<Props> = () => {
     isModalOpen: false,
   });
 
-  const showModalProfile = () => {
+  const showModalProfile = useCallback(() => {
     setModalProfileState((modalProfileState) => ({
       ...modalProfileState,
       isModalOpen: !modalProfileState.isModalOpen,
     }));
-  };
+  }, [modalProfileState]);
 
-  const closeModalProfile = () => {
+  const closeModalProfile = useCallback(() => {
     setModalProfileState((modalProfileState) => ({
       ...modalProfileState,
       isModalOpen: false,
     }));
-  };
+  }, [modalProfileState]);
 
-  const showModalLogout = () => {
+  const showModalLogout = useCallback(() => {
     setModalLogoutState((modalLogoutState) => ({
       ...modalLogoutState,
       isModalOpen: !modalLogoutState.isModalOpen,
     }));
-  };
+  }, [modalLogoutState]);
 
-  const closeModalLogout = () => {
+  const closeModalLogout = useCallback(() => {
     setModalLogoutState((modalLogoutState) => ({
       ...modalLogoutState,
       isModalOpen: false,
     }));
-  };
+  }, [modalLogoutState]);
 
   return (
     <div className={s.header}>
