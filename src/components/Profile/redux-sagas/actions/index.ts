@@ -15,3 +15,5 @@ export {
   changeUserDataSuccess,
   changeUserDataFailure,
 } from './changeUserData';
+
+export * from './changeUserGameRole';
