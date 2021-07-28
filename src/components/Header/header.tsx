@@ -1,30 +1,53 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { HeaderProps } from './';
 import { Button } from '../Button';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import s from './header.module.scss';
 import { Modal } from '@components/Modal';
+import { Modal as ModalLogout } from '@components/Modal';
 import { IModalState } from './types';
 import { Profile } from '../Profile';
+import { Logout } from '../Logout';
 
 type Props = HeaderProps;
 
 export const Header: FC<Props> = () => {
-  const [modalState, setModalState] = useState<IModalState>({
+  const [modalProfileState, setModalProfileState] = useState<IModalState>({
     isModalOpen: false,
   });
 
-  const showModal = () => {
-    setModalState((modalState) => ({
-      ...modalState,
-      isModalOpen: !modalState.isModalOpen,
-    }));
-  };
+  const [modalLogoutState, setModalLogoutState] = useState<IModalState>({
+    isModalOpen: false,
+  });
 
-  const closeModal = () => {
-    setModalState((modalState) => ({ ...modalState, isModalOpen: false }));
-  };
+  const showModalProfile = useCallback(() => {
+    setModalProfileState((modalProfileState) => ({
+      ...modalProfileState,
+      isModalOpen: !modalProfileState.isModalOpen,
+    }));
+  }, [modalProfileState]);
+
+  const closeModalProfile = useCallback(() => {
+    setModalProfileState((modalProfileState) => ({
+      ...modalProfileState,
+      isModalOpen: false,
+    }));
+  }, [modalProfileState]);
+
+  const showModalLogout = useCallback(() => {
+    setModalLogoutState((modalLogoutState) => ({
+      ...modalLogoutState,
+      isModalOpen: !modalLogoutState.isModalOpen,
+    }));
+  }, [modalLogoutState]);
+
+  const closeModalLogout = useCallback(() => {
+    setModalLogoutState((modalLogoutState) => ({
+      ...modalLogoutState,
+      isModalOpen: false,
+    }));
+  }, [modalLogoutState]);
 
   return (
     <div className={s.header}>
@@ -52,19 +75,29 @@ export const Header: FC<Props> = () => {
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModal()}
+            onClick={() => showModalProfile()}
           />
           <Button
             text='Выйти'
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
+            onClick={() => showModalLogout()}
           />
         </div>
       </div>
-      <Modal onClose={closeModal} isModalOpen={modalState.isModalOpen}>
+      <Modal
+        onClose={closeModalProfile}
+        isModalOpen={modalProfileState.isModalOpen}
+      >
         <Profile />
       </Modal>
+      <ModalLogout
+        onClose={closeModalLogout}
+        isModalOpen={modalLogoutState.isModalOpen}
+      >
+        <Logout onClose={closeModalLogout} />
+      </ModalLogout>
     </div>
   );
 };
