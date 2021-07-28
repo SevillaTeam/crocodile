@@ -6,7 +6,8 @@ import { IUserGameRoleState } from './redux-sagas/interfaces';
 import * as selectors from './redux-sagas/selectors';
 
 interface ISelection {
-  gameRole: IUserGameRoleState;
+  // gameRole: IUserGameRoleState;
+  gameRole: string;
 }
 
 const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(

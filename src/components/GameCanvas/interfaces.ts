@@ -1,5 +1,5 @@
 export interface IUserGameRoleState {
-  readonly gameRole?: string;
+  readonly gameRole: string;
 }
 
 export interface IBroadcastPayload {

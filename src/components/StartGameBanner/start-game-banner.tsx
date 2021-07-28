@@ -7,6 +7,7 @@ import { Modal as ModalWordSelector } from '@components/Modal';
 import { WordSelector } from '@components/WordSelector';
 import { PLAYER_ROLE } from '../../services/game-engine/constants';
 import * as t from '@components/Profile/redux-sagas/actionTypes';
+import { changeUserGameRole } from '@components/Profile/redux-sagas/actions';
 
 export const StartGameBanner: FC = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,7 @@ export const StartGameBanner: FC = () => {
   }, [isOpen]);
 
   const setRole = useCallback((role: string) => {
-    dispatch({ type: t.CHANGE_USER_GAME_ROLE, payload: { gameRole: role } });
+    dispatch(changeUserGameRole({ gameRole: role }));
     setIsOpen(false);
     if (role === PLAYER_ROLE.artist) toggleModalWordSelector();
   }, []);

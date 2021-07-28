@@ -1,11 +1,4 @@
-import React, {
-  FormEvent,
-  FC,
-  useState,
-  useCallback,
-  useRef,
-  MouseEvent,
-} from 'react';
+import React, { FC, useState, useCallback, MouseEvent } from 'react';
 import { Button } from '../Button';
 import s from './word-selector.module.scss';
 import cn from 'classnames';
@@ -25,23 +18,26 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
     word: '',
   });
 
-  const onClick = (e: MouseEvent) => {
+  const onClick = useCallback((e: MouseEvent) => {
     const selectedNode = e.target as HTMLElement;
     const word = selectedNode.textContent;
     setSelectedWord({ word: word || '' });
-  };
+  }, []);
 
-  const onBtnClick = () => {
+  const onBtnClick = useCallback(() => {
     if (selectedWord.word) {
       sendWordToServer(selectedWord.word).then((result) => console.log(result));
     }
     if (onClose) onClose();
-  };
+  }, [selectedWord.word, onClose]);
 
-  const checkSelectedWord = (currentWord: string) => {
-    if (currentWord === selectedWord.word) return true;
-    return false;
-  };
+  const checkSelectedWord = useCallback(
+    (currentWord: string) => {
+      if (currentWord === selectedWord.word) return true;
+      return false;
+    },
+    [selectedWord.word],
+  );
 
   const sendWordToServer = async (word: string) => {
     try {
