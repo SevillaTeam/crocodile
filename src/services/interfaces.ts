@@ -20,5 +20,28 @@ export interface IRequestParams {
   formData?: FormData;
   headers?: {
     [propName: string]: string;
-  }
+  };
+}
+
+export interface ILiderboardData {
+  user_id?: number;
+  display_name?: string;
+  score?: number;
+  avatar?: string;
+}
+
+export interface IRequestLiderboardAddUser {
+  data: ILiderboardData;
+  ratingFieldName: string;
+}
+
+export interface IRequestLiderboardAll {
+  ratingFieldName: string;
+  cursor: number;
+  limit: number;
+}
+
+export interface IResponseLiderboard {
+  data?: ILiderboardData[];
+  reason?: string;
 }

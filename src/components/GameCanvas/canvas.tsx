@@ -1,42 +1,43 @@
-import React, {FC} from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './canvas.module.scss';
-import { gameEngine } from '@/services/game-engine'
-
-interface IBroadcastPayload {
-  prevX: string,
-  prevY: string,
-  currX: string,
-  currY: string,
-  force?: string,
-  color: string
-}
+import { gameEngine } from '@/services/game-engine';
+import { IBroadcastPayload } from './interfaces';
+import { connector } from './container';
+import { disableCanvas } from '../../utlis/disable-canvas';
 
 type OwnProps = {
-  incomingImageData: IBroadcastPayload,
-  onBroadcast: (data: string) => void
+  incomingImageData: IBroadcastPayload;
+  onBroadcast: (data: string) => void;
+  gameRole: string;
 };
 
 type Props = FC<OwnProps>;
 
-export const GameCanvas: Props = ({ onBroadcast, incomingImageData })  => {
-  const canvasRef = React.useRef(null)
+const GameCanvas: Props = ({ onBroadcast, incomingImageData, gameRole }) => {
+  const canvasRef = React.useRef(null);
 
-  React.useEffect(() => {
-    gameEngine.drawIncomingImage(incomingImageData)
-  }, [incomingImageData])
+  useEffect(() => {
+    gameEngine.drawIncomingImage(incomingImageData);
+  }, [incomingImageData]);
 
-  React.useEffect(() => {
-
-    const canvas = canvasRef.current
+  useEffect(() => {
+    const canvas = canvasRef.current;
 
     if (canvas) {
-      gameEngine.init(canvas, onBroadcast)
+      gameEngine.init(canvas, onBroadcast, disableCanvas(gameRole));
     }
-  }, [canvasRef])
+  }, [canvasRef]);
 
   return (
     <div className={styles.canvasScreen}>
-      <canvas ref={canvasRef} height="480px" width="610px" className={styles.canvas}></canvas>
+      <canvas
+        ref={canvasRef}
+        height='480px'
+        width='610px'
+        className={styles.canvas}
+      ></canvas>
     </div>
-  )
-}
+  );
+};
+
+export default connector(GameCanvas);

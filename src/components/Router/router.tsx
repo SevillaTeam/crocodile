@@ -15,6 +15,8 @@ export const Router = (): JSX.Element => {
       <Route path={'/header-test'} exact component={Pages.HeaderTest} />
       <Route path={'/game-ending'} exact component={Pages.GameEnding} />
       <Route path={'/test-redux'} exact component={Pages.TestRedux} />
+      <Route path={'/test-page'} exact component={Pages.TestPage} />
+      <Route path={'/leaderboard'} exact component={Pages.LeaderboardPage} />
       <Route path='/page-not-found' render={() => <Pages.PageNotFound />} />
       <Route path='*'>
         <Redirect to='/page-not-found' />

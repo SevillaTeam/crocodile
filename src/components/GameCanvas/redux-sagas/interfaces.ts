@@ -4,8 +4,8 @@ export interface IUserState {
   readonly id?: number;
 }
 
-export interface IUserAvatarState {
-  readonly avatar?: string;
+export interface IUserGameRoleState {
+  readonly gameRole?: string;
 }
 
 export interface IResponseUserState extends IApiClientResponse {

@@ -27,12 +27,15 @@ class GameEngine {
   private color = 'black';
   private thickness = 5;
 
-  public init(canvas: HTMLCanvasElement, onBroadcast: (data: string) => void) {
+  public init(
+    canvas: HTMLCanvasElement,
+    onBroadcast: (data: string) => void,
+    turnOffListeners = false,
+  ) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d');
     this.onBroadcast = onBroadcast;
-
-    this.addCanvasListeners();
+    if (!turnOffListeners) this.addCanvasListeners();
   }
 
   public destroy() {

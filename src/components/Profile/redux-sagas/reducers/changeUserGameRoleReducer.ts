@@ -2,22 +2,22 @@ import { IAction } from '../../../../store/interfaces';
 import { IResponseUserState } from '../interfaces';
 
 const initState: IResponseUserState = {
-  id: undefined,
+  gameRole: '',
 };
 
-export const changeUserIdReducer = (
+export const changeUserGameRoleReducer = (
   state: IResponseUserState = initState,
   action: IAction<IResponseUserState>,
 ): IResponseUserState => {
   const { payload } = action;
 
   if (payload) {
-    const { id } = payload;
+    const { gameRole } = payload;
 
-    if (id !== null || id !== undefined) {
+    if (gameRole !== null || gameRole !== undefined) {
       const newState = {
         ...state,
-        id,
+        gameRole,
       };
       return newState;
     } else {
