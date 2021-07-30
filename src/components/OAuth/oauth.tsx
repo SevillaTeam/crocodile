@@ -14,7 +14,7 @@ export const OAuth: FC<IModalState> = (props) => {
 
   const history = useHistory();
 
-  const redirectToOAuthServer = () => {
+  const redirectToOAuthServer = useCallback(() => {
     const searchParamsEncoded = querystring.stringify({
       redirect_uri: REDIRECT_URI,
     });
@@ -26,7 +26,7 @@ export const OAuth: FC<IModalState> = (props) => {
         window.location.href = `https://oauth.yandex.ru/authorize?response_type=code&client_id=${service_id}&redirect_uri=${REDIRECT_URI}`;
       })
       .catch((err) => console.log(err));
-  };
+  }, []);
 
   const authorizeLocalRecord = useCallback(() => {
     history.push('/authorization');
