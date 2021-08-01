@@ -1,0 +1,23 @@
+@import '../../styles/vars';
+
+.gamePlayers {
+  border-radius: $border-radius;
+  height: 100%;
+  padding: $padding;
+  box-shadow: $box-shadow-1dp;
+  background-color: white;
+}
+
+.roles {
+  font-size: 16px;
+  line-height: 21px;
+  padding-bottom: 5px;
+}
+
+.line {
+  width: calc(100% + 30px);
+  height: 1px;
+  background-color: rgba(0, 0, 0, 0.2);
+  margin-left: -15px;
+  margin-bottom: 15px;
+}

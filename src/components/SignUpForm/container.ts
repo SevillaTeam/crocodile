@@ -17,7 +17,6 @@ const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
   },
 );
 
-
 const mapDispatchToProps = {
   signUp: actions.signUpStart,
 };

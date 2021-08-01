@@ -7,7 +7,7 @@
   top: 0;
   left: 0;
   display: flex;
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
+  box-shadow: $box-shadow-1dp;
   z-index: 1000;
 }
 
@@ -52,6 +52,10 @@
 
     &:hover {
       background-color: rgba($color-primary, 0.7) !important;
+    }
+
+    &_mr_2 {
+      margin-right: 13px !important;
     }
   }
 

@@ -19,4 +19,5 @@ export interface IResponseUserState extends IApiClientResponse {
   readonly avatar?: string;
   readonly reason?: string;
   readonly message?: string;
+  readonly gameRole?: string;
 }

@@ -16,6 +16,8 @@ const initState = {
 };
 
 const userReducer = createReducer<IResponseUserState>(initState, {
+  [t.CHANGE_USER_GAME_ROLE]: reducers.changeUserGameRoleReducer,
+
   [t.GET_USER_DATA_FAILURE]: reducers.getUserDataFailure,
   [t.GET_USER_DATA_SUCCESS]: reducers.getUserDataSuccess,
 

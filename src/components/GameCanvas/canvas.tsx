@@ -1,37 +1,43 @@
-import React, {FC} from 'react';
+import React, { FC, useEffect } from 'react';
 import styles from './canvas.module.scss';
-import { gameEngine } from '../../services/game-engine'
+import { gameEngine } from '@/services/game-engine';
+import { IBroadcastPayload } from './interfaces';
+import { connector } from './container';
+import { disableCanvas } from '../../utlis/disable-canvas';
 
 type OwnProps = {
-  active: boolean
+  incomingImageData: IBroadcastPayload;
+  onBroadcast: (data: string) => void;
+  gameRole: string;
 };
 
 type Props = FC<OwnProps>;
 
-const clearCanvas = () => {
-  gameEngine.clearCanvas()
-}
+const GameCanvas: Props = ({ onBroadcast, incomingImageData, gameRole }) => {
+  const canvasRef = React.useRef(null);
 
-export const GameCanvas: Props = ({ active })  => {
-  const canvasRef = React.useRef(null)
+  useEffect(() => {
+    gameEngine.drawIncomingImage(incomingImageData);
+  }, [incomingImageData]);
 
-  React.useEffect(() => {
-    if (!active) {
-      gameEngine.destroy()
-      return
-    }
+  useEffect(() => {
+    const canvas = canvasRef.current;
 
-    const canvas = canvasRef.current
-  
     if (canvas) {
-      gameEngine.init(canvas)
+      gameEngine.init(canvas, onBroadcast, disableCanvas(gameRole));
     }
-  }, [canvasRef, active])
+  }, [canvasRef]);
 
   return (
     <div className={styles.canvasScreen}>
-      <canvas ref={canvasRef} width="600px" height="450px" className={styles.canvas}></canvas>
-      <button className={styles.clear} onClick={clearCanvas}>Очистить канвас</button>
+      <canvas
+        ref={canvasRef}
+        height='480px'
+        width='610px'
+        className={styles.canvas}
+      ></canvas>
     </div>
-  )
-}
+  );
+};
+
+export default connector(GameCanvas);

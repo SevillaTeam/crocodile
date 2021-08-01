@@ -29,16 +29,15 @@ const LoginFormComponent: FC<ISignInFormProps> = (props) => {
     (e: FormEvent<HTMLFormElement>) => {
       handleSubmit(e, formState);
     },
-    [formState]
+    [formState],
   );
 
   const handleSubmit = (
     e: FormEvent<HTMLFormElement>,
-    formState: IFormState
+    formState: IFormState,
   ): void => {
     e.preventDefault();
     const data = formState.values;
-    console.log(data)
     //@ts-ignore
     signIn(data)
   };
@@ -47,13 +46,13 @@ const LoginFormComponent: FC<ISignInFormProps> = (props) => {
     ({ value, name }: IInputState) => {
       onChange({ value, name }, formState, setFormState);
     },
-    [formState]
+    [formState],
   );
 
   const onChange = (
     { value, name }: IInputState,
     formState: IFormState,
-    setFormState: React.Dispatch<React.SetStateAction<IFormState>>
+    setFormState: React.Dispatch<React.SetStateAction<IFormState>>,
   ): void => {
     setFormState((formState) => ({
       ...formState,
@@ -94,7 +93,6 @@ const LoginFormComponent: FC<ISignInFormProps> = (props) => {
             type='submit'
             disabled={!validateForm(formState.errors, formState.values)}
             text='Войти'
-            onClick={() => {console.log('fix me')}}
           />
 
           <Link

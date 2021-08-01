@@ -1,4 +1,8 @@
-import { IApiClientResponse, IRequestParams } from './interfaces';
+import {
+  IApiClientResponse,
+  IRequestParams,
+  IResponseLiderboard,
+} from './interfaces';
 
 class ApiException extends Error {
   message: string;
@@ -52,12 +56,12 @@ export class ApiClient {
     endpoint,
     data,
     params,
-  }: IRequestParams): Promise<IApiClientResponse> => {
+  }: IRequestParams): Promise<IApiClientResponse | IResponseLiderboard> => {
     try {
       const res = await fetch(`${this._apiBase}${endpoint}/`, {
         method: 'POST',
-        credentials: 'include',
         headers: this.headers,
+        credentials: 'include',
         body: data ? JSON.stringify(data) : null,
         ...params,
       });

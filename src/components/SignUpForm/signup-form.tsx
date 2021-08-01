@@ -154,7 +154,6 @@ const SignUpFormComponent: FC<ISignUpFormProps> = (props) => {
             type='submit'
             disabled={!validateForm(formState.errors, formState.values)}
             text='Зарегистрироваться'
-            onClick={() => {console.log('fix me')}}
           />
 
           <Link

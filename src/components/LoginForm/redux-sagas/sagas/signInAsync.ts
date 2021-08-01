@@ -9,6 +9,8 @@ import * as t from '../actionTypes';
 
 import { IApiClientResponse } from '../../../../services/interfaces';
 
+import { getUserDataStart } from '../../../Profile/redux-sagas/actions'
+
 function* signInStart() {
   yield takeLatest(t.SIGN_IN_START, signInAsync);
 }
@@ -18,6 +20,7 @@ function* signInAsync(action: IAction<IApiClientResponse>) {
     const result: IApiClientResponse = yield api.signIn(
       action.payload,
     );
+    yield put(getUserDataStart())
     yield put(signInSuccess(result));
   } catch (error) {
     yield put(signInFailure(error as { reason: string }));
