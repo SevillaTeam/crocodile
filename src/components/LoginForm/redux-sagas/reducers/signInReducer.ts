@@ -15,9 +15,7 @@ export const signInSuccess = (
   if (payload) {
     return { ...state, ...payload, message: 'Успешно!' };
   } else {
-    return {
-      ...state,
-    };
+    return state;
   }
 };
 

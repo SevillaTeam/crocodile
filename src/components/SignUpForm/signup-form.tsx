@@ -8,10 +8,6 @@ import { ISignUpFormProps, IValues, IErrors, IFormState } from './interfaces';
 import { Link } from 'react-router-dom';
 import { validateField, validateForm } from '../../utlis/form-validator';
 
-// [ ] - registration form to sagas
-// [ ] - handle auth logic in redux
-// [ ] - maybe refactor?
-
 const SignUpFormComponent: FC<ISignUpFormProps> = (props) => {
   const {
     signUp,

@@ -20,9 +20,7 @@ export const signUpSuccess = (
   if (payload) {
     return { ...state, ...payload, message: 'Успешно!' };
   } else {
-    return {
-      ...state,
-    };
+    return state;
   }
 };
 
