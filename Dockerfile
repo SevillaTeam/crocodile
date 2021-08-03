@@ -13,4 +13,4 @@ RUN npm install
 EXPOSE 9001
 # запускается приложение
 #CMD [ "node", "server.ts" ]
-CMD npm start
+CMD npm run start:ssr-server
