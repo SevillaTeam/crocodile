@@ -7,10 +7,14 @@ COPY . .
 # - не хватает времени и падает с ошибкой Error R10 (Boot timeout)
 RUN npm install
 #RUN npm run build
+# RUN ls -la /
 
 
 #EXPOSE 4000
-EXPOSE 9001
+# EXPOSE 8081
 # запускается приложение
 #CMD [ "node", "server.ts" ]
-CMD npm start
+CMD npm run start:game-server
+#CMD [ "node", "server.ts" ]
+
+
