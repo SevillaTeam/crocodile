@@ -1,6 +1,6 @@
 FROM node:14
 # создаем рабочую директорию
-WORKDIR /var/www
+WORKDIR /var/www/game-server/
 # копируем весь исходный код
 COPY . .
 # если делать установку зависимостей в CMD через npm ci 
