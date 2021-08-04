@@ -95,21 +95,21 @@ export const Header: FC<Props> = () => {
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModalProfile()}
+            onClick={showModalProfile}
           />
           <Button
             text='OAuth'
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModalOAuth()}
+            onClick={showModalOAuth}
           />
           <Button
             text='Выйти'
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModalLogout()}
+            onClick={showModalLogout}
           />
         </div>
       </div>

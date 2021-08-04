@@ -32,7 +32,7 @@ coverage
 
 # Bower dependency directory (https://bower.io/)
 bower_components
-
+postgresdata
 # node-waf configuration
 .lock-wscript
 

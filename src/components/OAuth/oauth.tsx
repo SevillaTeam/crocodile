@@ -5,6 +5,7 @@ import s from './oauth.module.scss';
 import * as api from '../../services/api';
 import { useHistory } from 'react-router-dom';
 import { REDIRECT_URI } from './constants';
+import cn from 'classnames';
 const querystring = require('querystring');
 
 export const OAuth: FC<IModalState> = (props) => {
@@ -52,7 +53,7 @@ export const OAuth: FC<IModalState> = (props) => {
           color='primary'
           text='Войти через Yandex аккаунт'
           size='dense'
-          style={{ backgroundColor: '#ffdc60' }}
+          styleObj={s.customBtn}
           onClick={redirectToOAuthServer}
         />
       </div>

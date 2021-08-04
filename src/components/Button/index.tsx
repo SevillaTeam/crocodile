@@ -23,7 +23,7 @@ const Button: React.FC<ButtonProps> = ({
         `${s.button} ${s[`button__${styleType}`]} ${s[`button__${size}`]} ${
           s[`button__${color}`]
         } ${s[`button__${disabled ? 'disabled' : ''}`]} ${className}`,
-        { ...styleObj },
+        styleObj,
       )}
       style={style}
       onClick={onClick}
