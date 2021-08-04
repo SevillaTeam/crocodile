@@ -13,20 +13,24 @@ const Button: React.FC<ButtonProps> = ({
   text,
   className,
   styleObj,
-}) => (
-  <button
-    type={type}
-    disabled={disabled}
-    className={cn(
-      `${s.button} ${s[`button__${styleType}`]} ${s[`button__${size}`]} ${
-        s[`button__${color}`]
-      } ${s[`button__${disabled ? 'disabled' : ''}`]} ${className}`,
-      styleObj,
-    )}
-    onClick={onClick}
-  >
-    {text}
-  </button>
-);
+  style,
+}) => {
+  return (
+    <button
+      type={type}
+      disabled={disabled}
+      className={cn(
+        `${s.button} ${s[`button__${styleType}`]} ${s[`button__${size}`]} ${
+          s[`button__${color}`]
+        } ${s[`button__${disabled ? 'disabled' : ''}`]} ${className}`,
+        styleObj,
+      )}
+      style={style}
+      onClick={onClick}
+    >
+      {text}
+    </button>
+  );
+};
 
 export { Button };

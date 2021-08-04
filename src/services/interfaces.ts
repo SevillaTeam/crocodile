@@ -11,6 +11,7 @@ export interface IApiClientResponse {
   formData?: FormData;
   oldPassword?: string;
   newPassword?: string;
+  service_id?: string;
 }
 
 export interface IRequestParams {
@@ -44,4 +45,9 @@ export interface IRequestLiderboardAll {
 export interface IResponseLiderboard {
   data?: ILiderboardData[];
   reason?: string;
+}
+
+export interface IOauth {
+  code: string | undefined | null;
+  redirect_uri: string;
 }

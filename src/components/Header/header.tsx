@@ -6,9 +6,11 @@ import cn from 'classnames';
 import s from './header.module.scss';
 import { Modal } from '@components/Modal';
 import { Modal as ModalLogout } from '@components/Modal';
+import { Modal as ModalOAuth } from '@components/Modal';
 import { IModalState } from './types';
 import { Profile } from '../Profile';
 import { Logout } from '../Logout';
+import { OAuth } from '../OAuth';
 
 type Props = HeaderProps;
 
@@ -18,6 +20,10 @@ export const Header: FC<Props> = () => {
   });
 
   const [modalLogoutState, setModalLogoutState] = useState<IModalState>({
+    isModalOpen: false,
+  });
+
+  const [modalOAuthState, setModalOAuthState] = useState<IModalState>({
     isModalOpen: false,
   });
 
@@ -49,6 +55,20 @@ export const Header: FC<Props> = () => {
     }));
   }, [modalLogoutState]);
 
+  const showModalOAuth = useCallback(() => {
+    setModalOAuthState((modalOAuthState) => ({
+      ...modalOAuthState,
+      isModalOpen: !modalOAuthState.isModalOpen,
+    }));
+  }, [modalOAuthState]);
+
+  const closeModalOAuth = useCallback(() => {
+    setModalOAuthState((modalOAuthState) => ({
+      ...modalOAuthState,
+      isModalOpen: false,
+    }));
+  }, [modalOAuthState]);
+
   return (
     <div className={s.header}>
       <div className={s.container}>
@@ -75,14 +95,21 @@ export const Header: FC<Props> = () => {
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModalProfile()}
+            onClick={showModalProfile}
+          />
+          <Button
+            text='OAuth'
+            styleType='contained'
+            size='dense'
+            styleObj={s.btnContainer}
+            onClick={showModalOAuth}
           />
           <Button
             text='Выйти'
             styleType='contained'
             size='dense'
             styleObj={s.btnContainer}
-            onClick={() => showModalLogout()}
+            onClick={showModalLogout}
           />
         </div>
       </div>
@@ -98,6 +125,12 @@ export const Header: FC<Props> = () => {
       >
         <Logout onClose={closeModalLogout} />
       </ModalLogout>
+      <ModalOAuth
+        onClose={closeModalOAuth}
+        isModalOpen={modalOAuthState.isModalOpen}
+      >
+        <OAuth onClose={closeModalOAuth} />
+      </ModalOAuth>
     </div>
   );
 };
