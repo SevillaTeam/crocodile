@@ -40,7 +40,11 @@ const ctx: IContext = {
   peers: {},
   channels: {},
 };
+<<<<<<< HEAD
 const baseUrl = 'https://localhost:8081';
+=======
+const baseUrl = 'http://localhost:8081';
+>>>>>>> 20b363b (Добавил в README описание для контейнеров)
 let winnerName = '';
 let winnerWord = '';
 
