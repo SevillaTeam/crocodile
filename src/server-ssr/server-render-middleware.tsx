@@ -1,44 +1,41 @@
 import React from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
-import { Request, Response } from 'express';
-import { Provider as ReduxProvider } from 'react-redux';
-import { StaticRouter } from 'react-router-dom';
-import { StaticRouterContext } from 'react-router';
-import { App } from '@/App';
-import { getInitialState } from '@/store/getInitialState';
-import { configureStore } from '@/store/rootStore';
-
-import { createStoreSingleTone } from '@/store/StoreSingleTone/createStore';
+import {renderToStaticMarkup} from 'react-dom/server';
+import {Request, Response} from 'express';
+import {Provider as ReduxProvider} from 'react-redux';
+import {StaticRouter} from 'react-router-dom';
+import {StaticRouterContext} from 'react-router';
+import {App} from "@/App";
+import {getInitialState} from "@/store/getInitialState";
+import {configureStore} from "@/store/rootStore";
 
 export default (req: Request, res: Response) => {
-  const location = req.url;
-  const context: StaticRouterContext = {};
-  const StoreSingleTone = createStoreSingleTone(location);
-  const store = StoreSingleTone.getStore();
+    const location = req.url;
+    const context: StaticRouterContext = {};
+    const {store} = configureStore(getInitialState(location), location);
 
-  const jsx = (
-    <React.StrictMode>
-      <ReduxProvider store={store}>
-        <StaticRouter context={context} location={location}>
-          <App />
-        </StaticRouter>
-      </ReduxProvider>
-    </React.StrictMode>
-  );
+    const jsx = (
+        <React.StrictMode>
+            <ReduxProvider store={store}>
+                <StaticRouter context={context} location={location}>
+                    <App/>
+                </StaticRouter>
+            </ReduxProvider>
+        </React.StrictMode>
+    );
 
-  const reactHtml = renderToStaticMarkup(jsx);
-  const reduxState = store.getState();
+    const reactHtml = renderToStaticMarkup(jsx);
+    const reduxState = store.getState();
 
-  if (context.url) {
-    res.redirect(context.url);
-    return;
-  }
+    if (context.url) {
+        res.redirect(context.url);
+        return;
+    }
 
-  res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState));
+    res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState));
 };
 
 function getHtml(reactHtml: string, reduxState = {}) {
-  return `
+    return `
         <!DOCTYPE html>
         <html lang="en">
         <head>
