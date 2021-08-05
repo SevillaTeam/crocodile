@@ -8,9 +8,5 @@ COPY . .
 RUN npm install
 #RUN npm run build
 
-
-#EXPOSE 4000
 EXPOSE 9001
-# запускается приложение
-#CMD [ "node", "server.ts" ]
 CMD npm run start:ssr-server
