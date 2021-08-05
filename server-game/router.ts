@@ -74,7 +74,6 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
   }
   const userId = req.query.user_id as string;
   req.user = users[userId];
-
   if (!req.user) {
     res.sendStatus(401);
   }

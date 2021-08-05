@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "target": "es6",
     "baseUrl": "src",
     "paths": {
       "@/*": ["*"],
@@ -20,7 +21,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "typeRoots": ["jest", "./@types", "./node_modules/@types"]
+    "typeRoots": ["jest", "./@types", "./node_modules/@types"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "exclude": ["node_modules"]
 }

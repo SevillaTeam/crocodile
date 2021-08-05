@@ -3,29 +3,28 @@ version: '3'
 
 services:
   ssr-app:
-    env_file: .env
+    env_file: .env.docker
     build:
       context: .
     # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
-
     depends_on:
       - postgres
     ports:
-      - '5000:9001'
+      - '5000:5000'
     networks:
       # Назвать сеть можно как угодно
-      - 'awesome-inner-network'
+      - mynetwork
 
   game-server-app:
     # Этим ключом мы скажем docker-compose, чтобы он собирал Dockerfile, который
     build:
-      context: ./server
+      context: ./server-game
       # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
     ports:
       - '8081:8081'
     networks:
       # Назвать сеть можно как угодно
-      - 'awesome-inner-network'
+      - mynetwork
 
   postgres:
     container_name: croco_postgres_db # Можно и не указывать, тогда будет взято за основу название сервиса: `postgres`
@@ -39,7 +38,7 @@ services:
     restart: always
     env_file: .env
     networks:
-      - 'awesome-inner-network'
+      - mynetwork
 
   pgadmin:
     container_name: pgadmin
@@ -53,12 +52,12 @@ services:
     depends_on:
       - postgres
     networks:
-      - 'awesome-inner-network'
+      - mynetwork
 
 volumes:
   pgadmin-data:
 
 # Настройки созданной сети между сервисами
 networks:
-  'awesome-inner-network':
+  mynetwork:
     driver: bridge
