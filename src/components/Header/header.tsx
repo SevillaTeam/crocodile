@@ -1,5 +1,6 @@
 import React, { FC, useState, useCallback } from 'react';
 import { HeaderProps } from './';
+import { connector } from './container';
 import { Button } from '../Button';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
@@ -14,7 +15,11 @@ import { OAuth } from '../OAuth';
 
 type Props = HeaderProps;
 
-export const Header: FC<Props> = () => {
+const HeaderComponent: FC<Props> = (props) => {
+  const {
+    userData,
+  } = props;
+
   const [modalProfileState, setModalProfileState] = useState<IModalState>({
     isModalOpen: false,
   });
@@ -90,20 +95,34 @@ export const Header: FC<Props> = () => {
           </li>
         </ul>
         <div className={s.rightSide}>
-          <Button
-            text='Профиль'
-            styleType='contained'
-            size='dense'
-            styleObj={s.btnContainer}
-            onClick={showModalProfile}
-          />
-          <Button
-            text='OAuth'
-            styleType='contained'
-            size='dense'
-            styleObj={s.btnContainer}
-            onClick={showModalOAuth}
-          />
+          {
+            userData?.login ? (
+              <Button
+                text='Профиль'
+                styleType='contained'
+                size='dense'
+                styleObj={s.btnContainer}
+                onClick={() => showModalProfile()}
+              />
+            ) : (
+              <>
+                <ul className={cn(s.nav__link_mr_2)}>
+                  <li className={cn(s.nav__link, s.nav__link_btnType)}>
+                    <Link to='/authorization' className={s.nav__linkText}>
+                      Войти
+                    </Link>
+                  </li>
+                </ul>
+                <Button
+                  text='OAuth'
+                  styleType='contained'
+                  size='dense'
+                  styleObj={s.btnContainer}
+                  onClick={showModalOAuth}
+                />
+              </>
+            )
+          }
           <Button
             text='Выйти'
             styleType='contained'
@@ -134,3 +153,5 @@ export const Header: FC<Props> = () => {
     </div>
   );
 };
+
+export const Header = connector(HeaderComponent);

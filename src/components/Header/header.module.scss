@@ -53,6 +53,10 @@
     &:hover {
       background-color: rgba($color-primary, 0.7) !important;
     }
+
+    &_mr_2 {
+      margin-right: 13px !important;
+    }
   }
 
   &__link:last-of-type {

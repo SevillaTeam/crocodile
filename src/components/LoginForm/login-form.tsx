@@ -3,12 +3,13 @@ import { Input, IInputState } from '../Input';
 import { Button } from '../Button';
 import s from './login-form.module.scss';
 import cn from 'classnames';
-import { signIn } from '../../services';
-import { IFormProps, IValues, IErrors, IFormState } from './interfaces';
+import { connector } from './container';
+import { ISignInFormProps, IValues, IErrors, IFormState } from './interfaces';
 import { Link } from 'react-router-dom';
 import { validateField, validateForm } from '../../utlis/form-validator';
 
-export const LoginForm: FC<IFormProps> = (props) => {
+const LoginFormComponent: FC<ISignInFormProps> = (props) => {
+  const { signIn, signInReason } = props
   const errors: IErrors = {
     login: '',
     password: '',
@@ -37,13 +38,8 @@ export const LoginForm: FC<IFormProps> = (props) => {
   ): void => {
     e.preventDefault();
     const data = formState.values;
+    //@ts-ignore
     signIn(data)
-      .then(() => {
-        setFormState((formState) => ({ ...formState, message: 'Успешно!' }));
-      })
-      .catch((err) => {
-        setFormState((formState) => ({ ...formState, message: err.reason }));
-      });
   };
 
   const memoOnChange = useCallback(
@@ -90,7 +86,7 @@ export const LoginForm: FC<IFormProps> = (props) => {
           />
         </div>
 
-        {formState.message && <p className={s.message}>{formState.message}</p>}
+        {signInReason && <p className={s.message}>{signInReason}</p>}
 
         <div className={s.buttons}>
           <Button
@@ -110,3 +106,5 @@ export const LoginForm: FC<IFormProps> = (props) => {
     </form>
   );
 };
+
+export const LoginForm = connector(LoginFormComponent) 
