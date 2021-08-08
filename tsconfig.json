@@ -20,6 +20,9 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react",
-    "typeRoots": ["./@types",  "./node_modules/@types"]
+    "types": ["jest"],
+    "typeRoots": ["./@types", "./node_modules/@types"]
   },
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.tsx", "./src/**/*.ts"]
 }

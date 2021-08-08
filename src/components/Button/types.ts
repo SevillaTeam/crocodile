@@ -10,8 +10,9 @@ export interface ButtonProps {
   href?: string;
   styleObj?: IBtnStyles;
   onClick?: () => void;
+  style?: IBtnStyles;
 }
 
 export interface IBtnStyles {
-  [key: string]: string;
+  [key: string]: string | number;
 }
