@@ -93,7 +93,8 @@ router.get('/connect', getUser, (req, res) => {
 
   // создаем клиента
   const client: IClient = {
-    id: req.user.id,
+    id: req.user?.id,
+
     user: req.user,
     emit: (event, data) => {
       res.write(`id: ${uuidv4()}\n`);
