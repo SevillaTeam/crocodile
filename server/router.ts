@@ -10,12 +10,20 @@ import {
 } from './interfaces';
 import { GAME_EVENTS } from './consts';
 
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUser;
+    }
+  }
+}
+
 export const router = express.Router();
 const users: IUsers = { id: { id: '', username: '' } };
 
 const chatMessages = [{ username: '', content: '' }];
 
-let guessingWord = ''; // отгадываемое слово
+let guessingWord = ''; // отдадываемое слово
 
 const channels: IChannels = {
   //TODO add dynamic rooms
