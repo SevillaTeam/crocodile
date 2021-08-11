@@ -84,11 +84,6 @@ const HeaderComponent: FC<Props> = (props) => {
             </Link>
           </li>
           <li className={cn(s.nav__link, s.nav__link_btnType)}>
-            <Link to='/game' className={s.nav__linkText}>
-              Игра
-            </Link>
-          </li>
-          <li className={cn(s.nav__link, s.nav__link_btnType)}>
             <Link to='/rating' className={s.nav__linkText}>
               Рейтинг
             </Link>

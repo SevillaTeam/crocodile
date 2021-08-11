@@ -14,8 +14,12 @@ export interface IUser {
     username: string
 }
 
+export interface EmittingData {
+    [key: string]: any
+}
+
 export interface IUsers {
-    [key: string] : IUser
+    [key: string]: IUser
 }
 
 interface IData {

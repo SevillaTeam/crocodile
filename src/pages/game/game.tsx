@@ -7,6 +7,15 @@ import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/s
 import {ChatInput} from "@components/ChatInput";
 import {GamePlayers} from "@components/GamePlayers";
 import {IContext, IPayload} from "../../../server/interfaces";
+import {WaitingForUsers} from "@components/WaitingForUsers/waiting-for-users";
+import {Modal} from "@components/Modal";
+import {useHistory} from "react-router-dom";
+
+const GAME_EVENTS = {
+    waitingForPlayers: 'WAITING_FOR_PLAYERS',
+    gameStarted: 'GAME_STARTED',
+    gameFinished: 'GAME_FINISHED'
+}
 
 const RTC_CONFIG = {
     iceServers: [{
@@ -25,9 +34,11 @@ const ctx: IContext = {
     channels: {},
 };
 const baseUrl = 'http://localhost:8081'
+let winnerName = '';
+let winnerWord = '';
 
 export const Game = (): JSX.Element => {
-
+    const history = useHistory();
     const [incomingImageData, setImageData] = React.useState({
         prevX: '',
         prevY: '',
@@ -37,6 +48,7 @@ export const Game = (): JSX.Element => {
     })
 
     const [chatMessages, setChatMessages] = React.useState([{content: '', username: ''}])
+    const [gameEvent, setGameEvent] = React.useState()
 
     const connect = async () => {
         ctx.userId = await createUser(ctx.username);
@@ -60,6 +72,15 @@ export const Game = (): JSX.Element => {
                         break;
                     case 'on-chat-message':
                         updateChatMessages(e)
+                        break;
+                    case 'on-game-status-changed':
+                        const data = JSON.parse(e.data)
+                        const evt = data.gameEvent;
+                        if (evt === GAME_EVENTS.gameFinished) {
+                            winnerName = data.username;
+                            winnerWord = data.content;
+                        }
+                        setGameEvent(evt);
                         break;
                 }
             }
@@ -167,25 +188,41 @@ export const Game = (): JSX.Element => {
 
     const updateChatMessages = ({data}: IPayload) => {
         setChatMessages((prevState) => {
-          return [...prevState, JSON.parse(data)]
+            return [...prevState, JSON.parse(data)]
         })
     }
 
     const sendChatMessage = (message: string) => {
-            postChatMessage({username: ctx.username, content: message})
+        postChatMessage({username: ctx.username, content: message})
     }
     useEffect(() => {
         connect()
     }, [])
 
+    const goHome = () => {
+        history.push('/')
+    }
+
     return (
-        <main className={styles.gameWrapper}>
-            <div className={styles.game}>
-                <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}/>
-                <GameChat messages={chatMessages} />
+        gameEvent === GAME_EVENTS.waitingForPlayers ?
+            <WaitingForUsers/> :
+            <div>
+                <main className={styles.gameWrapper}>
+                    <div className={styles.game}>
+                        <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}/>
+                        <GameChat messages={chatMessages}/>
+                    </div>
+                    <GamePlayers/>
+                    <ChatInput sendMessage={sendChatMessage}/>
+                </main>
+                <Modal isModalOpen={gameEvent === GAME_EVENTS.gameFinished} onClose={goHome}>
+                    <div className={styles.winnerModal}>
+                        <h1>We have a winner! 🏆</h1>
+                        <h2>{winnerName}</h2>
+                        <h2>Secret word: {winnerWord}</h2>
+                    </div>
+                </Modal>
             </div>
-                <GamePlayers />
-                <ChatInput sendMessage={sendChatMessage}/>
-        </main>
     );
+
 };
