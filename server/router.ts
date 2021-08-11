@@ -2,14 +2,18 @@ import express, { Request, Response, NextFunction } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { IClients, IChannels, IClient, IUsers, IUser } from './interfaces';
 
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUser;
+    }
+  }
+}
+
 export const router = express.Router();
 const users: IUsers = { id: { id: '', username: '' } };
 
 const chatMessages = [{ username: '', content: '' }];
-
-export interface ICustomizedRequest extends Request {
-  user: IUser;
-}
 
 let guessingWord = ''; // отдадываемое слово
 
@@ -47,11 +51,7 @@ const disconnected = (client: IClient) => {
   }
 };
 
-const getUser = (
-  req: ICustomizedRequest,
-  res: Response,
-  next: NextFunction,
-) => {
+const getUser = (req: Request, res: Response, next: NextFunction) => {
   if (!req.query.user_id) {
     return res.sendStatus(401);
   }
@@ -83,7 +83,7 @@ router.post('/word', (req, res) => {
   return res.json({ guessingWord });
 });
 
-router.get('/connect', getUser, (req: ICustomizedRequest, res) => {
+router.get('/connect', getUser, (req: Request, res) => {
   if (req.headers.accept !== 'text/event-stream') {
     return res.sendStatus(404);
   }
@@ -147,7 +147,7 @@ router.post('/:roomId/join', getUser, (req, res) => {
 });
 
 // передаем предложения и ответы между пирами
-router.post('/relay/:peerId/:event', getUser, (req: Request<IUser>, res) => {
+router.post('/relay/:peerId/:event', getUser, (req, res) => {
   const peerId = req.params.peerId;
 
   if (clients[peerId]) {
