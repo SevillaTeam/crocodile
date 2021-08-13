@@ -18,6 +18,14 @@ declare global {
   }
 }
 
+declare global {
+  namespace Express {
+    interface Request {
+      user: IUser;
+    }
+  }
+}
+
 export const router = express.Router();
 const users: IUsers = { id: { id: '', username: '' } };
 
@@ -65,10 +73,8 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
     return res.sendStatus(401);
   }
   const userId = req.query.user_id as string;
-  // @ts-ignore
   req.user = users[userId];
 
-  // @ts-ignore
   if (!req.user) {
     res.sendStatus(401);
   }
@@ -91,7 +97,7 @@ router.post('/word', (req, res) => {
   return res.json({ guessingWord });
 });
 
-router.get('/connect', getUser, (req, res) => {
+router.get('/connect', getUser, (req: Request, res) => {
   if (req.headers.accept !== 'text/event-stream') {
     return res.sendStatus(404);
   }
@@ -115,7 +121,6 @@ router.get('/connect', getUser, (req, res) => {
 
   clients[client.id] = client;
 
-  // @ts-ignore
   client.emit('connected', { user: req.user });
   req.on('close', () => {
     disconnected(client);
@@ -143,7 +148,6 @@ const emitDataToPlayers = (evt: string, data: EmittingData) => {
 router.post('/:roomId/join', getUser, (req, res) => {
   const roomId = req.params.roomId;
   //  если такой клиент уже подключен
-  // @ts-ignore
   if (channels[roomId] && channels[roomId][req.user.id]) {
     return res.sendStatus(200);
   }
@@ -154,15 +158,12 @@ router.post('/:roomId/join', getUser, (req, res) => {
 
   // проходимся по всем пирам в комнате - определяем для кого создавать предложение
   for (const peerId in channels[roomId]) {
-    // @ts-ignore
     if (clients[peerId] && clients[req.user.id]) {
       clients[peerId].emit('add-peer', {
-        // @ts-ignore
         peer: req.user,
         roomId,
         offer: false,
       });
-      // @ts-ignore
       clients[req.user.id].emit('add-peer', {
         peer: clients[peerId].user,
         roomId,
@@ -171,7 +172,6 @@ router.post('/:roomId/join', getUser, (req, res) => {
     }
   }
   // подключен
-  // @ts-ignore
   channels[roomId][req.user.id] = true;
   emitGameStatus();
   return res.sendStatus(200);
@@ -182,8 +182,10 @@ router.post('/relay/:peerId/:event', getUser, (req, res) => {
   const peerId = req.params.peerId;
 
   if (clients[peerId]) {
-    // @ts-ignore
-    clients[peerId].emit(req.params.event, { peer: req.user, data: req.body });
+    clients[peerId].emit(req.params.event, {
+      peer: req.user,
+      data: req.body,
+    });
   }
   return res.sendStatus(200);
 });
