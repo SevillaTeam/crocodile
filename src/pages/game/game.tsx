@@ -40,7 +40,7 @@ const ctx: IContext = {
   peers: {},
   channels: {},
 };
-const baseUrl = 'http://localhost:8081';
+const baseUrl = 'https://localhost:8081';
 let winnerName = '';
 let winnerWord = '';
 
