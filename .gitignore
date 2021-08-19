@@ -6,7 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 .idea
-package-lock.json
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 dist
@@ -108,4 +107,8 @@ dist
 .tern-port
 
 # CERTIFICATE-KEY-FILENAME
+certFiles/_wildcard.ya-praktikum.tech-key.pem
+certFiles/_wildcard.ya-praktikum.tech.pem
+certFiles/localhost-key.pem
+certFiles/localhost.pem
 *.pem
