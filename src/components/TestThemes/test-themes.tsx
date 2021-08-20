@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import { useStore } from 'react-redux';
 import {
   CreateRequestUserTheme,
   FindRequest,
@@ -6,10 +7,25 @@ import {
 } from '../../server-ssr/controllers/interface';
 import { Button } from '../Button';
 import s from './test-themes.module.scss';
-import * as api from '../../server-ssr/themes-api/';
+import { connector } from './container';
+import * as api from '../../server-ssr/themes-api';
+
+import { IApplicationState } from '@/store/interfaces';
+
 const queryString = require('query-string');
 
-export const TestThemes: FC = (props) => {
+interface isLoggedIn {
+  isLoggedIn: boolean;
+}
+
+interface ISelection {
+  state: IApplicationState;
+  changeUserLoggedInStatus: (data: isLoggedIn) => void;
+}
+
+export const TestThemes1: FC<ISelection> = (props) => {
+  const { state, changeUserLoggedInStatus } = props;
+
   const getTheme = async (requestedData?: FindRequest) => {
     const queryStr = `/?${queryString.stringify({
       id: 5,
@@ -192,12 +208,27 @@ export const TestThemes: FC = (props) => {
     createUser();
   };
 
+  const handleClickReduxTestTrue = () => {
+    // console.log(store.getState());
+    // store.dispatch(changeUserLoggedInStatus({ isLoggedIn: true }));
+  };
+
+  const handleClickReduxTestFalse = () => {
+    // console.log(store.getState());
+    changeUserLoggedInStatus({ isLoggedIn: false });
+  };
+
+  const handleClickShowReduxState = () => {
+    // console.log(store.getState());
+    // store.dispatch(changeUserLoggedInStatus({ isLoggedIn: false }));
+  };
+
   return (
     <div className={s.container}>
       <p className={s.text}>
         userId from Redux store: <span>123</span>
       </p>
-      <div className={s.buttons}>
+      {/* <div className={s.buttons}>
         <Button
           text='Create Some Theme'
           type='button'
@@ -250,7 +281,36 @@ export const TestThemes: FC = (props) => {
           size='dense'
           onClick={handleClickGetUser}
         />
+      </div>  */}
+      <div className={s.buttons}>
+        <Button
+          text='Test Redux True'
+          type='button'
+          styleType='contained'
+          size='dense'
+          onClick={handleClickReduxTestTrue}
+        />
+      </div>
+      <div className={s.buttons}>
+        <Button
+          text='Test Redux False'
+          type='button'
+          styleType='contained'
+          size='dense'
+          onClick={handleClickReduxTestFalse}
+        />
+      </div>
+      <div className={s.buttons}>
+        <Button
+          text='Show Redux State'
+          type='button'
+          styleType='contained'
+          size='dense'
+          onClick={handleClickShowReduxState}
+        />
       </div>
     </div>
   );
 };
+
+export const TestThemes = connector(TestThemes1);

@@ -1,7 +1,7 @@
 import { IApiClientResponse } from '../../../services/interfaces';
 
 export interface IUserState {
-  readonly id?: number;
+  readonly isLoggedIn?: boolean;
 }
 
 export interface IUserAvatarState {
@@ -20,4 +20,5 @@ export interface IResponseUserState extends IApiClientResponse {
   readonly reason?: string;
   readonly message?: string;
   readonly gameRole?: string;
+  readonly isLoggedIn?: boolean;
 }

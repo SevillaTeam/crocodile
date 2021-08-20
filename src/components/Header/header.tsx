@@ -16,9 +16,7 @@ import { OAuth } from '../OAuth';
 type Props = HeaderProps;
 
 const HeaderComponent: FC<Props> = (props) => {
-  const {
-    userData,
-  } = props;
+  const { userData } = props;
 
   const [modalProfileState, setModalProfileState] = useState<IModalState>({
     isModalOpen: false,
@@ -90,8 +88,8 @@ const HeaderComponent: FC<Props> = (props) => {
           </li>
         </ul>
         <div className={s.rightSide}>
-          {
-            userData?.login ? (
+          {userData?.isLoggedIn ? (
+            <>
               <Button
                 text='Профиль'
                 styleType='contained'
@@ -99,32 +97,32 @@ const HeaderComponent: FC<Props> = (props) => {
                 styleObj={s.btnContainer}
                 onClick={() => showModalProfile()}
               />
-            ) : (
-              <>
-                <ul className={cn(s.nav__link_mr_2)}>
-                  <li className={cn(s.nav__link, s.nav__link_btnType)}>
-                    <Link to='/authorization' className={s.nav__linkText}>
-                      Войти
-                    </Link>
-                  </li>
-                </ul>
-                <Button
+              <Button
+                text='Выйти'
+                styleType='contained'
+                size='dense'
+                styleObj={s.btnContainer}
+                onClick={showModalLogout}
+              />
+            </>
+          ) : (
+            <>
+              <ul className={cn(s.nav__link_mr_2)}>
+                <li className={cn(s.nav__link, s.nav__link_btnType)}>
+                  <Link to='/oauth' className={s.nav__linkText}>
+                    Войти
+                  </Link>
+                </li>
+              </ul>
+              {/* <Button
                   text='OAuth'
                   styleType='contained'
                   size='dense'
                   styleObj={s.btnContainer}
                   onClick={showModalOAuth}
-                />
-              </>
-            )
-          }
-          <Button
-            text='Выйти'
-            styleType='contained'
-            size='dense'
-            styleObj={s.btnContainer}
-            onClick={showModalLogout}
-          />
+                /> */}
+            </>
+          )}
         </div>
       </div>
       <Modal

@@ -3,6 +3,7 @@ export { Home } from './home';
 export { Game } from './game';
 export { Registration } from './registration';
 export { Login } from './login';
+export { LoginOAuth } from './loginOAuth';
 export { Forum } from './forum';
 export { ForumTopic } from './forum-topic';
 export { GameEnding } from './game-ending';

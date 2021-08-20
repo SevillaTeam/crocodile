@@ -1,10 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, FC } from 'react';
+import { useStore } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import s from './home.module.scss';
 import { StartGameBanner } from '@components/StartGameBanner/start-game-banner';
 import * as api from '../../services/api';
 import { getAuthCodeFromQuery } from '../../utlis/get-auth-code-from-query';
+import {
+  changeUserLoggedInStatus,
+  getUserDataStart,
+} from '@components/Profile/redux-sagas/actions';
+import { WelcomeComp } from '@/components/WelcomeComp';
+import { connector } from './container';
+import { ISelection } from './container';
 
-export const Home = (): JSX.Element => {
+export const HomeComp: FC<ISelection> = (props): JSX.Element => {
+  const { userData } = props;
+  const store = useStore();
+  const history = useHistory();
+
   useEffect(() => {
     const authCode = getAuthCodeFromQuery();
 
@@ -14,13 +27,23 @@ export const Home = (): JSX.Element => {
           code: authCode,
           redirect_uri: 'https://localhost:5000',
         })
-        .then((res) => console.log(res))
+        .then((res) => {
+          store.dispatch(changeUserLoggedInStatus({ isLoggedIn: true }));
+          store.dispatch(getUserDataStart());
+          history.push('/');
+        })
         .catch((err) => console.log(err));
   }, []);
 
   return (
     <div className={s.homePage}>
-      <StartGameBanner />
+      {userData?.isLoggedIn || history.location.search ? (
+        <StartGameBanner />
+      ) : (
+        <WelcomeComp />
+      )}
     </div>
   );
 };
+
+export const Home = connector(HomeComp);

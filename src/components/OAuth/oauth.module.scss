@@ -1,8 +1,8 @@
 @import '../../styles/vars';
 
 .container {
-  width: 400px;
-  height: 300px;
+  // width: 250px;
+  min-height: 150px;
   padding: 40px;
   border-radius: 50px;
   z-index: 1000;
@@ -12,10 +12,17 @@
 }
 
 .title {
-  font-size: Roboto;
   font-size: 18px;
   line-height: 26px;
   text-align: center;
+  padding-bottom: 20px;
+}
+
+.subtitle {
+  font-size: 14px;
+  line-height: 16px;
+  text-align: center;
+  padding-bottom: 40px;
 }
 
 .buttons {
@@ -23,8 +30,8 @@
   flex-direction: column;
   margin: 0 auto;
   justify-content: space-between;
-  width: 250px;
-  height: 90px;
+  // width: 250px;
+  // height: 90px;
 }
 
 .message {

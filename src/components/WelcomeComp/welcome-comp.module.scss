@@ -1,0 +1,50 @@
+@import '../../styles/vars';
+
+.welcomeComp {
+  width: 500px;
+  height: 350px;
+  padding: 40px;
+  border-radius: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: auto;
+
+  background: rgb(239, 50, 217);
+  background: linear-gradient(
+    180deg,
+    rgba(239, 50, 217, 0.8) 0%,
+    rgba(137, 255, 253, 0.8) 100%
+  );
+  opacity: 0.9;
+}
+
+.title {
+  font-family: Roboto;
+  font-size: 18px;
+  line-height: 26px;
+  text-align: left;
+  color: #fff;
+  letter-spacing: 1px;
+}
+
+.subtitle {
+  font-family: Roboto;
+  font-size: 30px;
+  line-height: 44px;
+  text-align: left;
+  color: rgba(21, 5, 5, 0.9);
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.button {
+  width: 150px;
+}
+
+.buttons {
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+  width: 190px;
+}
