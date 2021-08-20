@@ -1,33 +1,26 @@
 import { IAction } from '../../../../store/interfaces';
 import { IResponseUserState } from '../interfaces';
 
-const initState: IResponseUserState = {
-  id: undefined,
-};
-
-export const changeUserIdReducer = (
-  state: IResponseUserState = initState,
+export const changeIsLoggedInReducer = (
+  state: IResponseUserState,
   action: IAction<IResponseUserState>,
 ): IResponseUserState => {
   const { payload } = action;
 
   if (payload) {
-    const { id } = payload;
+    const { isLoggedIn } = payload;
 
-    if (id !== null || id !== undefined) {
+    if (isLoggedIn !== null || isLoggedIn !== undefined) {
       const newState = {
         ...state,
-        id,
+        isLoggedIn,
       };
+
       return newState;
     } else {
-      return {
-        ...state,
-      };
+      return state;
     }
   }
 
-  return {
-    ...state,
-  };
+  return state;
 };

@@ -2,21 +2,18 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { IApplicationState } from '@/store/interfaces';
 
-import * as actions from '@components/Profile/redux-sagas/actions';
-import * as selectors from './redux-saga/selectors';
+import * as selectors from './redux/selectors';
 
 interface ISelection {
-  state: IApplicationState;
+  isLoggedIn?: boolean;
 }
 
 const mapStateToProps = createStructuredSelector<IApplicationState, ISelection>(
   {
-    state: selectors.getStateSelector,
+    isLoggedIn: selectors.getIsLoggedInStateSelector,
   },
 );
 
-const mapDispatchToProps = {
-  changeUserLoggedInStatus: actions.changeUserLoggedInStatus,
-};
+const mapDispatchToProps = {};
 
 export const connector = connect(mapStateToProps, mapDispatchToProps);

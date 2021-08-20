@@ -10,7 +10,7 @@ const querystring = require('querystring');
 
 export const OAuth: FC<IModalState> = (props) => {
   const onClose = () => {
-    props.onClose();
+    if (props.onClose) props.onClose();
   };
 
   const history = useHistory();
@@ -29,31 +29,17 @@ export const OAuth: FC<IModalState> = (props) => {
       .catch((err) => console.log(err));
   }, []);
 
-  const authorizeLocalRecord = useCallback(() => {
-    history.push('/authorization');
-    setTimeout(() => onClose(), 200);
-  }, []);
-
   return (
     <div className={s.container}>
       <h1 className={s.title}>Авторизация</h1>
-
+      <p className={s.subtitle}>войти через Yandex аккаунт</p>
       <div className={s.buttons}>
         <Button
           type='button'
           styleType='contained'
           color='primary'
-          text='Ввести login/password'
+          text='Войти'
           size='dense'
-          onClick={authorizeLocalRecord}
-        />
-        <Button
-          type='button'
-          styleType='contained'
-          color='primary'
-          text='Войти через Yandex аккаунт'
-          size='dense'
-          styleObj={s.customBtn}
           onClick={redirectToOAuthServer}
         />
       </div>

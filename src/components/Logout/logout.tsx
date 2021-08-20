@@ -1,14 +1,18 @@
 import React, { FC, useState } from 'react';
+import { useStore } from 'react-redux';
 import { Button } from '../Button';
 import { IModalState } from './interfaces';
 import s from './logout.module.scss';
 import * as api from '../../services/api';
 import { useHistory } from 'react-router-dom';
+import { changeUserLoggedInStatus } from '@components/Profile/redux-sagas/actions';
 
 export const Logout: FC<IModalState> = (props) => {
   const onClose = () => {
     props.onClose();
   };
+
+  const store = useStore();
 
   const [logoutState, setLogoutState] = useState({
     message: '',
@@ -23,6 +27,7 @@ export const Logout: FC<IModalState> = (props) => {
         setLogoutState((logoutState) => ({ message: 'Успешно!' }));
         setTimeout(() => {
           onClose();
+          store.dispatch(changeUserLoggedInStatus({ isLoggedIn: false }));
           history.push('/');
           window.location.reload();
         }, 1500);

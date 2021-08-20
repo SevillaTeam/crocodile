@@ -19,7 +19,6 @@ export const testDBConnect = () => {
     .then((res) => {
       console.log('Тестовый ответ от DB на запрос SELECT NOW()=', res.rows);
       client.end();
-      // @ts-ignore
     })
     // @ts-ignore
     .catch((err) => {
