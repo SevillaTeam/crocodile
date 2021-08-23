@@ -74,7 +74,6 @@ const getUser = (req: Request, res: Response, next: NextFunction) => {
   }
   const userId = req.query.user_id as string;
   req.user = users[userId];
-
   if (!req.user) {
     res.sendStatus(401);
   }
@@ -148,6 +147,7 @@ const emitDataToPlayers = (evt: string, data: EmittingData) => {
 router.post('/:roomId/join', getUser, (req, res) => {
   const roomId = req.params.roomId;
   //  если такой клиент уже подключен
+  // @ts-ignore
   if (channels[roomId] && channels[roomId][req.user.id]) {
     return res.sendStatus(200);
   }
