@@ -4,7 +4,6 @@ import { IResponseUserState } from '../interfaces';
 export const getUserDataStart = () => {
   return {
     type: t.GET_USER_DATA_START,
-    payload: {},
   };
 };
 

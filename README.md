@@ -59,3 +59,10 @@ mkcert local.ya-praktikum.tech
 ```
 
 Далее необходимо в корне создать папку certsFiles и положить туда сертификаты local.ya-praktikum.tech, а так же в папке server-game создать папку certsFiles и положить туда сертификаты localhost
+
+При переезде на хостинг необходимо поставить нужный url в следующих файлах:
+
+- server-game/index.ts
+- src/components/OAuth/constants.ts
+- src/server-ssr/server.ts
+- src/server-ssr/themes-api/themes-api.ts
