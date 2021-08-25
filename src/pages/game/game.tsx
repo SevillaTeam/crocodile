@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import styles from './game.module.scss';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { GameChat } from '@components/GameChat';
@@ -15,6 +15,8 @@ import { IContext, IPayload } from '../../../server-game/interfaces';
 import { WaitingForUsers } from '@components/WaitingForUsers/waiting-for-users';
 import { Modal } from '@components/Modal';
 import { useHistory } from 'react-router-dom';
+import { ThemeContext } from '@/context';
+import cn from 'classnames';
 
 const GAME_EVENTS = {
   waitingForPlayers: 'WAITING_FOR_PLAYERS',
@@ -46,6 +48,7 @@ let winnerWord = '';
 
 export const Game = (): JSX.Element => {
   const history = useHistory();
+  const { theme } = useContext(ThemeContext);
   const [incomingImageData, setImageData] = React.useState({
     prevX: '',
     prevY: '',
@@ -245,10 +248,12 @@ export const Game = (): JSX.Element => {
         isModalOpen={gameEvent === GAME_EVENTS.gameFinished}
         onClose={goHome}
       >
-        <div className={styles.winnerModal}>
-          <h1>We have a winner! 🏆</h1>
-          <h2>{winnerName}</h2>
-          <h2>Secret word: {winnerWord}</h2>
+        <div className={cn(styles.winnerModal, styles[theme])}>
+          <h1 className={styles.title}>We have a winner! 🏆</h1>
+          <h2 className={styles.subtitle}>{winnerName}</h2>
+          <h2 className={styles.word}>
+            <span className={styles.secretWord}>Secret word:</span> {winnerWord}
+          </h2>
         </div>
       </Modal>
     </div>

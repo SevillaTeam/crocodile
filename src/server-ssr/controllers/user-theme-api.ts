@@ -52,4 +52,31 @@ export class UserThemeAPI {
         });
       });
   };
+
+  public static delete = async (
+    req: ExpressRequestModeledType,
+    res: ExpressResponseModeledType,
+  ) => {
+    const { body } = req;
+
+    if (!req.body.ownerId) {
+      res.status(400).send({
+        message: 'Нужен ownderId!',
+      });
+      return;
+    }
+
+    userThemeService
+      .delete(body)
+      .then((data) => {
+        res.send(data + ''); // сконвертировали в string
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message ||
+            'Возникла ошибка во время удаление темы пользователя',
+        });
+      });
+  };
 }

@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 import { IModalState } from '@components/Modal/interfaces';
 import s from './modal.module.scss';
+import { ThemeContext } from '@/context';
 
 export const Modal: FC<IModalState> = (props) => {
   const onClose = () => {

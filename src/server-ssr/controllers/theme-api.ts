@@ -56,4 +56,23 @@ export class ThemeAPI {
         });
       });
   };
+
+  public static findAll = async (
+    req: ExpressRequestModeledType,
+    res: ExpressResponseModeledType,
+  ) => {
+    const { query } = req;
+
+    themeService
+      .findAll(query)
+      .then((data) => {
+        res.send(data);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message:
+            err.message || 'Возникла ошибка сервере во время запроса тем',
+        });
+      });
+  };
 }

@@ -13,8 +13,6 @@ const sequelizeOptions: SequelizeOptions = {
   dialect: 'postgres',
 };
 const sequelize = new Sequelize(sequelizeOptions);
-sequelize.addModels([User]);
-sequelize.addModels([SiteTheme]);
-sequelize.addModels([UserTheme]);
+sequelize.addModels([UserTheme, SiteTheme, User]);
 
 export default sequelize;
