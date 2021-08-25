@@ -7,10 +7,17 @@
   grid-column: 1 / -1;
 }
 
+.light {
+  background-color: $color-light;
+}
+
+.dark {
+  background-color: $color-dark;
+}
+
 .chatForm {
   width: 100%;
   display: flex;
-  background-color: #fff;
   padding: 25px;
   border-radius: 15px;
   box-shadow: $box-shadow-1dp;
@@ -20,5 +27,3 @@
   width: 100%;
   margin-right: 140px;
 }
-
-

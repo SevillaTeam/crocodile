@@ -8,7 +8,10 @@ import {
   AllowNull,
   Unique,
   Index,
+  HasMany,
 } from 'sequelize-typescript';
+
+import { UserTheme } from './user-theme.model';
 
 @Table({
   timestamps: false,
@@ -33,4 +36,8 @@ export class SiteTheme extends Model<SiteTheme> {
   @Column(DataType.STRING)
   // @ts-ignore
   description: string;
+
+  @HasMany(() => UserTheme)
+  // @ts-ignore
+  userTheme: UserTheme[];
 }

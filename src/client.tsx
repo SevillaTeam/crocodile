@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Provider } from 'react-redux';
 import { App } from './App';
 import './styles/_reset.scss';

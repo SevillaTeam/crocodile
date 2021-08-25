@@ -9,6 +9,15 @@
   display: flex;
   box-shadow: $box-shadow-1dp;
   z-index: 1000;
+  background-color: $color-light;
+}
+
+.light {
+  background-color: $color-light;
+}
+
+.dark {
+  background-color: $color-dark;
 }
 
 .container {

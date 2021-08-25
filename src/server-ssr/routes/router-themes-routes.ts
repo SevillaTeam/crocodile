@@ -9,10 +9,12 @@ export const themesRoutes = (router: Router) => {
 
   themesRouter
     .post('/', checkAuthMiddleware, ThemeAPI.create)
-    .get('/', checkAuthMiddleware, ThemeAPI.find);
+    .get('/title', checkAuthMiddleware, ThemeAPI.find)
+    .get('/', checkAuthMiddleware, ThemeAPI.findAll);
 
   userThemesRouter
     .post('/', checkAuthMiddleware, UserThemeAPI.create)
+    .delete('/', checkAuthMiddleware, UserThemeAPI.delete)
     .get('/', checkAuthMiddleware, UserThemeAPI.find);
 
   usersRouter

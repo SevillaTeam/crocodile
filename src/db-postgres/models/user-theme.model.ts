@@ -8,6 +8,7 @@ import {
   AllowNull,
   ForeignKey,
   Index,
+  BelongsTo,
 } from 'sequelize-typescript';
 
 import { User } from './user.model';
@@ -46,4 +47,8 @@ export class UserTheme extends Model<UserTheme> {
   @Column(DataType.INTEGER)
   // @ts-ignore
   ownerId: string;
+
+  @BelongsTo(() => SiteTheme)
+  // @ts-ignore
+  siteTheme: SiteTheme;
 }

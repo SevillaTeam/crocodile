@@ -3,7 +3,7 @@
 .container {
   width: 340px;
   padding: 30px;
-  border-radius: 50px;
+  border-radius: 25px;
   display: flex;
   flex-direction: column;
 }
@@ -16,6 +16,14 @@
   padding-top: 10px;
   padding-bottom: 30px;
   text-align: center;
+}
+
+.light {
+  background-color: $color-light;
+}
+
+.dark {
+  background-color: $color-dark;
 }
 
 .wordsCont {

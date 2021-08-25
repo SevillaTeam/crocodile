@@ -68,3 +68,11 @@ mkcert local.ya-praktikum.tech
 - src/components/OAuth/constants.ts
 - src/server-ssr/server.ts
 - src/server-ssr/themes-api/themes-api.ts
+
+## Для темизации необходима база postgres с прездаполненной таблицей site_theme
+
+надо сделать запрос через pgAdmin:
+
+```bash
+INSERT INTO site_theme (theme,description) VALUES ('light','Дефолтная тема'), ('dark','Пользовательская тема')
+```

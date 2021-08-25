@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect, useCallback } from 'react';
+import React, { FC, useState, useEffect, useCallback, useContext } from 'react';
 import s from './profile.module.scss';
 import { connector } from './container';
 import { getUserInfo } from '../../services';
@@ -11,15 +11,22 @@ import { IApiClientResponse } from '../../services/interfaces';
 import { ProfileForm } from '../ProfileForm';
 import { TabsProfile } from '../TabsProfile';
 import { ChngPwdForm } from '../ChngPwdForm';
+import { ChngThemeForm } from '@components/ChngTheme';
+import { ThemeContext } from '@/context';
+import cn from 'classnames';
 
 const Profile: FC<IProfileProps> = (props) => {
+  const { theme } = useContext(ThemeContext);
   const {
     userData,
     getUserData,
     changeUserAvatar,
     userAvatar,
     changeUserData,
+    onClose,
   } = props;
+  const closeModalProfile = onClose;
+
   const [modalState, setModalState] = useState<IModalState>({
     isModalOpen: false,
   });
@@ -80,14 +87,14 @@ const Profile: FC<IProfileProps> = (props) => {
       ),
     },
     {
-      title: 'Изменить пароль',
+      title: 'Изменить тему',
       active: false,
-      content: <ChngPwdForm />,
+      content: <ChngThemeForm onClose={closeModalProfile} />,
     },
   ];
 
   return (
-    <div className={s.container}>
+    <div className={cn(s.container, s[theme])}>
       <div className={s.wrapper}>
         <AvatartProfile userAvatar={userAvatar} onClick={showModal} />
 
