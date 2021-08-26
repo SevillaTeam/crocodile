@@ -6,6 +6,7 @@ import compression from 'compression';
 import serverRenderMiddleware from './server-render-middleware';
 import router from './routes';
 import sequelize from '../db-postgres/sequelize-config';
+import { checkAuthMiddlewareSSR } from './controllers/check-auth-middlware-ssr';
 
 sequelize
   .sync()
@@ -42,6 +43,7 @@ app
   .use(compression())
   .use(express.static(path.resolve(__dirname, '../dist')))
   .use(express.static(path.resolve(__dirname, '../static')));
+app.use('/', checkAuthMiddlewareSSR);
 app.get('/*', serverRenderMiddleware);
 
 export { app };

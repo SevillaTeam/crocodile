@@ -58,6 +58,8 @@ mkcert localhost
 mkcert local.ya-praktikum.tech
 ```
 
+\*\*Необходимо прописать на локальной машине в etc/hosts: 127.0.0.1 local.ya-praktikum.tech
+
 Далее необходимо в корне создать папку certsFiles и положить туда сертификаты local.ya-praktikum.tech, а так же в папке server-game создать папку certsFiles и положить туда сертификаты localhost
 
 При переезде на хостинг необходимо поставить нужный url в следующих файлах:

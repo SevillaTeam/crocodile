@@ -1,20 +1,8 @@
 import { IResponseUserState } from '../interfaces';
 import { IAction } from '../../../../store/interfaces';
 
-const initState = {
-  id: undefined,
-  first_name: '',
-  second_name: '',
-  display_name: '',
-  login: '',
-  email: '',
-  phone: '',
-  avatar: '',
-  reason: '',
-};
-
 export const changeUserDataSuccess = (
-  state: IResponseUserState = initState,
+  state: IResponseUserState,
   action: IAction<IResponseUserState>,
 ): IResponseUserState => {
   const { payload } = action;
@@ -29,7 +17,7 @@ export const changeUserDataSuccess = (
 };
 
 export const changeUserDataFailure = (
-  state: IResponseUserState = initState,
+  state: IResponseUserState,
   action: IAction<IResponseUserState>,
 ): IResponseUserState => {
   const { payload } = action;
