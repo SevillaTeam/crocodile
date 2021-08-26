@@ -16,17 +16,10 @@ const ProtectedRouteComp: FC<IProps> = ({
   redirect_path,
   ...rest
 }: any) => {
-  return (
-    <Route
-      {...rest}
-      render={(props) => {
-        return isLoggedIn ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to={redirect_path} />
-        );
-      }}
-    ></Route>
+  return isLoggedIn ? (
+    <Route {...rest} render={(props) => <Component {...props} />} />
+  ) : (
+    <Redirect to={redirect_path} />
   );
 };
 export const ProtectedRoute = connector(ProtectedRouteComp);
