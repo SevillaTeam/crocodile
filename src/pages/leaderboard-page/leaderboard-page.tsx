@@ -1,11 +1,13 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import s from './leaderboard-page.module.scss';
 import * as api from '../../services/api';
-import { Button } from '@components/Button';
 import { Leaderboard } from '@components/Leaderboard';
-import { IResponseLiderboard } from '../../services/interfaces';
+import { IApiClientResponse, IResponseLeaderboard } from '../../services/interfaces';
+import { Lead } from '@/components/Leaderboard/types';
 
 export const LeaderboardPage: FC = () => {
+  const [leaders, setLeaders] = useState<Lead[]>([])
+
   useEffect(() => {
     api
       .getAllLeaderboard({
@@ -13,37 +15,25 @@ export const LeaderboardPage: FC = () => {
         limit: 100,
         ratingFieldName: 'score',
       })
-      .then((res: IResponseLiderboard) => {
-        console.log(res);
+      .then((res: IApiClientResponse | IResponseLeaderboard[]) => {
+        if (Array.isArray(res)) {
+          const leadArr: Lead[] = res.map(v => {
+            return {
+              name: v.data?.name ?? 'anonymous',
+              score: v.data?.score ?? 0,
+            }
+          })
+          setLeaders(leadArr)
+        }
       })
       .catch((err: { reason: string }) => {
         console.log(err);
       });
   }, []);
 
-  const handleClickAddUserToLeaderboard = () => {
-    api.addToLeaderboard({
-      data: {
-        user_id: 10,
-        display_name: 'Vasiya',
-        score: 16,
-      },
-      ratingFieldName: 'score',
-    });
-  };
-
   return (
     <div className={s.container}>
-      <Leaderboard />
-      <div className={s.buttons}>
-        <Button
-          text='AddCurrentUserToLeaderboard'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickAddUserToLeaderboard}
-        />
-      </div>
+      <Leaderboard leaders={leaders} />
     </div>
   );
 };

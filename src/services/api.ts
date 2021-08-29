@@ -5,6 +5,7 @@ import {
   IRequestLiderboardAll,
   IResponseLiderboard,
   IOauth,
+  IResponseLeaderboard,
 } from './interfaces';
 import { apiBase } from './constants';
 const api = new ApiClient(apiBase);
@@ -78,9 +79,9 @@ export const addToLeaderboard = async (
 
 export const getAllLeaderboard = async (
   data: IRequestLiderboardAll,
-): Promise<IApiClientResponse | IResponseLiderboard> => {
+): Promise<IApiClientResponse | IResponseLiderboard | IResponseLeaderboard[]> => {
   return await api.post({
-    endpoint: '/leaderboard/all',
+    endpoint: '/leaderboard/sevilla',
     data,
   });
 };
