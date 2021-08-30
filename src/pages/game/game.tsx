@@ -16,6 +16,9 @@ const GAME_EVENTS = {
     gameStarted: 'GAME_STARTED',
     gameFinished: 'GAME_FINISHED'
 }
+import {isServer} from "@/store/rootStore";
+
+let stream: MediaStream;
 
 const RTC_CONFIG = {
     iceServers: [{
@@ -49,6 +52,7 @@ export const Game = (): JSX.Element => {
 
     const [chatMessages, setChatMessages] = React.useState([{content: '', username: ''}])
     const [gameEvent, setGameEvent] = React.useState()
+    const [videoTracks, setVideoTracks] = React.useState([])
 
     const connect = async () => {
         ctx.userId = await createUser(ctx.username);
@@ -80,7 +84,13 @@ export const Game = (): JSX.Element => {
                             winnerName = data.username;
                             winnerWord = data.content;
                         }
+
                         setGameEvent(evt);
+
+                        if (evt === GAME_EVENTS.gameStarted) {
+                            showVideo()
+                            console.log(123)
+                        }
                         break;
                 }
             }
@@ -95,6 +105,40 @@ export const Game = (): JSX.Element => {
         }
 
         const peer = new RTCPeerConnection(RTC_CONFIG);
+        //@ts-ignore
+        stream.getVideoTracks().forEach((track) => peer.addTrack(track, stream))
+
+        peer.ontrack = async (evt) => {
+            console.log('video event by user: ' + ctx.username, evt)
+
+            // @ts-ignore
+            setVideoTracks((prevState) => {
+                return [...prevState, evt.streams[0]]
+            })
+
+            const videContainer = document.getElementById('video-container');
+            const videoEl = document.createElement('video');
+            videoEl.srcObject = evt.streams[0];
+            videoEl.setAttribute('autoPlay', 'true');
+            videoEl.width = 210;
+            videoEl.height = 160;
+            // @ts-ignore
+            videContainer.appendChild(videoEl);
+
+            // setTimeout(() => {
+            //     videoTracks.forEach((vt, idx) => {
+            //         console.log(idx)
+
+            // console.log('videoTracks', videoTracks)
+            // const video = document.getElementById('video' + 0);
+            // console.log('track', vt)
+            // @ts-ignore
+            // video.srcObject = evt.streams[0]
+            // })
+            //
+            // }, 3500)
+
+        }
 
         if (ctx.peers) {
             // сохраянем подключение для клиента
@@ -110,6 +154,7 @@ export const Game = (): JSX.Element => {
         // смотрим, нужно ли создавать предложение
         if (message.offer) {
             const channel = peer.createDataChannel('updates');
+
             channel.onmessage = (event) => {
                 onPeerData(message.peer.id, event.data);
             };
@@ -197,7 +242,35 @@ export const Game = (): JSX.Element => {
     }
     useEffect(() => {
         connect()
+        if (!isServer) {
+            enableVideo()
+        }
     }, [])
+
+    const enableVideo = async () => {
+        console.log('enable video')
+        //@ts-ignore
+        const constraints = window.constraints = {
+            audio: false,
+            video: true
+        }
+        //@ts-ignore
+        stream = await navigator.mediaDevices.getUserMedia(constraints);
+        //@ts-ignore
+        const videoTracks = stream.getVideoTracks();
+        console.log('Got stream with constraints:', constraints);
+        console.log(`Using video device: ${videoTracks[0].label}`);
+        //TODO move this to the root of the game
+        //@ts-ignore
+        window.stream = stream; // make variable available to browser console
+    }
+
+    const showVideo = () => {
+        const video = document.getElementById('video')
+        console.log(video, stream)
+        //@ts-ignore
+        video.srcObject = stream;
+    }
 
     const goHome = () => {
         history.push('/')
@@ -212,7 +285,7 @@ export const Game = (): JSX.Element => {
                         <GameCanvas incomingImageData={incomingImageData} onBroadcast={broadcast}/>
                         <GameChat messages={chatMessages}/>
                     </div>
-                    <GamePlayers/>
+                    <GamePlayers videoTracks={videoTracks}/>
                     <ChatInput sendMessage={sendChatMessage}/>
                 </main>
                 <Modal isModalOpen={gameEvent === GAME_EVENTS.gameFinished} onClose={goHome}>
