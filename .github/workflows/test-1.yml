@@ -1,0 +1,19 @@
+name: Croco test application
+on:
+   push:
+      branches:
+      - main
+   pull_request:
+      branches:
+      - main
+jobs:
+   build:
+      runs-on: ubuntu-latest
+      steps:
+      -  uses: actions/checkout@v2
+      -  name: Run docker-compose stack
+         run: docker-compose -f docker-compose.yml up -d
+      -  name: Check folder
+         run: pwd
+      -  name: Check files
+         run: ls -ltr
