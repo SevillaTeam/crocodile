@@ -41,5 +41,5 @@ jobs:
           target: ${{ env.DEPLOY_PATH }}
           strip_components: 1
 
-      - name: Check files in DEPLOY_PATH
-        run: pwd
+      - name: Try run script in DEPLOY_PATH
+        run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} testScript.sh
