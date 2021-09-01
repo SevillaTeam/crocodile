@@ -88,35 +88,6 @@ router.post('/word', (req, res) => {
     return res.json({guessingWord});
 });
 
-<<<<<<< Updated upstream
-router.get('/connect', getUser, (req, res) => {
-    if (req.headers.accept !== 'text/event-stream') {
-        return res.sendStatus(404);
-    }
-    res.setHeader('Cache-Control', 'no-cache');
-    // устанавливаем заголовок text/event-stream
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Connection', 'keep-alive');
-    res.flushHeaders();
-
-    // создаем клиента
-    const client: IClient = {
-        id: req.user.id,
-        user: req.user,
-        emit: (event, data) => {
-            res.write(`id: ${uuidv4()}\n`);
-            res.write(`event: ${event}\n`);
-            res.write(`data: ${JSON.stringify(data)}\n\n`);
-        },
-    };
-
-    clients[client.id] = client;
-
-    client.emit('connected', {user: req.user});
-    req.on('close', () => {
-        disconnected(client);
-    });
-=======
 router.get('/connect', getUser, (req: Request, res) => {
   if (req.headers.accept !== 'text/event-stream') {
     return res.sendStatus(404);
@@ -145,7 +116,6 @@ router.get('/connect', getUser, (req: Request, res) => {
   req.on('close', () => {
     disconnected(client);
   });
->>>>>>> Stashed changes
 });
 
 const emitGameStatus = () => {
@@ -157,20 +127,12 @@ const emitGameStatus = () => {
 }
 
 const emitDataToPlayers = (evt: string, data: EmittingData) => {
-<<<<<<< Updated upstream
-    const roomId = '1'; //TODO refactor if we will add more rooms
-    for (const peerId in channels[roomId]) {
-        clients[peerId].emit(evt, data);
-    }
-}
-=======
   console.log(evt, data)
   const roomId = '1'; //TODO refactor if we will add more rooms
   for (const peerId in channels[roomId]) {
     clients[peerId].emit(evt, data);
   }
 };
->>>>>>> Stashed changes
 
 router.post('/:roomId/join', getUser, (req, res) => {
     const roomId = req.params.roomId;
