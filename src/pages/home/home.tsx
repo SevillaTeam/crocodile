@@ -26,18 +26,18 @@ export const HomeComp: FC<ISelection> = (props): JSX.Element => {
 
         const authCode = getAuthCodeFromQuery();
 
-        if (authCode)
-            api
-                .OAuthLogin({
-                    code: authCode,
-                    redirect_uri: 'https://localhost:5000',
-                })
-                .then((res) => {
+        // if (authCode)
+        //     api
+        //         .OAuthLogin({
+        //             code: authCode,
+        //             redirect_uri: 'https://localhost:5000',
+        //         })
+                // .then((res) => {
                     store.dispatch(changeUserLoggedInStatus({isLoggedIn: true}));
-                    store.dispatch(getUserDataStart());
-                    history.push('/');
-                })
-                .catch((err) => console.log(err));
+                    // store.dispatch(getUserDataStart());
+                    // history.push('/');
+                // })
+                // .catch((err) => console.log(err));
     }, []);
 
     const enableVideo = async () => {

@@ -41,7 +41,7 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
 
   const sendWordToServer = async (word: string) => {
     try {
-      return await fetch('https://localhost:8081/word', {
+      return await fetch('https://sevilla-crocodile-6.ya-praktikum.tech/api/word', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',

@@ -7,13 +7,13 @@ require('dotenv').config();
 const path = require('path');
 
 const fs = require('fs');
-const https = require('https');
-const privateKeyPath = path.join(__dirname, 'certsFiles/localhost-key.pem');
-const certificatePath = path.join(__dirname, 'certsFiles/localhost.pem');
+// const https = require('https');
+// const privateKeyPath = path.join(__dirname, 'certsFiles/localhost-key.pem');
+// const certificatePath = path.join(__dirname, 'certsFiles/localhost.pem');
 
-const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
-const certificate = fs.readFileSync(certificatePath, 'utf8');
-const credentials = { key: privateKey, cert: certificate };
+// const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+// const certificate = fs.readFileSync(certificatePath, 'utf8');
+// const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 
@@ -23,6 +23,8 @@ const allowedOrigins = [
   'https://localhost:5000',
   'http://local.ya-praktikum.tech:5001',
   'https://local.ya-praktikum.tech:5000',
+  'http://sevilla-crocodile-6.ya-praktikum.tech:5001',
+  'https://sevilla-crocodile-6.ya-praktikum.tech:5000',
 ];
 
 const options: cors.CorsOptions = {
@@ -32,8 +34,9 @@ app.use(cors(options));
 app.use(express.json());
 app.use(router);
 
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app)
 
-httpsServer.listen(process.env.PORT_GAME_SERVER || 8081, () => {
-  console.log(`Started server on port ${httpsServer.address().port}`);
+httpServer.listen(process.env.PORT_GAME_SERVER || 8081, () => {
+  console.log(`Started server on port 8081`);
 });

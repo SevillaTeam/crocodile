@@ -36,7 +36,7 @@ const ctx: IContext = {
     peers: {},
     channels: {},
 };
-const baseUrl = 'http://localhost:8081'
+const baseUrl = 'https://sevilla-crocodile-6.ya-praktikum.tech/api';
 let winnerName = '';
 let winnerWord = '';
 
@@ -275,5 +275,4 @@ export const Game = (): JSX.Element => {
                 </Modal>
             </div>
     );
-
 };
