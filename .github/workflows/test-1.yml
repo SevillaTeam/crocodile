@@ -41,10 +41,18 @@ jobs:
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           source: ${{ env.BUILD_SCRIPT_OUTPUT }}
           target: ${{ env.DEPLOY_PATH }}
+          strip_components: 1
+
+      - name: Execute ssh command via using private key
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.DEPLOY_SERVER_HOST }}
+          port: ${{ secrets.DEPLOY_SERVER_PORT }}
+          username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+          key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: |
             pwd
             ${{ env.DEPLOY_PATH }} ls
-          strip_components: 1
 
           #
       #- name: Try run script in DEPLOY_PATH
