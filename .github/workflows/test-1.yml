@@ -11,6 +11,7 @@ env:
   PGADMIN_DEFAULT_PASSWORD: 'secret'
   PGADMIN_LISTEN_PORT: '80'
   DEPLOY_PATH: /var/www/croco-test1
+  BUILD_SCRIPT_OUTPUT: .
 on:
   push:
     branches:
@@ -37,7 +38,7 @@ jobs:
           port: ${{ secrets.DEPLOY_SERVER_PORT }}
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
-          source: './package.json'
+          source: ${{ env.BUILD_SCRIPT_OUTPUT }}
           target: ${{ env.DEPLOY_PATH }}
           strip_components: 1
 
