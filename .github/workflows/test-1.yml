@@ -42,4 +42,4 @@ jobs:
           strip_components: 1
 
       - name: Try run script in DEPLOY_PATH
-        run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} testScript.sh
+        run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} testBash.sh
