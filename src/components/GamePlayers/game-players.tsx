@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import s from './game-players.module.scss';
-import { GamePlayer } from '../GamePlayer';
 import { playersMock } from './mock';
 import { PLAYER_ROLE } from './constants';
 
