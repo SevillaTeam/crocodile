@@ -51,7 +51,7 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: |
-            pwd
+            bash testBash.sh
 
           #
       #- name: Try run script in DEPLOY_PATH
