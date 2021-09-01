@@ -29,11 +29,6 @@ jobs:
       #  run: pwd
       #- name: Check files
       #  run: ls -ltr
-      # Записываем в переменные окружения имя текущей ветки
-      # Чтобы избежать конфиликтов с URL, меняем точки на _, а слеши на минусы
-      - name: Get branch name
-        shell: bash
-        run: echo "::set-env name=BRANCH_NAME::$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g' | sed 's/\./_/g')"
       ### Доставляем исходники приложения на сервер
       - name: Deploy to Server
         uses: appleboy/scp-action@master
@@ -43,5 +38,8 @@ jobs:
           username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           source: .
-          target: ${{ env.DEPLOY_PATH }}/${{ env.BRANCH_NAME }}
+          target: ${{ env.DEPLOY_PATH }}
           strip_components: 1
+
+      - name: Check files in DEPLOY_PATH
+        run: pwd
