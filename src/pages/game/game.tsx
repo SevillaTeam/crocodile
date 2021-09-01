@@ -18,7 +18,7 @@ const GAME_EVENTS = {
 }
 import {isServer} from "@/store/rootStore";
 
-let stream: MediaStream;
+// let stream: MediaStream;
 
 const RTC_CONFIG = {
     iceServers: [{
@@ -106,7 +106,7 @@ export const Game = (): JSX.Element => {
 
         const peer = new RTCPeerConnection(RTC_CONFIG);
         //@ts-ignore
-        stream.getVideoTracks().forEach((track) => peer.addTrack(track, stream))
+        window.stream.getVideoTracks().forEach((track) => peer.addTrack(track, window.stream))
 
         peer.ontrack = async (evt) => {
             console.log('video event by user: ' + ctx.username, evt)
@@ -242,34 +242,12 @@ export const Game = (): JSX.Element => {
     }
     useEffect(() => {
         connect()
-        if (!isServer) {
-            enableVideo()
-        }
     }, [])
-
-    const enableVideo = async () => {
-        console.log('enable video')
-        //@ts-ignore
-        const constraints = window.constraints = {
-            audio: false,
-            video: true
-        }
-        //@ts-ignore
-        stream = await navigator.mediaDevices.getUserMedia(constraints);
-        //@ts-ignore
-        const videoTracks = stream.getVideoTracks();
-        console.log('Got stream with constraints:', constraints);
-        console.log(`Using video device: ${videoTracks[0].label}`);
-        //TODO move this to the root of the game
-        //@ts-ignore
-        window.stream = stream; // make variable available to browser console
-    }
 
     const showVideo = () => {
         const video = document.getElementById('video')
-        console.log(video, stream)
         //@ts-ignore
-        video.srcObject = stream;
+        video.srcObject = window.stream;
     }
 
     const goHome = () => {

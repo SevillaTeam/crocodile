@@ -25,11 +25,7 @@ export const GamePlayers: FC<Props> = ({videoTracks = []}) => {
 
   return (
       <div className={s.gamePlayers} id="video-container">
-        {/*{*/}
-        {/*  videoTracks.map((track, idx) =>*/}
-        {/*      // @ts-ignore*/}
-        {/*      (<video key={idx} id={'video' + idx} width="210px" height="160px" autoPlay={true}/>))*/}
-        {/*}*/}
+        <video id="video" width="210px" height="160px" autoPlay={true}/>
       </div>
   );
 };
