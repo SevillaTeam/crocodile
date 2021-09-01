@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Copy from repository
-      - uses: actions/checkout@v2 #копируем все из репозитория
+        uses: actions/checkout@v2 #копируем все из репозитория
       # - name: Run docker-compose stack
       #   run: docker-compose up -d --build
       # - name: Check folder
