@@ -114,7 +114,7 @@ export const ChngThemeFormComp: FC<ChngThemeFormProps> = (props) => {
           .catch((err) => console.log('err(createUserTheme)=', err));
       })
       .catch((err) => console.log('err(getThemeByTitle)=', err));
-  }, [userData]);
+  }, [userData, themeState]);
 
   const onCancelBtn = useCallback(() => {
     const { id } = userData;
@@ -128,7 +128,7 @@ export const ChngThemeFormComp: FC<ChngThemeFormProps> = (props) => {
         onClose();
       })
       .catch((err) => console.log('err(getThemeByOwnerId)=', err));
-  }, [userData]);
+  }, [userData, themeState]);
 
   return (
     <div className={s.container}>
