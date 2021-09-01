@@ -13,10 +13,10 @@ const initState = {
   phone: '',
   avatar: '',
   reason: '',
-  gameRole: '',
 };
 
 const userReducer = createReducer<IResponseUserState>(initState, {
+  [t.CHANGE_IS_LOGGED_IN_STATUS]: reducers.changeIsLoggedInReducer,
   [t.CHANGE_USER_GAME_ROLE]: reducers.changeUserGameRoleReducer,
 
   [t.GET_USER_DATA_FAILURE]: reducers.getUserDataFailure,

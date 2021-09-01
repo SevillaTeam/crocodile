@@ -17,3 +17,4 @@ export {
 } from './changeUserData';
 
 export * from './changeUserGameRole';
+export { changeUserLoggedInStatus } from './changeUserLoggedInStatus';

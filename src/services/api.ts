@@ -4,6 +4,7 @@ import {
   IRequestLiderboardAddUser,
   IRequestLiderboardAll,
   IResponseLiderboard,
+  IOauth,
 } from './interfaces';
 import { apiBase } from './constants';
 const api = new ApiClient(apiBase);
@@ -80,6 +81,21 @@ export const getAllLeaderboard = async (
 ): Promise<IApiClientResponse | IResponseLiderboard> => {
   return await api.post({
     endpoint: '/leaderboard/all',
+    data,
+  });
+};
+
+export const getCodeForOAuth = async (
+  searchParams: string,
+): Promise<IApiClientResponse> => {
+  return await api.get({
+    endpoint: `/oauth/yandex/service-id?${searchParams}`,
+  });
+};
+
+export const OAuthLogin = async (data: IOauth): Promise<IApiClientResponse> => {
+  return await api.post({
+    endpoint: '/oauth/yandex',
     data,
   });
 };

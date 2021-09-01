@@ -10,3 +10,4 @@ export {
 } from './changeUserDataReducer';
 
 export { changeUserGameRoleReducer } from './changeUserGameRoleReducer';
+export { changeIsLoggedInReducer } from './changeIsLoggedInReducer';

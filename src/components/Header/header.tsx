@@ -1,23 +1,32 @@
 import React, { FC, useState, useCallback } from 'react';
 import { HeaderProps } from './';
+import { connector } from './container';
 import { Button } from '../Button';
 import { Link } from 'react-router-dom';
 import cn from 'classnames';
 import s from './header.module.scss';
 import { Modal } from '@components/Modal';
 import { Modal as ModalLogout } from '@components/Modal';
+import { Modal as ModalOAuth } from '@components/Modal';
 import { IModalState } from './types';
 import { Profile } from '../Profile';
 import { Logout } from '../Logout';
+import { OAuth } from '../OAuth';
 
 type Props = HeaderProps;
 
-export const Header: FC<Props> = () => {
+const HeaderComponent: FC<Props> = (props) => {
+  const { userData } = props;
+
   const [modalProfileState, setModalProfileState] = useState<IModalState>({
     isModalOpen: false,
   });
 
   const [modalLogoutState, setModalLogoutState] = useState<IModalState>({
+    isModalOpen: false,
+  });
+
+  const [modalOAuthState, setModalOAuthState] = useState<IModalState>({
     isModalOpen: false,
   });
 
@@ -49,6 +58,20 @@ export const Header: FC<Props> = () => {
     }));
   }, [modalLogoutState]);
 
+  const showModalOAuth = useCallback(() => {
+    setModalOAuthState((modalOAuthState) => ({
+      ...modalOAuthState,
+      isModalOpen: !modalOAuthState.isModalOpen,
+    }));
+  }, [modalOAuthState]);
+
+  const closeModalOAuth = useCallback(() => {
+    setModalOAuthState((modalOAuthState) => ({
+      ...modalOAuthState,
+      isModalOpen: false,
+    }));
+  }, [modalOAuthState]);
+
   return (
     <div className={s.header}>
       <div className={s.container}>
@@ -65,20 +88,41 @@ export const Header: FC<Props> = () => {
           </li>
         </ul>
         <div className={s.rightSide}>
-          <Button
-            text='Профиль'
-            styleType='contained'
-            size='dense'
-            styleObj={s.btnContainer}
-            onClick={() => showModalProfile()}
-          />
-          <Button
-            text='Выйти'
-            styleType='contained'
-            size='dense'
-            styleObj={s.btnContainer}
-            onClick={() => showModalLogout()}
-          />
+          {userData?.isLoggedIn ? (
+            <>
+              <Button
+                text='Профиль'
+                styleType='contained'
+                size='dense'
+                styleObj={s.btnContainer}
+                onClick={() => showModalProfile()}
+              />
+              <Button
+                text='Выйти'
+                styleType='contained'
+                size='dense'
+                styleObj={s.btnContainer}
+                onClick={showModalLogout}
+              />
+            </>
+          ) : (
+            <>
+              <ul className={cn(s.nav__link_mr_2)}>
+                <li className={cn(s.nav__link, s.nav__link_btnType)}>
+                  <Link to='/oauth' className={s.nav__linkText}>
+                    Войти
+                  </Link>
+                </li>
+              </ul>
+              {/* <Button
+                  text='OAuth'
+                  styleType='contained'
+                  size='dense'
+                  styleObj={s.btnContainer}
+                  onClick={showModalOAuth}
+                /> */}
+            </>
+          )}
         </div>
       </div>
       <Modal
@@ -93,6 +137,14 @@ export const Header: FC<Props> = () => {
       >
         <Logout onClose={closeModalLogout} />
       </ModalLogout>
+      <ModalOAuth
+        onClose={closeModalOAuth}
+        isModalOpen={modalOAuthState.isModalOpen}
+      >
+        <OAuth onClose={closeModalOAuth} />
+      </ModalOAuth>
     </div>
   );
 };
+
+export const Header = connector(HeaderComponent);

@@ -6,7 +6,7 @@ import {GameCanvas} from "@components/GameCanvas";
 import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/services/game-api";
 import {ChatInput} from "@components/ChatInput";
 import {GamePlayers} from "@components/GamePlayers";
-import {IContext, IPayload} from "../../../server/interfaces";
+import {IContext, IPayload} from "../../../server-game/interfaces";
 import {WaitingForUsers} from "@components/WaitingForUsers/waiting-for-users";
 import {Modal} from "@components/Modal";
 import {useHistory} from "react-router-dom";

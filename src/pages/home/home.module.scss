@@ -2,6 +2,9 @@
   display: flex;
   flex-direction: column;
   margin: auto;
+  background: url('../../assets/p2.png') repeat;
+  width: 100vw;
+  height: calc(100vh - 72px);
 
   &__user {
     width: 240px;
