@@ -17,7 +17,6 @@ POSTGRES_DB=croco-db
 PGADMIN_DEFAULT_EMAIL=admin@admin.com
 PGADMIN_DEFAULT_PASSWORD=secret
 PGADMIN_LISTEN_PORT=80
-PORT_SERVER_THEME_MANAGER=80
 ```
 
 Для запуска в контейнерах приложения необходимо создать рядом с .env файл .env.docker
@@ -38,7 +37,6 @@ POSTGRES_DB=croco-db
 PGADMIN_DEFAULT_EMAIL=admin@admin.com
 PGADMIN_DEFAULT_PASSWORD=secret
 PGADMIN_LISTEN_PORT=80
-PORT_SERVER_THEME_MANAGER=80
 ```
 
 ## Установка SSL сертификатов и авторизованного хранилища на локальной машине
