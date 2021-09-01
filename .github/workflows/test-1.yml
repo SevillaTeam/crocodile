@@ -52,7 +52,6 @@ jobs:
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           script: |
             pwd
-            ${{ env.DEPLOY_PATH }} ls
 
           #
       #- name: Try run script in DEPLOY_PATH
