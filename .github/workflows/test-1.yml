@@ -45,6 +45,7 @@ jobs:
 
           #
       - name: Try run script in DEPLOY_PATH
-         run: ${{ env.DEPLOY_PATH }} ls
+        run:
+          ${{ env.DEPLOY_PATH }} ls
 
-         # run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} ls
+          # run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} ls
