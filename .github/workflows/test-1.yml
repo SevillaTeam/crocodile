@@ -41,11 +41,14 @@ jobs:
           key: ${{ secrets.DEPLOY_SERVER_KEY }}
           source: ${{ env.BUILD_SCRIPT_OUTPUT }}
           target: ${{ env.DEPLOY_PATH }}
+          script: |
+            pwd
+            ${{ env.DEPLOY_PATH }} ls
           strip_components: 1
 
           #
-      - name: Try run script in DEPLOY_PATH
-        run:
-          ${{ env.DEPLOY_PATH }} ls
+      #- name: Try run script in DEPLOY_PATH
+      #  run:
+      #    ${{ env.DEPLOY_PATH }} ls
 
-          # run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} ls
+      # run: ${{ secrets.DEPLOY_SERVER_USERNAME }}@${{ secrets.DEPLOY_SERVER_HOST }}:${{ env.DEPLOY_PATH }} ls
