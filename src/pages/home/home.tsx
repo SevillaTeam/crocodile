@@ -47,7 +47,7 @@ export const HomeComp: FC<ISelection> = (props): JSX.Element => {
             api
                 .OAuthLogin({
                     code: authCode,
-                    redirect_uri: 'https://sevilla-crocodile-6.ya-praktikum.tech/api',
+                    redirect_uri: 'https://sevilla-crocodile-6.ya-praktikum.tech',
                 })
                 .then((res) => {
                     store.dispatch(changeUserLoggedInStatus({isLoggedIn: true}));
