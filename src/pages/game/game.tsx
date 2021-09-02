@@ -17,7 +17,6 @@ import {Modal} from '@components/Modal';
 import {useHistory} from 'react-router-dom';
 import {ThemeContext} from '@/context';
 import cn from 'classnames';
-import {baseApiUrl} from "@/utlis/const";
 
 const GAME_EVENTS = {
     waitingForPlayers: 'WAITING_FOR_PLAYERS',
@@ -64,7 +63,7 @@ export const Game = (): JSX.Element => {
 
     const connect = async () => {
         ctx.userId = await createUser(ctx.username);
-        await fetchEventSource(baseApiUrl + `/connect?user_id=${ctx.userId}`, {
+        await fetchEventSource(`https://sevilla-crocodile-6.ya-praktikum.tech/api/connect?user_id=${ctx.userId}`, {
             onmessage(e) {
                 switch (e.event) {
                     case 'connected':

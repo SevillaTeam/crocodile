@@ -16,7 +16,6 @@ import {ISelection} from './container';
 import * as themesApi from '../../server-ssr/themes-api';
 import {isServer} from "@/store/rootStore";
 import {ThemeContext} from '@/context';
-import {baseUrl} from "@/utlis/const";
 
 const queryString = require('query-string');
 
@@ -48,7 +47,7 @@ export const HomeComp: FC<ISelection> = (props): JSX.Element => {
             api
                 .OAuthLogin({
                     code: authCode,
-                    redirect_uri: baseUrl,
+                    redirect_uri: 'https://sevilla-crocodile-6.ya-praktikum.tech/api',
                 })
                 .then((res) => {
                     store.dispatch(changeUserLoggedInStatus({isLoggedIn: true}));
