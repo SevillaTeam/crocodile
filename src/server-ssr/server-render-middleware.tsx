@@ -1,4 +1,5 @@
 import React from 'react';
+import serialize from 'serialize-javascript';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { Request, Response } from 'express';
 import { Provider as ReduxProvider } from 'react-redux';
@@ -11,6 +12,9 @@ import { configureStore } from '@/store/rootStore';
 import { createStoreSingleTone } from '@/store/StoreSingleTone/createStore';
 
 export default (req: Request, res: Response) => {
+  // @ts-expect-error
+  const { nonce } = req;
+
   const location = req.url;
   const context: StaticRouterContext = {};
   const StoreSingleTone = createStoreSingleTone(location);
@@ -34,10 +38,10 @@ export default (req: Request, res: Response) => {
     return;
   }
 
-  res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState));
+  res.status(context.statusCode || 200).send(getHtml(reactHtml, reduxState, nonce));
 };
 
-function getHtml(reactHtml: string, reduxState = {}) {
+function getHtml(reactHtml: string, reduxState = {}, nonce: string) {
   return `
         <!DOCTYPE html>
         <html lang="en">
@@ -52,10 +56,10 @@ function getHtml(reactHtml: string, reduxState = {}) {
         </head>
         <body>
             <div id="root">${reactHtml}</div>
-            <script>
-                window.__INITIAL_STATE__ = ${JSON.stringify(reduxState)}
+            <script nonce=${nonce}>
+                window.__INITIAL_STATE__ = ${ serialize(reduxState, { isJSON: true }) }
             </script>
-            <script src="/main.js"></script>
+            <script nonce=${nonce} src="/main.js"></script>
         </body>
         </html>
     `;
