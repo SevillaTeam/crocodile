@@ -21,7 +21,7 @@ const http = require('http');
 const httpServer = http.createServer(app);
 // const httpsServer = https.createServer(credentials, app);
 // const httpsPort = process.env.PORT || 5000;
-const httpPort = 5001;
+const httpPort = 5000;
 //
 // httpsServer.listen(httpsPort, () => {
 //   console.log('Https server listing on port : ', httpsPort);
