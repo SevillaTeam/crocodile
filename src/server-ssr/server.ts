@@ -9,6 +9,7 @@ import sequelize from '../db-postgres/sequelize-config';
 import { checkAuthMiddlewareSSR } from './controllers/check-auth-middlware-ssr';
 
 sequelize
+  // .sync({ force: true })
   .sync()
   .then(() => {
     // Синхронизация выполнена, можно начинать работать

@@ -3,7 +3,13 @@ version: '3'
 
 services:
   ssr-app:
-    env_file: .env.docker
+    #env_file: .env.docker
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - DB_USER=${DB_USER}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - DB_PASSWORD=${DB_PASSWORD}
     build:
       context: .
     # Проброс порта так же, как в командной строке — на какой порт хоста какой порт контейнера
@@ -36,7 +42,11 @@ services:
       # Если у вас есть схема БД, которую можно подгрузить на старте, — передайте её
       #- ./src/migrations/dbinit.sql:/docker-entrypoint-initdb.d/dbinit.sql
     restart: always
-    env_file: .env
+
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     networks:
       - mynetwork
 
@@ -44,7 +54,11 @@ services:
     container_name: pgadmin
     image: dpage/pgadmin4:4.18
     restart: always
-    env_file: .env
+
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+      - PGADMIN_LISTEN_PORT=${PGADMIN_LISTEN_PORT}
     ports:
       - '8080:80'
     volumes:

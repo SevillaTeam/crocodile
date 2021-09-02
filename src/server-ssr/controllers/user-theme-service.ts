@@ -1,5 +1,10 @@
 import { UserTheme as userThemeRepository } from '../../db-postgres/models/user-theme.model';
-import { BaseRESTService, FindRequest, CreateRequest } from './interface';
+import {
+  BaseRESTService,
+  FindRequest,
+  CreateRequest,
+  DeleteRequest,
+} from './interface';
 
 export class UserThemeService implements BaseRESTService {
   public find = ({ ownerId, title }: FindRequest) => {
@@ -13,6 +18,14 @@ export class UserThemeService implements BaseRESTService {
     return userThemeRepository.findOne({
       where: {
         theme: `%${title}%`, // Защита от SQL Injection присутствует
+      },
+    });
+  };
+
+  public delete = ({ ownerId }: DeleteRequest) => {
+    return userThemeRepository.destroy({
+      where: {
+        ownerId: ownerId,
       },
     });
   };

@@ -9,8 +9,10 @@ export interface IProfileProps {
   changeUserData: (data: IResponseUserState) => void;
   userDataState?: IApiClientResponse;
   setUserDataState?: React.Dispatch<React.SetStateAction<IApiClientResponse>>;
+  onClose: () => void;
 }
 
 export interface IModalState {
   isModalOpen: boolean;
+  className?: string;
 }
