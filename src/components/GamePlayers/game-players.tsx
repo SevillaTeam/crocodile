@@ -1,10 +1,13 @@
 import React, { FC } from 'react';
 import s from './game-players.module.scss';
-import { GamePlayer } from '../GamePlayer';
 import { playersMock } from './mock';
 import { PLAYER_ROLE } from './constants';
 
-export const GamePlayers: FC = () => {
+interface Props {
+  videoTracks: MediaStream[]
+}
+
+export const GamePlayers: FC<Props> = ({videoTracks = []}) => {
   const takeArtist = () => {
     return playersMock.filter((item) => {
       if (item.playerRole === PLAYER_ROLE.artist) return item;
@@ -17,27 +20,11 @@ export const GamePlayers: FC = () => {
     });
   };
 
-  const takeGuessersResult = takeGuessers();
+  console.log('videoTracks in game',videoTracks)
 
   return (
-    <div className={s.gamePlayers}>
-      <p className={s.roles}>Художник</p>
-      {takeArtist().length > 0 ? (
-        takeArtist().map((item, index) => (
-          <GamePlayer key={index} playerName={item.playerName} />
-        ))
-      ) : (
-        <GamePlayer showAvatar={false} playerName={'В пути...'} />
-      )}
-      <div className={s.line} />
-      <p className={s.roles}>Отгадывают</p>
-      {takeGuessersResult.length > 0 ? (
-        takeGuessersResult.map((item, index) => (
-          <GamePlayer key={index} playerName={item.playerName} />
-        ))
-      ) : (
-        <GamePlayer showAvatar={false} playerName={'В пути...'} />
-      )}
-    </div>
+      <div className={s.gamePlayers} id="video-container">
+        <video id="video" width="210px" height="160px" autoPlay={true}/>
+      </div>
   );
 };

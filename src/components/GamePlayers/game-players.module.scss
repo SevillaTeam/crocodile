@@ -2,10 +2,11 @@
 
 .gamePlayers {
   border-radius: $border-radius;
-  height: 100%;
+  height: 480px;
   padding: $padding;
   box-shadow: $box-shadow-1dp;
   background-color: white;
+  overflow: auto;
 }
 
 .roles {

@@ -10,6 +10,7 @@ import s from './word-selector.module.scss';
 import cn from 'classnames';
 import { WORDS } from './mock';
 import { ThemeContext } from '@/context';
+import {baseApiUrl} from "@/utlis/const";
 
 interface ISelectedWordState {
   word: string;
@@ -49,7 +50,7 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
 
   const sendWordToServer = async (word: string) => {
     try {
-      return await fetch('https://localhost:8081/word', {
+      return await fetch(baseApiUrl + '/word', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
