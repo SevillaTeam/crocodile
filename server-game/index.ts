@@ -4,16 +4,16 @@ import cors from 'cors';
 import { router } from './router';
 require('dotenv').config();
 
-const path = require('path');
+// const path = require('path');
 
-const fs = require('fs');
-const https = require('https');
-const privateKeyPath = path.join(__dirname, 'certsFiles/localhost-key.pem');
-const certificatePath = path.join(__dirname, 'certsFiles/localhost.pem');
+// const fs = require('fs');
+// const https = require('https');
+// const privateKeyPath = path.join(__dirname, 'certsFiles/localhost-key.pem');
+// const certificatePath = path.join(__dirname, 'certsFiles/localhost.pem');
 
-const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
-const certificate = fs.readFileSync(certificatePath, 'utf8');
-const credentials = { key: privateKey, cert: certificate };
+// const privateKey = fs.readFileSync(privateKeyPath, 'utf8');
+// const certificate = fs.readFileSync(certificatePath, 'utf8');
+// const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
 
@@ -32,8 +32,8 @@ app.use(cors(options));
 app.use(express.json());
 app.use(router);
 
-const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
 
-httpsServer.listen(process.env.PORT_GAME_SERVER || 8081, () => {
-  console.log(`Started server on port ${httpsServer.address().port}`);
+httpServer.listen(process.env.PORT_GAME_SERVER || 8081, () => {
+  console.log(`Started server on port 8081}`);
 });
