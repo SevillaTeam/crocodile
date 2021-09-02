@@ -1,4 +1,5 @@
 import { SiteTheme as siteThemeRepository } from '../../db-postgres/models/site-theme.model';
+import { UserTheme as userThemeRepository } from '../../db-postgres/models/user-theme.model';
 import { BaseRESTService, FindRequest, CreateRequest } from './interface';
 
 export class ThemeService implements BaseRESTService {
@@ -8,8 +9,19 @@ export class ThemeService implements BaseRESTService {
     }
     return siteThemeRepository.findOne({
       where: {
-        theme: `%${title}%`, // Защита от SQL Injection присутствует
+        theme: `${title}`,
       },
+    });
+  };
+
+  public findAll = ({ ownerId }: FindRequest) => {
+    return siteThemeRepository.findAll({
+      include: [
+        {
+          model: userThemeRepository,
+          where: { ownerId: ownerId },
+        },
+      ],
     });
   };
 

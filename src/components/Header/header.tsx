@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react';
+import React, { FC, useState, useCallback, useContext } from 'react';
 import { HeaderProps } from './';
 import { connector } from './container';
 import { Button } from '../Button';
@@ -12,11 +12,13 @@ import { IModalState } from './types';
 import { Profile } from '../Profile';
 import { Logout } from '../Logout';
 import { OAuth } from '../OAuth';
+import { ThemeContext } from '@/context';
 
 type Props = HeaderProps;
 
 const HeaderComponent: FC<Props> = (props) => {
   const { userData } = props;
+  const { theme } = useContext(ThemeContext);
 
   const [modalProfileState, setModalProfileState] = useState<IModalState>({
     isModalOpen: false,
@@ -73,7 +75,7 @@ const HeaderComponent: FC<Props> = (props) => {
   }, [modalOAuthState]);
 
   return (
-    <div className={s.header}>
+    <div className={cn(s.header, s[theme])}>
       <div className={s.container}>
         <ul className={s.leftSide}>
           <li className={cn(s.nav__link, s.nav__link_btnType)}>
@@ -82,8 +84,8 @@ const HeaderComponent: FC<Props> = (props) => {
             </Link>
           </li>
           <li className={cn(s.nav__link, s.nav__link_btnType)}>
-            <Link to='/rating' className={s.nav__linkText}>
-              Рейтинг
+            <Link to='/leaderboard' className={s.nav__linkText}>
+              Лидерборд
             </Link>
           </li>
         </ul>
@@ -114,13 +116,6 @@ const HeaderComponent: FC<Props> = (props) => {
                   </Link>
                 </li>
               </ul>
-              {/* <Button
-                  text='OAuth'
-                  styleType='contained'
-                  size='dense'
-                  styleObj={s.btnContainer}
-                  onClick={showModalOAuth}
-                /> */}
             </>
           )}
         </div>
@@ -129,7 +124,7 @@ const HeaderComponent: FC<Props> = (props) => {
         onClose={closeModalProfile}
         isModalOpen={modalProfileState.isModalOpen}
       >
-        <Profile />
+        <Profile onClose={closeModalProfile} />
       </Modal>
       <ModalLogout
         onClose={closeModalLogout}

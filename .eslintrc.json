@@ -10,6 +10,7 @@
     "plugin:@typescript-eslint/recommended"
   ],
   "rules": {
+    "no-empty-function": "off",
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-var-requires": 0,
     "@typescript-eslint/ban-ts-comment": "off",

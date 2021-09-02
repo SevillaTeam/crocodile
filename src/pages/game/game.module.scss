@@ -11,11 +11,19 @@
 .winnerModal {
   background-color: white;
   border-radius: $border-radius;
-  padding: 30px;
+  padding: 40px;
   text-align: center;
   h2 {
     margin-top: 15px;
   }
+}
+
+.light {
+  background-color: $color-light;
+}
+
+.dark {
+  background-color: $color-dark;
 }
 
 .game {
@@ -26,4 +34,38 @@
   display: flex;
   position: relative;
   flex-direction: column;
+}
+
+.title {
+  margin-bottom: 28px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 24px;
+  text-align: center;
+  color: #1e1e1e;
+}
+
+.subtitle {
+  margin-bottom: 28px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #03910d;
+}
+
+.word {
+  margin-bottom: 10px;
+  padding: 0;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+  text-align: center;
+  color: #03910d;
+}
+
+.secretWord {
+  color: #1e1e1e;
 }

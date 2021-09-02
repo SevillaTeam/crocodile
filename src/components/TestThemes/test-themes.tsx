@@ -1,5 +1,4 @@
-import React, { FC } from 'react';
-import { useStore } from 'react-redux';
+import React, { FC, useContext } from 'react';
 import {
   CreateRequestUserTheme,
   FindRequest,
@@ -8,9 +7,10 @@ import {
 import { Button } from '../Button';
 import s from './test-themes.module.scss';
 import { connector } from './container';
-import * as api from '../../server-ssr/themes-api';
 
 import { IApplicationState } from '@/store/interfaces';
+import * as themesApi from '../../server-ssr/themes-api';
+import { ThemeContext } from '@/context';
 
 const queryString = require('query-string');
 
@@ -25,58 +25,34 @@ interface ISelection {
 
 export const TestThemes1: FC<ISelection> = (props) => {
   const { state, changeUserLoggedInStatus } = props;
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const getTheme = async (requestedData?: FindRequest) => {
     const queryStr = `/?${queryString.stringify({
-      id: 5,
+      ownerId: 100500,
       title: 'Темка 3',
     })}`;
 
-    try {
-      api
-        .getSiteTheme(queryStr)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при запросе темы');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => {
-          if (err.message.includes('Unexpected end of JSON input'))
-            console.log('Тема не найдена!');
-          else console.log(err);
-          return null;
-        });
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+    themesApi
+      .getSiteThemeByOwnerId(queryStr)
+      .then((response) => {
+        console.log('response(getSiteTheme)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const createTheme = async (requestedData?: FindRequest) => {
     const bodyToSend = {
-      theme: 'Темка 5',
+      theme: 'Темка 1',
       description: 'Юзать всегда5',
     };
 
-    try {
-      api
-        .createSiteTheme(bodyToSend)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при создании темы');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+    themesApi
+      .createSiteTheme(bodyToSend)
+      .then((response) => {
+        console.log('response(createSiteTheme)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleClickGetSomeTheme = () => {
@@ -93,52 +69,27 @@ export const TestThemes1: FC<ISelection> = (props) => {
       title: 'Темка 3',
     })}`;
 
-    try {
-      api
-        .getUserTheme(queryStr)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при запросе темы');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => {
-          if (err.message.includes('Unexpected end of JSON input'))
-            console.log('Тема не найдена!');
-          else console.log(err);
-          return null;
-        });
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+    themesApi
+      .getUserTheme(queryStr)
+      .then((response) => {
+        console.log('response(getUserTheme)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const createUserTheme = async (requestedData?: CreateRequestUserTheme) => {
     const bodyToSend = {
       themeId: 3,
-      theme: 'Темка 6',
+      theme: 'Темка 4',
       ownerId: 100500,
     };
+    themesApi
+      .createUserTheme(bodyToSend)
 
-    try {
-      api
-        .createUserTheme(bodyToSend)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при создании темы');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+      .then((response) => {
+        console.log('response(createUserTheme)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleClickGetUserTheme = () => {
@@ -153,51 +104,24 @@ export const TestThemes1: FC<ISelection> = (props) => {
     const queryStr = `/?${queryString.stringify({
       id: 100500,
     })}`;
-
-    try {
-      api
-        .getUser(queryStr)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при запросе инфо пользователя');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => {
-          if (err.message.includes('Unexpected end of JSON input'))
-            console.log('Пользователь не найден!');
-          else console.log(err);
-          return null;
-        });
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+    themesApi
+      .getUser(queryStr)
+      .then((response) => {
+        console.log('response(getUser)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const createUser = async (requestedData?: CreateUserRequest) => {
     const bodyToSend = {
       id: 100501,
     };
-
-    try {
-      api
-        .createUser(bodyToSend)
-        .then((response) => {
-          if (response.status >= 400)
-            throw new Error('Ошибка сервера при создании пользователя');
-          return response.json();
-        })
-        .then((result) => {
-          console.log(result);
-          return result;
-        })
-        .catch((err) => console.log(err));
-    } catch (error) {
-      console.error('Ошибка:', error);
-    }
+    themesApi
+      .createUser(bodyToSend)
+      .then((response) => {
+        console.log('response(createUser)=', response);
+      })
+      .catch((err) => console.log(err));
   };
 
   const handleClickGetUser = () => {
@@ -208,27 +132,14 @@ export const TestThemes1: FC<ISelection> = (props) => {
     createUser();
   };
 
-  const handleClickReduxTestTrue = () => {
-    // console.log(store.getState());
-    // store.dispatch(changeUserLoggedInStatus({ isLoggedIn: true }));
-  };
-
-  const handleClickReduxTestFalse = () => {
-    // console.log(store.getState());
-    changeUserLoggedInStatus({ isLoggedIn: false });
-  };
-
-  const handleClickShowReduxState = () => {
-    // console.log(store.getState());
-    // store.dispatch(changeUserLoggedInStatus({ isLoggedIn: false }));
+  const handleClickChangeTheme = () => {
+    // @ts-ignore
+    setTheme(theme === 'dark' ? 'light' : 'dark');
   };
 
   return (
     <div className={s.container}>
-      <p className={s.text}>
-        userId from Redux store: <span>123</span>
-      </p>
-      {/* <div className={s.buttons}>
+      <div className={s.buttons}>
         <Button
           text='Create Some Theme'
           type='button'
@@ -237,6 +148,7 @@ export const TestThemes1: FC<ISelection> = (props) => {
           onClick={handleClickCreateSomeTheme}
         />
       </div>
+
       <div className={s.buttons}>
         <Button
           text='Get Some Theme'
@@ -257,56 +169,11 @@ export const TestThemes1: FC<ISelection> = (props) => {
       </div>
       <div className={s.buttons}>
         <Button
-          text='Get User Theme'
+          text='Change Theme'
           type='button'
           styleType='contained'
           size='dense'
-          onClick={handleClickGetUserTheme}
-        />
-      </div>
-      <div className={s.buttons}>
-        <Button
-          text='Create User'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickCreateUser}
-        />
-      </div>
-      <div className={s.buttons}>
-        <Button
-          text='Get User'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickGetUser}
-        />
-      </div>  */}
-      <div className={s.buttons}>
-        <Button
-          text='Test Redux True'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickReduxTestTrue}
-        />
-      </div>
-      <div className={s.buttons}>
-        <Button
-          text='Test Redux False'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickReduxTestFalse}
-        />
-      </div>
-      <div className={s.buttons}>
-        <Button
-          text='Show Redux State'
-          type='button'
-          styleType='contained'
-          size='dense'
-          onClick={handleClickShowReduxState}
+          onClick={handleClickChangeTheme}
         />
       </div>
     </div>

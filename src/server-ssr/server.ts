@@ -7,8 +7,10 @@ import serverRenderMiddleware from './server-render-middleware';
 import router from './routes';
 import sequelize from '../db-postgres/sequelize-config';
 import { checkAuthMiddlewareSSR } from './controllers/check-auth-middlware-ssr';
+import { cspHeader } from './csp-header-middleware'
 
 sequelize
+  // .sync({ force: true })
   .sync()
   .then(() => {
     // Синхронизация выполнена, можно начинать работать
@@ -38,6 +40,7 @@ app.enable('trust proxy');
 app.use(cors(options));
 app.use(express.json());
 app.use(cookieParser());
+app.use(cspHeader);
 app.use(router);
 app
   .use(compression())

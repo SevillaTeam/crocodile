@@ -1,24 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { LeaderBox } from '../LeaderBox';
 import s from './leaderboard.module.scss';
-import { leadersMock } from '../../utlis/mock';
-
-interface Lead {
-  points: number;
-  name: string;
-}
+import { Lead } from './types';
 
 function sortLeaders(leads: Lead[]) {
-  return leads.sort((a, b) => (a.points > b.points ? -1 : 1));
+  return leads.sort((a, b) => (a.score > b.score ? -1 : 1));
 }
 
-export const Leaderboard: React.FC = () => {
-  const [leaders] = useState(sortLeaders(leadersMock));
+export const Leaderboard: React.FC<{leaders: Lead[]}> = ({ leaders }) => {
+  const sortedLeaders = sortLeaders([...leaders]);
 
   return (
     <div className={s.leaderboard}>
-      {leaders.map(({ name, points }, idx) => (
-        <LeaderBox key={name} position={idx + 1} name={name} points={points} />
+      {sortedLeaders.map(({ name, score }, idx) => (
+        <LeaderBox key={name} position={idx + 1} name={name} points={score} />
       ))}
     </div>
   );

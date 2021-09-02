@@ -1,22 +1,29 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useContext} from 'react';
 import styles from './game.module.scss';
-import {fetchEventSource} from '@microsoft/fetch-event-source'
-import {GameChat} from "@components/GameChat";
-import {GameCanvas} from "@components/GameCanvas";
-import {createUser, joinRoom, relayLocalDescriptions, postChatMessage} from "@/services/game-api";
-import {ChatInput} from "@components/ChatInput";
-import {GamePlayers} from "@components/GamePlayers";
-import {IContext, IPayload} from "../../../server-game/interfaces";
-import {WaitingForUsers} from "@components/WaitingForUsers/waiting-for-users";
-import {Modal} from "@components/Modal";
-import {useHistory} from "react-router-dom";
+import {fetchEventSource} from '@microsoft/fetch-event-source';
+import {GameChat} from '@components/GameChat';
+import {GameCanvas} from '@components/GameCanvas';
+import {
+    createUser,
+    joinRoom,
+    relayLocalDescriptions,
+    postChatMessage,
+} from '@/services/game-api';
+import {ChatInput} from '@components/ChatInput';
+import {GamePlayers} from '@components/GamePlayers';
+import {IContext, IPayload} from '../../../server-game/interfaces';
+import {WaitingForUsers} from '@components/WaitingForUsers/waiting-for-users';
+import {Modal} from '@components/Modal';
+import {useHistory} from 'react-router-dom';
+import {ThemeContext} from '@/context';
+import cn from 'classnames';
+import {baseApiUrl} from "@/utlis/const";
 
 const GAME_EVENTS = {
     waitingForPlayers: 'WAITING_FOR_PLAYERS',
     gameStarted: 'GAME_STARTED',
     gameFinished: 'GAME_FINISHED'
 }
-import {isServer} from "@/store/rootStore";
 
 // let stream: MediaStream;
 
@@ -36,12 +43,13 @@ const ctx: IContext = {
     peers: {},
     channels: {},
 };
-const baseUrl = 'http://localhost:8081'
+
 let winnerName = '';
 let winnerWord = '';
 
 export const Game = (): JSX.Element => {
     const history = useHistory();
+    const {theme} = useContext(ThemeContext);
     const [incomingImageData, setImageData] = React.useState({
         prevX: '',
         prevY: '',
@@ -56,7 +64,7 @@ export const Game = (): JSX.Element => {
 
     const connect = async () => {
         ctx.userId = await createUser(ctx.username);
-        await fetchEventSource(baseUrl + `/connect?user_id=${ctx.userId}`, {
+        await fetchEventSource(baseApiUrl + `/connect?user_id=${ctx.userId}`, {
             onmessage(e) {
                 switch (e.event) {
                     case 'connected':
@@ -124,20 +132,6 @@ export const Game = (): JSX.Element => {
             videoEl.height = 160;
             // @ts-ignore
             videContainer.appendChild(videoEl);
-
-            // setTimeout(() => {
-            //     videoTracks.forEach((vt, idx) => {
-            //         console.log(idx)
-
-            // console.log('videoTracks', videoTracks)
-            // const video = document.getElementById('video' + 0);
-            // console.log('track', vt)
-            // @ts-ignore
-            // video.srcObject = evt.streams[0]
-            // })
-            //
-            // }, 3500)
-
         }
 
         if (ctx.peers) {
@@ -275,5 +269,4 @@ export const Game = (): JSX.Element => {
                 </Modal>
             </div>
     );
-
 };

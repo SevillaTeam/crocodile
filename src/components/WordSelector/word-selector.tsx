@@ -1,8 +1,16 @@
-import React, { FC, useState, useCallback, MouseEvent } from 'react';
+import React, {
+  FC,
+  useState,
+  useCallback,
+  MouseEvent,
+  useContext,
+} from 'react';
 import { Button } from '../Button';
 import s from './word-selector.module.scss';
 import cn from 'classnames';
 import { WORDS } from './mock';
+import { ThemeContext } from '@/context';
+import {baseApiUrl} from "@/utlis/const";
 
 interface ISelectedWordState {
   word: string;
@@ -14,6 +22,7 @@ interface IWordSelectorProps {
 
 export const WordSelector: FC<IWordSelectorProps> = (props) => {
   const { onClose } = props;
+  const { theme } = useContext(ThemeContext);
   const [selectedWord, setSelectedWord] = useState<ISelectedWordState>({
     word: '',
   });
@@ -41,7 +50,7 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
 
   const sendWordToServer = async (word: string) => {
     try {
-      return await fetch('https://localhost:8081/word', {
+      return await fetch(baseApiUrl + '/word', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
@@ -56,7 +65,7 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
   };
 
   return (
-    <div className={s.container}>
+    <div className={cn(s.container, s[theme])}>
       <h1 className={s.title}>Выберете слово для отгадывания:</h1>
       <div onClick={onClick} className={s.wordsCont}>
         {WORDS.map((item, index) => (
