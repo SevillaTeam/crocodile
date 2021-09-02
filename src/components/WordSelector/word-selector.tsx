@@ -10,7 +10,6 @@ import s from './word-selector.module.scss';
 import cn from 'classnames';
 import { WORDS } from './mock';
 import { ThemeContext } from '@/context';
-import {baseApiUrl} from "@/utlis/const";
 
 interface ISelectedWordState {
   word: string;
@@ -50,7 +49,7 @@ export const WordSelector: FC<IWordSelectorProps> = (props) => {
 
   const sendWordToServer = async (word: string) => {
     try {
-      return await fetch(baseApiUrl + '/word', {
+      return await fetch('https://sevilla-crocodile-6.ya-praktikum.tech/api/word', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json;charset=utf-8',
