@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 const baseUrl = 'https://sevilla-crocodile-6.ya-praktikum.tech/api';
-=======
-const baseUrl = 'https://sevilla-crocodile-6.ya-praktikum.tech:8081';
->>>>>>> 630a2d8fa2049821f523d494a776049bf436eed1
 
 export const relayLocalDescriptions = (
   peerId: string,
