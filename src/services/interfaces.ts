@@ -29,11 +29,13 @@ export interface ILiderboardData {
   display_name?: string;
   score?: number;
   avatar?: string;
+  name?: string;
 }
 
 export interface IRequestLiderboardAddUser {
   data: ILiderboardData;
   ratingFieldName: string;
+  teamName?: string;
 }
 
 export interface IRequestLiderboardAll {
@@ -45,6 +47,14 @@ export interface IRequestLiderboardAll {
 export interface IResponseLiderboard {
   data?: ILiderboardData[];
   reason?: string;
+}
+
+export interface IResponseLeaderboard {
+  data?: {
+    name?: string;
+    score?: number;
+    user_id?: number;
+  }
 }
 
 export interface IOauth {
