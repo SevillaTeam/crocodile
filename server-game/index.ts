@@ -33,7 +33,6 @@ app.use(express.json());
 app.use(router);
 
 const httpServer = http.createServer(app);
-
 httpServer.listen(process.env.PORT_GAME_SERVER || 8081, () => {
   console.log(`Started server on port 8081}`);
 });
