@@ -1,4 +1,4 @@
-const baseUrl = 'https://sevilla-crocodile-6.ya-praktikum.tech:8081';
+const baseUrl = 'https://sevilla-crocodile-6.ya-praktikum.tech/api';
 
 export const relayLocalDescriptions = (
   peerId: string,
@@ -30,7 +30,7 @@ export const createUser = async (username: string): Promise<string> => {
 };
 
 export const joinRoom = (roomId: string, userId: string) => {
-  return fetch(baseUrl + `https://sevilla-crocodile-6.ya-praktikum.tech/api/${roomId}/join?user_id=${userId}`, {
+  return fetch(baseUrl + `/api/${roomId}/join?user_id=${userId}`, {
     method: 'POST',
   });
 };
