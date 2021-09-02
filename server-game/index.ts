@@ -23,6 +23,8 @@ const allowedOrigins = [
   'https://localhost:5000',
   'http://local.ya-praktikum.tech:5001',
   'https://local.ya-praktikum.tech:5000',
+  'http://sevilla-crocodile-6.ya-praktikum.tech:5001',
+  'https://sevilla-crocodile-6.ya-praktikum.tech:5000',
 ];
 
 const options: cors.CorsOptions = {
