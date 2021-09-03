@@ -113,7 +113,10 @@ export const Game = (): JSX.Element => {
 
         const peer = new RTCPeerConnection(RTC_CONFIG);
         //@ts-ignore
-        window.stream.getVideoTracks().forEach((track) => peer.addTrack(track, window.stream))
+        if (window.stream) {
+            //@ts-ignore
+            window.stream.getVideoTracks().forEach((track) => peer.addTrack(track, window.stream))
+        }
 
         peer.ontrack = async (evt) => {
             console.log('video event by user: ' + ctx.username, evt)
@@ -238,9 +241,12 @@ export const Game = (): JSX.Element => {
     }, [])
 
     const showVideo = () => {
-        const video = document.getElementById('video')
         //@ts-ignore
-        video.srcObject = window.stream;
+        if (window.stream) {
+            const video = document.getElementById('video')
+            //@ts-ignore
+            video.srcObject = window.stream;
+        }
     }
 
     const goHome = () => {
