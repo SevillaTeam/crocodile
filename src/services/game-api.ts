@@ -30,7 +30,7 @@ export const createUser = async (username: string): Promise<string> => {
 };
 
 export const joinRoom = (roomId: string, userId: string) => {
-  return fetch(baseUrl + `/api/${roomId}/join?user_id=${userId}`, {
+  return fetch(baseUrl + `/${roomId}/join?user_id=${userId}`, {
     method: 'POST',
   });
 };
