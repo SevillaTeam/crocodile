@@ -1,5 +1,6 @@
 import React, {useEffect, useContext} from 'react';
 import styles from './game.module.scss';
+import * as api from '../../services/api';
 import {fetchEventSource} from '@microsoft/fetch-event-source';
 import {GameChat} from '@components/GameChat';
 import {GameCanvas} from '@components/GameCanvas';
@@ -17,6 +18,43 @@ import {Modal} from '@components/Modal';
 import {useHistory} from 'react-router-dom';
 import {ThemeContext} from '@/context';
 import cn from 'classnames';
+
+const updateLeaderboard = (props: { username: string }) => {
+    let score = 0
+    async function getScoreData() {
+        const data = await api.getAllLeaderboard({
+            cursor: 0,
+            limit: 100,
+            ratingFieldName: 'score',
+        })
+
+        if (Array.isArray(data)) {
+            for (const leader of data) {
+                if (leader.data?.name === props.username) {
+                    score = leader.data?.score ?? 0
+                    return
+                } else {
+                    score = leader.data?.score ?? 0
+                }
+            }
+        }
+    }
+
+    async function updateLeaderboardData() {
+        await api.addToLeaderboard({
+            data: {
+                name: props.username || 'anonymous',
+                score: ++score,
+            },
+            ratingFieldName: 'score',
+            teamName: 'sevilla'
+        });
+    }
+
+    getScoreData().then(() => {
+        updateLeaderboardData()
+    })
+}
 
 const GAME_EVENTS = {
     waitingForPlayers: 'WAITING_FOR_PLAYERS',
@@ -90,6 +128,8 @@ export const Game = (): JSX.Element => {
                         if (evt === GAME_EVENTS.gameFinished) {
                             winnerName = data.username;
                             winnerWord = data.content;
+
+                            updateLeaderboard(data)
                         }
 
                         setGameEvent(evt);
