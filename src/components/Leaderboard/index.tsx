@@ -10,6 +10,14 @@ function sortLeaders(leads: Lead[]) {
 export const Leaderboard: React.FC<{leaders: Lead[]}> = ({ leaders }) => {
   const sortedLeaders = sortLeaders([...leaders]);
 
+  if (sortedLeaders.length === 0) {
+    return (
+      <div className={s.leaderboard}>
+        <p className={s.empty}>Данных пока нет :(</p>
+      </div>
+    )
+  }
+
   return (
     <div className={s.leaderboard}>
       {sortedLeaders.map(({ name, score }, idx) => (
