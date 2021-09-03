@@ -22,6 +22,8 @@ const updateLeaderboard = (props: Props) => {
       for (const leader of data) {
         if (leader.data?.user_id === props.userData?.id) {
           score = leader.data?.score ?? 0
+        } else {
+          score = leader.data?.score ?? 0
         }
       }
     }
@@ -30,8 +32,8 @@ const updateLeaderboard = (props: Props) => {
   async function updateLeaderboardData() {
     await api.addToLeaderboard({
       data: {
-        user_id: props.userData?.id,
-        name: props.userData?.display_name ?? 'anonymous',
+        user_id: props.userData?.id ?? 1,
+        name: props.userData?.display_name || 'anonymous',
         score: ++score,
       },
       ratingFieldName: 'score',
