@@ -4,9 +4,9 @@ import {IClients, IChannels, IClient, IUsers, IUser, EmittingData} from './inter
 import {GAME_EVENTS} from "./consts";
 
 export const router = express.Router();
-const users: IUsers = {id: {id: '', username: ''}};
+let users: IUsers = {id: {id: '', username: ''}};
 
-const chatMessages = [{username: '', content: ''}];
+let chatMessages = [{username: '', content: ''}];
 
 namespace Express {
     interface Request {
@@ -178,6 +178,9 @@ router.post('/message', (req, res) => {
     const data = req.body;
     if (guessingWord.toLowerCase() === data.content.toLowerCase()) {
         emitDataToPlayers('on-game-status-changed', {...data, gameEvent: GAME_EVENTS.gameFinished})
+        users = {id: {id: '', username: ''}};
+        chatMessages = [];
+        guessingWord = '';
     } else {
         emitDataToPlayers('on-chat-message', data)
     }
