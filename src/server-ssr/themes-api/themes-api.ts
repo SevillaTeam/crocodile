@@ -19,13 +19,16 @@ class ApiException extends Error {
 
 export const createSiteTheme = async (bodyToSend: CreateRequest) => {
   try {
-    const response = await fetch(`https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+    const response = await fetch(
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(bodyToSend),
       },
-      body: JSON.stringify(bodyToSend),
-    });
+    );
 
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при создании темы сайта');
@@ -50,7 +53,7 @@ export const createSiteTheme = async (bodyToSend: CreateRequest) => {
 export const createUserTheme = async (bodyToSend: CreateRequestUserTheme) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme/user`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme/user`,
       {
         method: 'POST',
         headers: {
@@ -83,7 +86,7 @@ export const createUserTheme = async (bodyToSend: CreateRequestUserTheme) => {
 export const deleteUserTheme = async (bodyToSend: DeleteRequest) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme/user`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme/user`,
       {
         method: 'DELETE',
         headers: {
@@ -116,7 +119,7 @@ export const deleteUserTheme = async (bodyToSend: DeleteRequest) => {
 export const getUserTheme = async (queryStr: string) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme/user${queryStr}`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme/user${queryStr}`,
     );
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при запросе темы пользователя');
@@ -141,7 +144,7 @@ export const getUserTheme = async (queryStr: string) => {
 export const getSiteThemeByOwnerId = async (queryStr: string) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme${queryStr}`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme${queryStr}`,
     );
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при запросе темы');
@@ -170,7 +173,7 @@ export const getSiteThemeByOwnerId = async (queryStr: string) => {
 export const getSiteThemeByIdorTitle = async (queryStr: string) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/theme/title${queryStr}`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/theme/title${queryStr}`,
     );
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при запросе темы');
@@ -194,13 +197,16 @@ export const getSiteThemeByIdorTitle = async (queryStr: string) => {
 
 export const createUser = async (bodyToSend: CreateUserRequest) => {
   try {
-    const response = await fetch(`https://sevilla-crocodile-6.ya-praktikum.tech:5000/users`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
+    const response = await fetch(
+      `https://sevilla-crocodile-6.ya-praktikum.tech/users`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json;charset=utf-8',
+        },
+        body: JSON.stringify(bodyToSend),
       },
-      body: JSON.stringify(bodyToSend),
-    });
+    );
 
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при создании пользователя');
@@ -225,7 +231,7 @@ export const createUser = async (bodyToSend: CreateUserRequest) => {
 export const getUser = async (queryStr: string) => {
   try {
     const response = await fetch(
-      `https://sevilla-crocodile-6.ya-praktikum.tech:5000/users${queryStr}`,
+      `https://sevilla-crocodile-6.ya-praktikum.tech/users${queryStr}`,
     );
     if (response.status >= 400)
       return Promise.reject('Ошибка сервера при запросе инфо пользователя');
